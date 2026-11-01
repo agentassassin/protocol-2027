@@ -75,3 +75,100 @@ document.getElementById('enter').onclick=()=>{
 };
 document.getElementById('logout').onclick=()=>{welcome.classList.add('hidden');login.classList.remove('hidden');document.getElementById('code').value='';};
 </script></body></html>
+<style>
+#dashboard{display:none;margin-top:25px}
+.mission{background:#101820;border:1px solid #394658;border-left:3px solid #ff3948;padding:13px;margin:10px 0}
+.mission small{color:#aaa}
+.bonus{border-left-color:#ffb347}
+.points{color:#ffb347;font-weight:bold}
+.progress{height:12px;background:#26313d;border-radius:8px;overflow:hidden}
+#progressbar{height:100%;width:0%;background:#ff3948;transition:width .3s}
+.task{display:flex;gap:10px;align-items:center;margin:12px 0}
+</style>
+
+<section id="dashboard" class="panel">
+  <div class="panel-head">
+    <span class="kicker">MISSION CONTROL</span>
+    <span class="classification">AGENT 047</span>
+  </div>
+  <h2>AGENTEN-DASHBOARD</h2>
+  <p class="copy">Dein Einsatz hat begonnen. Jede Mission bringt dich näher an die Wahrheit.</p>
+
+  <h3>HAUPTMISSIONEN</h3>
+  <div class="progress"><div id="progressbar"></div></div>
+  <p class="copy"><span id="done">0</span> von 8 Missionen abgeschlossen</p>
+  <div id="missions"></div>
+
+  <h3>BONUS OPERATIONS</h3>
+  <p class="copy">Zusatzaufgaben bringen wertvolle Bonuspunkte.</p>
+  <div id="bonuses"></div>
+
+  <div class="status">
+    BONUS-PUNKTSTAND: <span class="points" id="points">0</span>
+  </div>
+  <p class="copy">Dein Rang: <strong id="rank">REKRUT</strong></p>
+  <p class="copy">Geheime Sonderaufgaben können jederzeit freigeschaltet werden.</p>
+</section>
+
+<script>
+(function(){
+ const missions=[
+ "SYSTEM INITIALIZATION",
+ "THE DIGITAL VAULT",
+ "CODE RED",
+ "TELEMETRY",
+ "LOCATION TRACE",
+ "THE CREW",
+ "FINAL INTEL",
+ "MISSION CLEARANCE"
+ ];
+ const bonuses=[
+ ["Geheimes Rätsel ohne Hinweis lösen",50],
+ ["Verschlüsselte Nachricht knacken",30],
+ ["Internet-Recherche erfolgreich abschließen",25],
+ ["Versteckten Website-Hinweis finden",20],
+ ["Zusatzmission innerhalb von 24 Stunden lösen",40],
+ ["Hacker-Lab erfolgreich absolvieren",50],
+ ["Geheimes Discord-Detail entdecken",20],
+ ["Schwierige Sonderaufgabe lösen",75]
+ ];
+ const key="protocol047progress";
+ let saved={};
+ try{saved=JSON.parse(localStorage.getItem(key)||"{}")}catch(e){}
+ function update(){
+  let completed=0,points=0;
+  missions.forEach((m,i)=>{if(saved["m"+i])completed++});
+  bonuses.forEach((b,i)=>{if(saved["b"+i])points+=b[1]});
+  document.getElementById("done").textContent=completed;
+  document.getElementById("progressbar").style.width=(completed/8*100)+"%";
+  document.getElementById("points").textContent=points;
+  document.getElementById("rank").textContent=
+   points>=300?"LEVEL OMEGA":points>=150?"ELITE AGENT":points>=50?"OPERATIVE":"REKRUT";
+  localStorage.setItem(key,JSON.stringify(saved));
+ }
+ missions.forEach((m,i)=>{
+  document.getElementById("missions").innerHTML+=
+   '<div class="mission"><strong>MISSION '+String(i+1).padStart(2,"0")+'</strong><br>'+
+   '<span>'+m+'</span><br><small>Freischaltung gemäß Einsatzplan</small></div>';
+ });
+ bonuses.forEach((b,i)=>{
+  document.getElementById("bonuses").innerHTML+=
+   '<div class="mission bonus"><label class="task"><input type="checkbox" data-b="'+i+'">'+
+   '<span>'+b[0]+' <span class="points">+'+b[1]+' P</span></span></label></div>';
+ });
+ document.querySelectorAll("[data-b]").forEach(el=>{
+  el.checked=!!saved["b"+el.dataset.b];
+  el.addEventListener("change",()=>{
+   saved["b"+el.dataset.b]=el.checked;update();
+  });
+ });
+ update();
+ const welcome=document.getElementById("welcome");
+ const dashboard=document.getElementById("dashboard");
+ if(welcome){
+  new MutationObserver(()=>{
+   dashboard.style.display=welcome.classList.contains("hidden")?"none":"block";
+  }).observe(welcome,{attributes:true,attributeFilter:["class"]});
+ }
+})();
+</script>
