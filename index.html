@@ -163,12 +163,23 @@ document.getElementById('logout').onclick=()=>{welcome.classList.add('hidden');l
   });
  });
  update();
- const welcome=document.getElementById("welcome");
- const dashboard=document.getElementById("dashboard");
- if(welcome){
-  new MutationObserver(()=>{
-   dashboard.style.display=welcome.classList.contains("hidden")?"none":"block";
-  }).observe(welcome,{attributes:true,attributeFilter:["class"]});
+const welcome=document.getElementById("welcome");
+const dashboard=document.getElementById("dashboard");
+
+function showDashboard(){
+ if(welcome && dashboard){
+  dashboard.style.display=
+   welcome.classList.contains("hidden")?"none":"block";
  }
+}
+
+showDashboard();
+
+if(welcome){
+ new MutationObserver(showDashboard).observe(welcome,{
+  attributes:true,
+  attributeFilter:["class"]
+ });
+}
 })();
 </script>
