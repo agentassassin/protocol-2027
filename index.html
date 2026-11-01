@@ -8,101 +8,128 @@
 
 <style>
 :root {
-  --red:#ff3948;
-  --dark:#080b10;
-  --panel:#141c26;
-  --white:#eef2f7;
-  --muted:#aab4c1;
-  --green:#b5f6ce;
-  --gold:#ffb347;
+ --red:#ff3948;
+ --dark:#080c12;
+ --panel:#141e2a;
+ --line:#354457;
+ --muted:#aeb9c7;
+ --gold:#ffbd59;
+ --green:#75e5a0;
 }
-* {box-sizing:border-box}
-body {
-  margin:0;
-  min-height:100vh;
-  background:radial-gradient(ellipse at 50% 20%,#202b39,#080b10 70%);
-  color:var(--white);
-  font:16px Arial,Helvetica,sans-serif;
+*{box-sizing:border-box}
+body{
+ margin:0;background:radial-gradient(ellipse at top,#1d2a39,#080c12 70%);
+ color:#f1f4f8;font-family:Arial,Helvetica,sans-serif;
+ min-height:100vh;
 }
-.wrap {max-width:960px;margin:auto;padding:24px 18px}
-.topbar {
-  display:flex;justify-content:space-between;gap:12px;
-  flex-wrap:wrap;padding:14px;
-  background:#0b1019;border:1px solid #354052;
-  border-left:4px solid var(--red);
-  font-size:11px;font-weight:bold;letter-spacing:2px;
+.wrap{max-width:1050px;margin:auto;padding:20px 16px}
+.topbar{
+ display:flex;justify-content:space-between;gap:12px;
+ flex-wrap:wrap;background:#0d141e;border:1px solid var(--line);
+ border-left:4px solid var(--red);padding:14px;
+ font-size:11px;font-weight:bold;letter-spacing:1.5px
 }
-.blink {animation:blink 1.2s steps(2,start) infinite;color:var(--red)}
-@keyframes blink {to{visibility:hidden}}
-header{text-align:center;padding:35px 0 22px}
-.badge {
-  display:inline-block;padding:9px 14px;border:1px solid #74313a;
-  background:#160e10;color:#ffadb3;font-size:11px;
-  font-weight:bold;letter-spacing:2px;
+.blink{color:var(--red);animation:blink 1.3s steps(2,start) infinite}
+@keyframes blink{to{visibility:hidden}}
+header{text-align:center;padding:30px 0 20px}
+.logo{font-size:clamp(35px,8vw,65px);letter-spacing:7px;font-weight:900}
+.subtitle{font-size:11px;color:#c1cad5;letter-spacing:2px;margin-top:10px}
+.badge{
+ display:inline-block;border:1px solid #74313a;
+ padding:8px 12px;color:#ffadb3;font-size:10px;
+ letter-spacing:2px;margin-bottom:12px
 }
-h1 {font-size:clamp(38px,8vw,70px);letter-spacing:8px;margin:20px 0 10px}
-.subtitle {font-size:12px;font-weight:bold;letter-spacing:2px;color:#c9ced7}
-.rule {height:1px;margin:25px 0;background:linear-gradient(90deg,transparent,#a52a37,transparent)}
-.panel {
-  position:relative;max-width:720px;margin:20px auto;
-  padding:25px;background:linear-gradient(145deg,#19232f,#0e151e);
-  border:1px solid #394658;box-shadow:0 20px 50px #0008;
+.rule{height:1px;background:linear-gradient(90deg,transparent,#a52a37,transparent);margin:20px 0}
+.panel{
+ background:linear-gradient(145deg,#192533,#101720);
+ border:1px solid var(--line);padding:24px;
+ box-shadow:0 15px 40px #0005;margin:18px 0;
 }
-.panel:before,.panel:after {
-  content:"";position:absolute;width:18px;height:18px;border-color:var(--red);
+.hidden{display:none!important}
+h2{font-size:22px;letter-spacing:1px;margin-top:5px}
+h3{font-size:15px;letter-spacing:1px}
+p{color:#c2ccd7;line-height:1.6;font-size:14px}
+label{display:block;font-size:12px;font-weight:bold;margin:15px 0 7px}
+input:not([type=checkbox]){
+ width:100%;padding:14px;background:#080e15;
+ border:1px solid #526174;color:white;font-size:15px
 }
-.panel:before {top:-1px;left:-1px;border-top:3px solid;border-left:3px solid}
-.panel:after {bottom:-1px;right:-1px;border-bottom:3px solid;border-right:3px solid}
-.panel-head {display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.kicker {color:var(--green);font-size:11px;font-weight:bold;letter-spacing:2px}
-.classification {color:#ffadb3;font-size:11px;border:1px solid #74313a;padding:5px 9px}
-h2 {font-size:22px;letter-spacing:1px}
-h3 {font-size:15px;letter-spacing:2px;margin-top:28px}
-.copy {color:#c4ccd6;line-height:1.7;font-size:14px}
-label {display:block;margin:16px 0 7px;font-size:12px;font-weight:bold;letter-spacing:1px}
-input:not([type=checkbox]) {
-  width:100%;padding:14px;background:#080e15;
-  border:1px solid #536174;color:white;border-radius:2px;
-  font-size:15px;outline:none;
+button{
+ cursor:pointer;border:1px solid #e64a58;
+ background:linear-gradient(90deg,#d92c3c,#8d1725);
+ color:white;font-weight:bold;letter-spacing:1px;
+ padding:13px 16px
 }
-button {
-  width:100%;margin-top:20px;padding:15px;
-  background:linear-gradient(90deg,#ed3948,#9c1725);
-  border:1px solid #ff6874;color:white;
-  font-weight:bold;letter-spacing:2px;cursor:pointer;
+button:hover{filter:brightness(1.2)}
+.mainbutton{width:100%;margin-top:18px}
+.error{color:#ff9ba3;font-size:12px}
+.status{
+ padding:14px;background:#091710;border:1px solid #315541;
+ color:var(--green);font-size:12px;line-height:1.9;margin:20px 0
 }
-button:hover {filter:brightness(1.2)}
-.error {color:#ff9ba3;font-size:12px;margin-top:12px}
-.hidden {display:none!important}
-.status {
-  margin:20px 0;padding:15px;
-  border:1px solid #315541;background:#091710;
-  color:var(--green);font-size:12px;font-weight:bold;line-height:1.8;
+.connected{color:var(--green);animation:blink 1.2s steps(2,start) infinite}
+.statusbar{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:10px;margin:20px 0
 }
-.connected {color:var(--green);animation:blink 1.2s steps(2,start) infinite}
-.footer {
-  display:flex;justify-content:space-between;gap:10px;
-  flex-wrap:wrap;margin-top:25px;color:#a4afbd;
-  font-size:10px;letter-spacing:1px
+.stat{
+ background:#111c28;border:1px solid var(--line);
+ padding:14px;text-align:center;min-width:0
 }
-.mission {
-  background:#101820;border:1px solid #394658;
-  border-left:3px solid var(--red);
-  padding:14px;margin:10px 0;
+.stat small{display:block;color:var(--muted);font-size:10px;letter-spacing:1px}
+.stat strong{display:block;font-size:22px;margin-top:7px;color:var(--red)}
+.stat.gold strong{color:var(--gold)}
+.stat.green strong{color:var(--green)}
+.grid{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:14px;margin-top:20px
 }
-.mission small {display:block;color:var(--muted);margin-top:6px}
-.mission label {display:flex;align-items:center;gap:10px;margin:0;letter-spacing:0}
-.bonus {border-left-color:var(--gold)}
-.points {color:var(--gold);font-weight:bold}
-input[type=checkbox] {accent-color:var(--red);width:18px;height:18px}
-.progress {height:12px;background:#26313d;border-radius:8px;overflow:hidden}
-#progressbar {height:100%;width:0%;background:var(--red);transition:width .3s}
-.score {padding:16px;background:#17150f;border:1px solid #66502d;margin-top:20px}
-.rank {color:var(--gold);font-weight:bold;letter-spacing:2px}
-@media(max-width:560px) {
- .wrap{padding:14px 10px}
- .panel{padding:20px 15px}
- h1{letter-spacing:4px}
+.tile{
+ min-height:155px;padding:20px;background:linear-gradient(145deg,#1b2938,#111923);
+ border:1px solid var(--line);border-top:3px solid var(--red);
+ cursor:pointer;transition:.2s;text-align:left
+}
+.tile:hover{transform:translateY(-3px);border-color:var(--red);background:#202e3d}
+.tile .symbol{font-size:27px;margin-bottom:15px}
+.tile strong{display:block;font-size:14px;letter-spacing:1px}
+.tile small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:8px}
+.tile.goldtile{border-top-color:var(--gold)}
+.tile.greentile{border-top-color:var(--green)}
+.tile.bluetile{border-top-color:#61b5ed}
+.sectionhead{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:12px;flex-wrap:wrap;margin-bottom:20px
+}
+.back{background:#202b38;border:1px solid var(--line);margin-bottom:15px}
+.mission{
+ border:1px solid var(--line);border-left:4px solid var(--red);
+ background:#101923;padding:15px;margin:12px 0
+}
+.mission small{display:block;color:var(--muted);margin-top:7px}
+.bonus{border-left-color:var(--gold)}
+.task{display:flex;align-items:center;gap:12px}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:0}
+.points{color:var(--gold);font-weight:bold}
+.progress{height:12px;background:#263342;overflow:hidden;border-radius:10px}
+#progressbar{height:100%;width:0;background:var(--red);transition:width .3s}
+.archiveitem,.labitem{
+ padding:15px;margin:10px 0;background:#101923;
+ border:1px solid var(--line)
+}
+.locked{color:#ff9ba3}
+.unlocked{color:var(--green)}
+.footer{
+ display:flex;justify-content:space-between;gap:10px;
+ flex-wrap:wrap;color:#8e9baa;font-size:10px;
+ letter-spacing:1px;margin:30px 0 10px
+}
+@media(max-width:700px){
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:430px){
+ .grid{grid-template-columns:1fr}
+ .statusbar{grid-template-columns:1fr 1fr}
+ .panel{padding:17px}
 }
 </style>
 </head>
@@ -117,7 +144,7 @@ input[type=checkbox] {accent-color:var(--red);width:18px;height:18px}
 
 <header>
  <div class="badge">KLASSIFIZIERTE OPERATION // OMEGA</div>
- <h1>PROTOCOL<br>2027</h1>
+ <div class="logo">PROTOCOL<br>2027</div>
  <div class="subtitle">EIN SIGNAL. VIELE GEHEIMNISSE. NUR EIN AGENT.</div>
 </header>
 
@@ -125,80 +152,206 @@ input[type=checkbox] {accent-color:var(--red);width:18px;height:18px}
 
 <!-- LOGIN -->
 <section class="panel" id="login">
- <div class="panel-head">
-  <span class="kicker">ZUGANGSKONTROLLE</span>
-  <span class="classification">STRENG VERTRAULICH</span>
- </div>
+ <div class="badge">ZUGANGSKONTROLLE</div>
  <h2>Die Zentrale wartet.</h2>
- <p class="copy">Ein verschlüsseltes Signal hat dich hierhergeführt. Weise deine Identität nach.</p>
+ <p>Weise deine Identität nach, um Zugang zur Operationszentrale zu erhalten.</p>
 
  <label for="agent">AGENTENKENNUNG</label>
- <input id="agent" autocomplete="username" placeholder="Kennung eingeben">
+ <input id="agent" placeholder="Kennung eingeben">
 
  <label for="code">PERSÖNLICHER ZUGANGSCODE</label>
- <input id="code" type="password" autocomplete="current-password" placeholder="Code eingeben">
+ <input id="code" type="password" placeholder="Code eingeben">
 
- <button id="enter">IDENTITÄT VERIFIZIEREN</button>
- <p id="error" class="error"></p>
+ <button class="mainbutton" id="enter">IDENTITÄT VERIFIZIEREN</button>
+ <div id="error" class="error"></div>
 </section>
 
-<!-- WILLKOMMEN -->
-<section class="panel hidden" id="welcome">
- <div class="panel-head">
-  <span class="kicker">IDENTITÄT BESTÄTIGT</span>
-  <span class="classification">AGENT 047</span>
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+ <div class="panel">
+  <div class="sectionhead">
+   <div>
+    <div class="badge">IDENTITÄT BESTÄTIGT</div>
+    <h2>WILLKOMMEN, AGENT 047</h2>
+    <p>Die Zentrale hat dich erwartet. Dein Einsatz hat begonnen.</p>
+   </div>
+   <span class="connected">● ONLINE</span>
+  </div>
+
+  <div class="statusbar">
+   <div class="stat">
+    <small>MISSIONEN</small>
+    <strong id="missionCount">0 / 8</strong>
+   </div>
+   <div class="stat gold">
+    <small>BONUSPUNKTE</small>
+    <strong id="pointCount">0 P</strong>
+   </div>
+   <div class="stat green">
+    <small>AGENTENRANG</small>
+    <strong id="rankCount">REKRUT</strong>
+   </div>
+  </div>
+
+  <h3>GESAMTFORTSCHRITT</h3>
+  <div class="progress"><div id="progressbar"></div></div>
+  <p id="progressText">0 von 8 Missionen abgeschlossen</p>
  </div>
- <h2>Die Zentrale hat dich erwartet.</h2>
- <p class="copy">Agent 047, deine Kennung wurde erkannt. Eine neue Verbindung wurde hergestellt. Die Gründe für deine Aktivierung bleiben vorerst unter Verschluss.</p>
+
+ <div class="panel">
+  <div class="badge">NAVIGATION</div>
+  <h2>OPERATIONSZENTRALE</h2>
+  <p>Wähle deinen Einsatzbereich.</p>
+
+  <div class="grid">
+   <button class="tile" onclick="openPage('missions')">
+    <div class="symbol">🎯</div>
+    <strong>HAUPTMISSIONEN</strong>
+    <small>8 Einsätze und dein Missionsfortschritt</small>
+   </button>
+
+   <button class="tile goldtile" onclick="openPage('bonus')">
+    <div class="symbol">🏆</div>
+    <strong>BONUS OPERATIONS</strong>
+    <small>Sonderaufgaben und zusätzliche Punkte</small>
+   </button>
+
+   <button class="tile bluetile" onclick="openPage('archive')">
+    <div class="symbol">🗄️</div>
+    <strong>DATENARCHIV</strong>
+    <small>Informationen und entschlüsselte Hinweise</small>
+   </button>
+
+   <button class="tile greentile" onclick="openPage('lab')">
+    <div class="symbol">💻</div>
+    <strong>HACKER LAB</strong>
+    <small>Digitale Herausforderungen und Tests</small>
+   </button>
+
+   <button class="tile bluetile" onclick="openPage('comms')">
+    <div class="symbol">📡</div>
+    <strong>AGENTENFUNK</strong>
+    <small>Kommunikation und Discord-Zentrale</small>
+   </button>
+
+   <button class="tile goldtile" onclick="openPage('profile')">
+    <div class="symbol">🛡️</div>
+    <strong>AGENTENPROFIL</strong>
+    <small>Dein Rang, deine Punkte und dein Status</small>
+   </button>
+  </div>
+ </div>
+</section>
+
+<!-- HAUPTMISSIONEN -->
+<section id="missions" class="panel hidden">
+ <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
+ <div class="badge">MISSION CONTROL</div>
+ <h2>HAUPTMISSIONEN</h2>
+ <p>Erledige die acht Einsätze. Neue Informationen erhältst du über die Missionsbriefings.</p>
+ <div class="progress"><div id="progressbar2"></div></div>
+ <p id="missionText2">0 von 8 abgeschlossen</p>
+ <div id="missionList"></div>
+</section>
+
+<!-- BONUS -->
+<section id="bonus" class="panel hidden">
+ <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
+ <div class="badge">KLASSIFIZIERTE ZUSATZAUFTRÄGE</div>
+ <h2>BONUS OPERATIONS</h2>
+ <p>Freiwillige Sonderaufgaben bringen zusätzliche Punkte. Bestätige eine Aufgabe erst, wenn sie tatsächlich erledigt ist.</p>
+ <div id="bonusList"></div>
  <div class="status">
-  VERBINDUNG: <span class="connected">VERBUNDEN</span><br>
-  NETZWERK: GESICHERT<br>
-  MISSIONSARCHIV: VERSCHLÜSSELT<br>
-  ANWEISUNG: AUSSTEHEND
+  BONUS-PUNKTSTAND: <span class="points" id="bonusScore">0</span><br>
+  RANG: <span id="bonusRank">REKRUT</span>
  </div>
- <p class="copy">Beobachte die Signale. Prüfe jede Spur. Die nächste Nachricht wird dich finden.</p>
- <button id="logout">SITZUNG BEENDEN</button>
+ <p>Die Bonuspunkte bringen einen zusätzlichen Vorteil bei der Abschlussbelohnung. Die eigentliche Belohnung bleibt unabhängig davon.</p>
 </section>
 
-<!-- AGENTEN-DASHBOARD -->
-<section class="panel hidden" id="dashboard">
- <div class="panel-head">
-  <span class="kicker">MISSION CONTROL</span>
-  <span class="classification">AGENT 047</span>
+<!-- ARCHIV -->
+<section id="archive" class="panel hidden">
+ <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
+ <div class="badge">KLASSIFIZIERTE DATEN</div>
+ <h2>DATENARCHIV</h2>
+ <p>Hier werden Informationen gesammelt, sobald sie im Verlauf der Operation freigegeben werden.</p>
+ <div class="archiveitem">
+  <strong>ARCHIV 001</strong><br>
+  <small class="locked">🔒 Noch keine Informationen freigegeben</small>
  </div>
-
- <h2>AGENTEN-DASHBOARD</h2>
- <p class="copy">Dein Einsatz hat begonnen. Jede Mission bringt dich näher an die Wahrheit.</p>
-
- <h3>HAUPTMISSIONEN</h3>
- <div class="progress"><div id="progressbar"></div></div>
- <p class="copy"><span id="done">0</span> von 8 Missionen abgeschlossen</p>
- <div id="missions"></div>
-
- <h3>BONUS OPERATIONS</h3>
- <p class="copy">Zusatzaufgaben bringen wertvolle Bonuspunkte. Manche Informationen bleiben vorerst geheim.</p>
- <div id="bonuses"></div>
-
- <div class="score">
-  BONUS-PUNKTSTAND: <span class="points" id="points">0</span><br><br>
-  AGENTEN-RANG: <span class="rank" id="rank">REKRUT</span>
+ <div class="archiveitem">
+  <strong>ARCHIV 002</strong><br>
+  <small class="locked">🔒 Weitere Daten folgen</small>
  </div>
- <p class="copy">Die Bonuspunkte bringen dir am Ende einen zusätzlichen Vorteil. Die eigentliche Belohnung ist unabhängig davon.</p>
+ <div class="archiveitem">
+  <strong>ARCHIV 003</strong><br>
+  <small class="locked">🔒 Klassifizierte Informationen</small>
+ </div>
+</section>
+
+<!-- HACKER LAB -->
+<section id="lab" class="panel hidden">
+ <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
+ <div class="badge">DIGITAL TRAINING UNIT</div>
+ <h2>HACKER LAB</h2>
+ <p>Trainiere deine Fähigkeiten in einer sicheren Testumgebung.</p>
+ <div class="labitem">
+  <strong>TRAINING 001 – CODEKNACKEN</strong>
+  <p>Finde heraus, wie verschlüsselte Nachrichten aufgebaut sind.</p>
+  <span class="locked">🔒 Freigabe folgt</span>
+ </div>
+ <div class="labitem">
+  <strong>TRAINING 002 – DIGITALE SPUREN</strong>
+  <p>Untersuche Hinweise und finde die richtigen Informationen.</p>
+  <span class="locked">🔒 Freigabe folgt</span>
+ </div>
+ <div class="labitem">
+  <strong>TRAINING 003 – SYSTEMANALYSE</strong>
+  <p>Erkenne Muster und löse eine digitale Herausforderung.</p>
+  <span class="locked">🔒 Freigabe folgt</span>
+ </div>
+</section>
+
+<!-- DISCORD -->
+<section id="comms" class="panel hidden">
+ <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
+ <div class="badge">SECURE COMMUNICATION</div>
+ <h2>AGENTENFUNK</h2>
+ <p>Die Kommunikation der Agenten erfolgt über den offiziellen PROTOCOL-2027-Discord-Server.</p>
+ <div class="status">
+  FUNKSTATUS: <span class="connected">BEREIT</span><br>
+  KOMMUNIKATIONSKANAL: DISCORD<br>
+  KENNUNG: AGENT 047
+ </div>
+ <p>Nutze den Einladungslink, den du von der Zentrale erhalten hast.</p>
+</section>
+
+<!-- PROFIL -->
+<section id="profile" class="panel hidden">
+ <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
+ <div class="badge">PERSONAL RECORD</div>
+ <h2>AGENTENPROFIL</h2>
+ <div class="status">
+  IDENTITÄT: AGENT 047<br>
+  SICHERHEITSSTUFE: OMEGA<br>
+  STATUS: <span class="connected">AKTIV</span>
+ </div>
+ <div class="statusbar">
+  <div class="stat"><small>MISSIONEN</small><strong id="profileMissions">0 / 8</strong></div>
+  <div class="stat gold"><small>PUNKTE</small><strong id="profilePoints">0 P</strong></div>
+ </div>
+ <h3>AKTUELLER RANG</h3>
+ <p id="profileRank" class="points">REKRUT</p>
 </section>
 
 <div class="footer">
- <span>OPERATIONSZENTRALE // 2027</span>
+ <span>PROTOCOL 2027 // OMEGA</span>
  <span>JEDER ZUGRIFF HINTERLÄSST SPUREN</span>
 </div>
+
 </div>
 
 <script>
-const login=document.getElementById("login");
-const welcome=document.getElementById("welcome");
-const dashboard=document.getElementById("dashboard");
-const error=document.getElementById("error");
-
-const missions=[
+const missionData=[
  ["SYSTEM INITIALIZATION","01.11.2026"],
  ["THE DIGITAL VAULT","08.11.2026"],
  ["CODE RED","15.11.2026"],
@@ -209,7 +362,7 @@ const missions=[
  ["MISSION CLEARANCE","20.12.2026"]
 ];
 
-const bonuses=[
+const bonusData=[
  ["Geheimes Rätsel ohne Hinweis lösen",50],
  ["Verschlüsselte Nachricht knacken",30],
  ["Internet-Recherche erfolgreich abschließen",25],
@@ -221,103 +374,117 @@ const bonuses=[
 ];
 
 let saved={};
-try {
+try{
  saved=JSON.parse(localStorage.getItem("protocol047progress")||"{}");
-} catch(e) { saved={}; }
+}catch(e){saved={};}
 
-function save() {
+function save(){
  localStorage.setItem("protocol047progress",JSON.stringify(saved));
 }
 
-function update() {
- let completed=0;
- let points=0;
-
- missions.forEach((m,i)=>{
-  if(saved["m"+i]) completed++;
- });
-
- bonuses.forEach((b,i)=>{
-  if(saved["b"+i]) points+=b[1];
- });
-
- document.getElementById("done").textContent=completed;
- document.getElementById("progressbar").style.width=(completed/8*100)+"%";
- document.getElementById("points").textContent=points;
-
+function stats(){
+ let done=0,points=0;
+ missionData.forEach((m,i)=>{if(saved["m"+i])done++;});
+ bonusData.forEach((b,i)=>{if(saved["b"+i])points+=b[1];});
  let rank="REKRUT";
- if(points>=300) rank="LEVEL OMEGA";
- else if(points>=150) rank="ELITE AGENT";
- else if(points>=50) rank="OPERATIVE";
+ if(points>=300)rank="LEVEL OMEGA";
+ else if(points>=150)rank="ELITE AGENT";
+ else if(points>=50)rank="OPERATIVE";
 
- document.getElementById("rank").textContent=rank;
+ document.getElementById("missionCount").textContent=done+" / 8";
+ document.getElementById("pointCount").textContent=points+" P";
+ document.getElementById("rankCount").textContent=rank;
+ document.getElementById("progressbar").style.width=(done/8*100)+"%";
+ document.getElementById("progressText").textContent=done+" von 8 Missionen abgeschlossen";
+
+ document.getElementById("progressbar2").style.width=(done/8*100)+"%";
+ document.getElementById("missionText2").textContent=done+" von 8 abgeschlossen";
+ document.getElementById("bonusScore").textContent=points+" Punkte";
+ document.getElementById("bonusRank").textContent=rank;
+ document.getElementById("profileMissions").textContent=done+" / 8";
+ document.getElementById("profilePoints").textContent=points+" P";
+ document.getElementById("profileRank").textContent=rank;
  save();
 }
 
-missions.forEach((m,i)=>{
- const div=document.createElement("div");
- div.className="mission";
- const label=document.createElement("label");
- const checkbox=document.createElement("input");
- checkbox.type="checkbox";
- checkbox.checked=!!saved["m"+i];
- checkbox.addEventListener("change",()=>{
-  saved["m"+i]=checkbox.checked;
-  update();
+function openPage(id){
+ document.getElementById("dashboard").classList.add("hidden");
+ ["missions","bonus","archive","lab","comms","profile"].forEach(x=>{
+  document.getElementById(x).classList.add("hidden");
  });
- label.appendChild(checkbox);
- label.appendChild(document.createTextNode("MISSION "+String(i+1).padStart(2,"0")+" – "+m[0]));
- div.appendChild(label);
- const small=document.createElement("small");
- small.textContent="Geplanter Start: "+m[1];
- div.appendChild(small);
- document.getElementById("missions").appendChild(div);
-});
+ document.getElementById(id).classList.remove("hidden");
+ window.scrollTo(0,0);
+ stats();
+}
 
-bonuses.forEach((b,i)=>{
- const div=document.createElement("div");
- div.className="mission bonus";
- const label=document.createElement("label");
- const checkbox=document.createElement("input");
- checkbox.type="checkbox";
- checkbox.checked=!!saved["b"+i];
- checkbox.addEventListener("change",()=>{
-  saved["b"+i]=checkbox.checked;
-  update();
+function home(){
+ ["missions","bonus","archive","lab","comms","profile"].forEach(x=>{
+  document.getElementById(x).classList.add("hidden");
  });
- label.appendChild(checkbox);
- label.appendChild(document.createTextNode(b[0]+" (+"+b[1]+" PUNKTE)"));
- div.appendChild(label);
- document.getElementById("bonuses").appendChild(div);
-});
+ document.getElementById("dashboard").classList.remove("hidden");
+ window.scrollTo(0,0);
+ stats();
+}
+
+function createTasks(){
+ missionData.forEach((m,i)=>{
+  const div=document.createElement("div");
+  div.className="mission";
+  const label=document.createElement("label");
+  label.className="task";
+  const cb=document.createElement("input");
+  cb.type="checkbox";
+  cb.checked=!!saved["m"+i];
+  cb.addEventListener("change",()=>{
+   saved["m"+i]=cb.checked;stats();
+  });
+  label.appendChild(cb);
+  label.appendChild(document.createTextNode("MISSION "+String(i+1).padStart(2,"0")+" – "+m[0]));
+  div.appendChild(label);
+  const small=document.createElement("small");
+  small.textContent="Geplanter Start: "+m[1];
+  div.appendChild(small);
+  document.getElementById("missionList").appendChild(div);
+ });
+
+ bonusData.forEach((b,i)=>{
+  const div=document.createElement("div");
+  div.className="mission bonus";
+  const label=document.createElement("label");
+  label.className="task";
+  const cb=document.createElement("input");
+  cb.type="checkbox";
+  cb.checked=!!saved["b"+i];
+  cb.addEventListener("change",()=>{
+   saved["b"+i]=cb.checked;stats();
+  });
+  label.appendChild(cb);
+  label.appendChild(document.createTextNode(b[0]+" (+"+b[1]+" Punkte)"));
+  div.appendChild(label);
+  document.getElementById("bonusList").appendChild(div);
+ });
+}
 
 document.getElementById("enter").addEventListener("click",()=>{
  const agent=document.getElementById("agent").value.trim().toUpperCase();
  const code=document.getElementById("code").value;
-
- if(agent==="AGENT 047" && code==="START-2027") {
-  error.textContent="";
-  login.classList.add("hidden");
-  welcome.classList.remove("hidden");
-  dashboard.classList.remove("hidden");
-  update();
- } else {
-  error.textContent="ZUGRIFF VERWEIGERT – IDENTITÄT NICHT BESTÄTIGT.";
+ if(agent==="AGENT 047"&&code==="START-2027"){
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+  document.getElementById("error").textContent="";
+  stats();
+  window.scrollTo(0,0);
+ }else{
+  document.getElementById("error").textContent="ZUGRIFF VERWEIGERT – IDENTITÄT NICHT BESTÄTIGT.";
  }
 });
 
-document.getElementById("logout").addEventListener("click",()=>{
- welcome.classList.add("hidden");
- dashboard.classList.add("hidden");
- login.classList.remove("hidden");
- document.getElementById("code").value="";
-});
-
 document.getElementById("code").addEventListener("keydown",e=>{
- if(e.key==="Enter") document.getElementById("enter").click();
+ if(e.key==="Enter")document.getElementById("enter").click();
 });
 
-update();
+createTasks();
+stats();
 </script>
 </body>
 </html>
