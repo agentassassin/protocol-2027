@@ -131,7 +131,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  .statusbar{grid-template-columns:1fr 1fr}
  .panel{padding:17px}
 }
-</style>
+:focus-visible{outline:3px solid var(--gold);outline-offset:4px} #hints li{color:var(--muted);line-height:1.6;margin:10px 0} button:disabled{opacity:.65;cursor:default} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}} .packetTable{overflow-x:auto}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}caption{text-align:left;color:var(--muted);margin-bottom:8px}th,td{padding:12px;text-align:left;border:1px solid var(--line)}th{background:#0d141e}.cipher{letter-spacing:5px;font-size:22px}.clues li{line-height:1.7;margin:10px 0}#missionTimer{font-variant-numeric:tabular-nums;font-size:20px} </style>
 </head>
 
 <body>
@@ -152,28 +152,39 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
- <div class="badge">ZUGANGSKONTROLLE</div>
- <h2>Die Zentrale wartet.</h2>
- <p>Weise deine Identität nach, um Zugang zur Operationszentrale zu erhalten.</p>
-
- <label for="agent">AGENTENKENNUNG</label>
- <input id="agent" placeholder="Kennung eingeben">
-
- <label for="code">PERSÖNLICHER ZUGANGSCODE</label>
- <input id="code" type="password" placeholder="Code eingeben">
-
- <button class="mainbutton" id="enter">IDENTITÄT VERIFIZIEREN</button>
- <div id="error" class="error"></div>
-</section>
-
+<div class="badge">ZUGANGSKONTROLLE // VERSION 5 · HILFEN-SHOP</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<p>Offizieller Spielstart: <strong>07.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
+<p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
+<div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
+<p>Die Uhr startet bei „Mission starten“. Es gibt kein Zeitlimit und keinen Zeitabzug. Auch beim Schließen der Seite läuft die Zeit weiter; am Ende wird sie gestoppt.</p>
+<button type="button" id="startMission" class="mainbutton">MISSION STARTEN</button>
+<div id="puzzleArea" class="hidden">
+<section id="stage1" class="mission" aria-labelledby="stageTitle1"><h3 id="stageTitle1" tabindex="-1">01 // DAS ZERLEGTE SIGNAL</h3>
+<p>Sechs Pakete wurden in falscher Reihenfolge abgelegt. Das Übertragungsprotokoll sagt: „Die früheste Zeit zuerst. Jede Zahl hat einen Platz im Alphabet.“ Rekonstruiere das Wort.</p>
+<div class="packetTable"><table><caption>Abgefangene Datenpakete</caption><thead><tr><th scope="col">Zeitstempel</th><th scope="col">Nutzlast</th></tr></thead><tbody><tr><td>21:04:05</td><td>01</td></tr><tr><td>21:04:02</td><td>09</td></tr><tr><td>21:04:06</td><td>12</td></tr><tr><td>21:04:01</td><td>19</td></tr><tr><td>21:04:04</td><td>14</td></tr><tr><td>21:04:03</td><td>07</td></tr></tbody></table></div>
+<form id="stageForm1"><label for="answer1">REKONSTRUIERTES WORT</label><input id="answer1" autocomplete="off" spellcheck="false" required><button type="submit" class="mainbutton">DATENPAKET 1 PRÜFEN</button><p id="stageError1" class="error" role="status"></p></form></section>
+<section id="stage2" class="mission hidden" aria-labelledby="stageTitle2"><h3 id="stageTitle2" tabindex="-1">02 // DIE VERSCHOBENE NACHRICHT</h3>
+<p>Eine alte Verschlüsselungsmaschine hat jeden Buchstaben um dieselbe Anzahl Stellen verschoben. Zwei erhaltene Testpaare verraten die Einstellung:</p><p><strong>Klartext A → Geheimtext D<br>Klartext M → Geheimtext P</strong></p>
+<p>Abgefangener Geheimtext: <strong class="cipher">YHNWRU</strong></p><p>Finde das ursprüngliche Wort. Alphabet: ABCDEFGHIJKLMNOPQRSTUVWXYZ. Nach Z beginnt es wieder bei A.</p>
+<form id="stageForm2"><label for="answer2">ENTSCHLÜSSELTES WORT</label><input id="answer2" autocomplete="off" spellcheck="false" required><button type="submit" class="mainbutton">DATENPAKET 2 PRÜFEN</button><p id="stageError2" class="error" role="status"></p></form></section>
+<section id="stage3" class="mission hidden" aria-labelledby="stageTitle3"><h3 id="stageTitle3" tabindex="-1">03 // DAS ZAHLENSCHLOSS</h3>
+<p>Gesucht sind drei <strong>verschiedene Ziffern</strong>. Die Null darf vorne stehen. Alle folgenden Aussagen gelten gleichzeitig und geben jeweils die <strong>genaue Anzahl</strong> richtiger Ziffern an. Alle übrigen Ziffern einer Zeile kommen im Code nicht vor.</p>
+<ul class="clues"><li><strong>682</strong> – Eine Ziffer ist richtig und steht am richtigen Platz.</li><li><strong>614</strong> – Eine Ziffer ist richtig, steht aber am falschen Platz.</li><li><strong>206</strong> – Zwei Ziffern sind richtig, stehen aber beide am falschen Platz.</li><li><strong>738</strong> – Keine Ziffer kommt im Code vor.</li><li><strong>780</strong> – Eine Ziffer ist richtig, steht aber am falschen Platz.</li></ul>
+<form id="stageForm3"><label for="answer3">DREISTELLIGER SCHLOSSCODE</label><input id="answer3" inputmode="numeric" autocomplete="off" maxlength="3" pattern="[0-9]{3}" required><button type="submit" class="mainbutton">DATENPAKET 3 PRÜFEN</button><p id="stageError3" class="error" role="status"></p></form></section>
+<p id="recoveredFragments" class="status hidden"></p>
+<div id="hintArea"><button type="button" id="hintButton" class="back" aria-controls="hints"></button><ol id="hints" aria-live="polite"></ol><p>Hinweise gelten für alle drei Stationen: ohne Hinweis 100 Punkte, mit einem 80, mit zwei 50, mit drei 0. Abgerufene Hinweise bleiben gespeichert.</p></div>
+<form id="accessForm" class="hidden"><h3>04 // VERBINDUNG HERSTELLEN</h3><p>Trage die zugeteilte Kennung ein. Setze für den Zugangscode deine drei Ergebnisse in Stationsreihenfolge zusammen, jeweils mit einem Bindestrich dazwischen: WORT-WORT-ZIFFERN.</p>
+<label for="agent">AGENTENKENNUNG</label><input id="agent" autocomplete="off" required>
+<label for="code">PERSÖNLICHER ZUGANGSCODE</label><input id="code" type="password" autocomplete="off" spellcheck="false" required aria-describedby="error"><button type="submit" class="mainbutton" id="enter">IDENTITÄT VERIFIZIEREN</button><div id="error" class="error" role="status" aria-live="polite"></div></form></div>
+<p>Dies ist ein Spielrätsel. Verwende keine echten Passwörter. Der Fortschritt wird in diesem Browser gespeichert.</p><p id="storageWarning" class="error" role="status"></p></section>
 <!-- DASHBOARD -->
 <section id="dashboard" class="hidden">
  <div class="panel">
   <div class="sectionhead">
    <div>
     <div class="badge">IDENTITÄT BESTÄTIGT</div>
-    <h2>WILLKOMMEN, AGENT 047</h2>
-    <p>Die Zentrale hat dich erwartet. Dein Einsatz hat begonnen.</p>
+    <h2 id="welcome" tabindex="-1">WILLKOMMEN, AGENT 047</h2><p class="points">MISSION 00 ABGESCHLOSSEN · <span id="breachReward"></span> BONUS­PUNKTE</p>
+    <p>Die Zentrale hat dich erwartet. Dein Einsatz hat begonnen.</p><p id="completionTime" class="points"></p>
    </div>
    <span class="connected">● ONLINE</span>
   </div>
@@ -212,8 +223,8 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
    <button class="tile goldtile" onclick="openPage('bonus')">
     <div class="symbol">🏆</div>
-    <strong>BONUS OPERATIONS</strong>
-    <small>Sonderaufgaben und zusätzliche Punkte</small>
+    <strong>BONUSPUNKTE &amp; HILFEN-SHOP</strong>
+    <small>Punkte verdienen und gegen Hilfen eintauschen</small>
    </button>
 
    <button class="tile bluetile" onclick="openPage('archive')">
@@ -258,14 +269,21 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 <section id="bonus" class="panel hidden">
  <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
  <div class="badge">KLASSIFIZIERTE ZUSATZAUFTRÄGE</div>
- <h2>BONUS OPERATIONS</h2>
+ <h2>BONUSPUNKTE &amp; HILFEN-SHOP</h2>
+ <div class="status">VERFÜGBAR: <strong id="shopBalance">0 P</strong><br>GESAMMELT: <span id="earnedPoints">0 P</span> · AUSGEGEBEN: <span id="spentPoints">0 P</span></div>
+ <p>Deine Punkte sind Spielpunkte. Tausche sie gegen dauerhaft nutzbare Werkzeuge für spätere Missionen oder eine persönliche Hilfsanfrage ein. Käufe werden in diesem Browser gespeichert.</p>
+ <div id="shopItems"></div>
+ <p id="shopMessage" role="status" aria-live="polite" class="points"></p>
+ <h3>DEINE GEKAUFTEN HILFEN</h3>
+ <div id="shopInventory"></div>
+ <h3>PUNKTE VERDIENEN</h3>
  <p>Freiwillige Sonderaufgaben bringen zusätzliche Punkte. Bestätige eine Aufgabe erst, wenn sie tatsächlich erledigt ist.</p>
- <div id="bonusList"></div>
+ <div class="mission bonus">MISSION 00 – BREACH THE SYSTEM <span id="breachStatus" class="points"></span></div><div id="bonusList"></div>
  <div class="status">
   BONUS-PUNKTSTAND: <span class="points" id="bonusScore">0</span><br>
   RANG: <span id="bonusRank">REKRUT</span>
  </div>
- <p>Die Bonuspunkte bringen einen zusätzlichen Vorteil bei der Abschlussbelohnung. Die eigentliche Belohnung bleibt unabhängig davon.</p>
+ <p>Hinweiskosten aus Mission 00 sind bereits in deren Belohnung berücksichtigt und werden nicht erneut abgezogen. Dein Rang richtet sich nach allen verdienten Punkten.</p>
 </section>
 
 <!-- ARCHIV -->
@@ -351,8 +369,28 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 </div>
 
 <script>
+// Reines Spielrätsel. Alle hier enthaltenen Daten sind öffentlich.
+const mission00={
+ hints:[
+ 'Station 1: Sortiere zuerst die Zeiten. Station 2: Vergleiche die Positionen von A und D im Alphabet. Station 3: Beginne mit der Zeile, die alle drei Ziffern ausschließt.',
+ 'Station 1: A=1, B=2, …, Z=26. Station 2: Gehe vom Geheimtext jeweils drei Buchstaben zurück. Station 3: 7, 3 und 8 fallen weg. Aus 780 folgt, dass 0 vorkommt, aber nicht hinten steht. Vergleiche dann 206.',
+ 'Station 1: Lege eine Liste mit zwei Spalten an: Zeit und zugehöriger Buchstabe. Lies erst nach dem Sortieren. Station 2: Schreibe das Alphabet zweimal untereinander und verschiebe die Reihen gegeneinander, bis beide Testpaare passen. Station 3: Zeichne drei leere Kästchen. Notiere unter jedem Kästchen mögliche und ausgeschlossene Ziffern. Teste eine Vermutung immer gegen sämtliche Aussagen, bevor du sie übernimmst.'
+ ],answerChecks:[
+ '8e1a5272bdd1d3e31686395747952c2384871c7f71f73dc660dcd0999f934582',
+ '240e84641bec5e258c90964f9a5dca0e491b3654fdbeb3d67303dbaad3c51fb6',
+ '19158c4a7252e121f7367e7e86a3baabbf93fded76110076cfab2b31eb7df887'
+ ],
+ normalize(value){return value.trim().toUpperCase();},
+ async fingerprint(value){
+  if(!globalThis.crypto?.subtle)throw new Error('Codeprüfung ist in diesem Browser nicht verfügbar. Bitte einen aktuellen Browser verwenden.');
+  const bytes=await globalThis.crypto.subtle.digest('SHA-256',new TextEncoder().encode(this.normalize(value)));
+  return Array.from(new Uint8Array(bytes),byte=>byte.toString(16).padStart(2,'0')).join('');
+ },
+ async accepts(agent,code){return this.normalize(agent).replace(/\s+/g,'')==='AGENT047' && await this.fingerprint(code)==='5cd064543144ffc28c7e489d0f5be5669f491de107642da2a17dc4fe7554175f';}
+};
+</script><script>
 const missionData=[
- ["SYSTEM INITIALIZATION","01.11.2026"],
+ ["SYSTEM INITIALIZATION","07.11.2026"],
  ["THE DIGITAL VAULT","08.11.2026"],
  ["CODE RED","15.11.2026"],
  ["TELEMETRY","22.11.2026"],
@@ -377,19 +415,100 @@ let saved={};
 try{
  saved=JSON.parse(localStorage.getItem("protocol047progress")||"{}");
 }catch(e){saved={};}
+if(!saved || typeof saved!=="object" || Array.isArray(saved)) saved={};
 
+// Eigener Spielstand für die erweiterte Mission. Andere Missionen bleiben erhalten.
+let breach=saved.mission00Extended;
+if(!breach || typeof breach!=='object' || Array.isArray(breach)) breach={};
+breach.stage=Number.isInteger(breach.stage)?Math.max(0,Math.min(3,breach.stage)):0;
+breach.hints=Number.isInteger(breach.hints)?Math.max(0,Math.min(3,breach.hints)):0;
+if(!Number.isFinite(breach.startedAt) || breach.startedAt<=0) breach.startedAt=null;
+if(!Number.isFinite(breach.finishedAt) || !breach.startedAt || breach.finishedAt<breach.startedAt) breach.finishedAt=null;
+breach.completed=breach.completed===true && breach.stage===3 && !!breach.finishedAt;
+saved.mission00Extended=breach;
+if(!Array.isArray(breach.fragments))breach.fragments=[];
 function save(){
- localStorage.setItem("protocol047progress",JSON.stringify(saved));
+ try { localStorage.setItem("protocol047progress",JSON.stringify(saved)); } catch(e) { document.getElementById("storageWarning").textContent="Speichern ist hier nicht möglich. Der Fortschritt bleibt nur bis zum Neuladen erhalten."; }
 }
 
+function hintUsage(){
+ const count=breach.hints;
+ return Number.isInteger(count) && count>=0 && count<=3 ? count : 0;
+}
+function breachPoints(){ return [100,80,50,0][hintUsage()]; }
+const shopCatalog=[
+ {id:'alphabet',title:'ALPHABET-KARTE',cost:20,description:'Eine Zahlen-Buchstaben-Tabelle zum Nachschlagen. Nach dem Kauf jederzeit verfügbar.'},
+ {id:'shift',title:'VERSCHIEBE-WERKZEUG',cost:50,description:'Zwei verschiebbare Alphabetreihen zum Untersuchen von Buchstabencodes. Nach dem Kauf jederzeit verfügbar.'},
+ {id:'support',title:'PERSÖNLICHE HILFE',cost:100,description:'Eine Hilfsanfrage für eine Mission vorbereiten. Die Nachricht sendest du anschließend selbst im Discord. Noch kein automatischer Versand.'}
+];
+if(!saved.shop || typeof saved.shop!=='object' || Array.isArray(saved.shop))saved.shop={};
+function shopOwned(id){return saved.shop[id]===true;}
+function earnedTotal(){
+ let total=breach.completed?breachPoints():0;
+ bonusData.forEach((b,i)=>{if(saved['b'+i])total+=b[1];});
+ return total;
+}
+function spentTotal(){return shopCatalog.reduce((sum,item)=>sum+(shopOwned(item.id)?item.cost:0),0);}
+function availablePoints(){return Math.max(0,earnedTotal()-spentTotal());}
+function purchaseHelp(id){
+ if(!authenticated)return;
+ const item=shopCatalog.find(x=>x.id===id);
+ if(!item || shopOwned(id))return;
+ if(availablePoints()<item.cost){document.getElementById('shopMessage').textContent='Dafür reichen deine verfügbaren Punkte noch nicht.';return;}
+ saved.shop[id]=true;save();stats();
+ document.getElementById('shopMessage').textContent=item.title+' gekauft. '+item.cost+' Punkte abgezogen. Du findest die Hilfe unten.';
+}
+function shopParagraph(parent,text){const p=document.createElement('p');p.textContent=text;parent.appendChild(p);}
+function renderShop(){
+ document.getElementById('shopBalance').textContent=availablePoints()+' P';
+ document.getElementById('earnedPoints').textContent=earnedTotal()+' P';
+ document.getElementById('spentPoints').textContent=spentTotal()+' P';
+ const offers=document.getElementById('shopItems');offers.textContent='';
+ const inventory=document.getElementById('shopInventory');inventory.textContent='';
+ shopCatalog.forEach(item=>{
+  const card=document.createElement('div');card.className='mission bonus';
+  const heading=document.createElement('h3');heading.textContent=item.title+' · '+item.cost+' P';card.appendChild(heading);
+  shopParagraph(card,item.description);
+  const buy=document.createElement('button');buy.type='button';buy.disabled=shopOwned(item.id)||availablePoints()<item.cost;
+  buy.textContent=shopOwned(item.id)?'BEREITS GEKAUFT':availablePoints()<item.cost?'NOCH '+(item.cost-availablePoints())+' P NÖTIG':'FÜR '+item.cost+' P KAUFEN';
+  buy.addEventListener('click',()=>purchaseHelp(item.id));card.appendChild(buy);offers.appendChild(card);
+  if(!shopOwned(item.id))return;
+  const owned=document.createElement('div');owned.className='labitem';
+  const title=document.createElement('h3');title.textContent=item.title;owned.appendChild(title);
+  if(item.id==='alphabet')shopParagraph(owned,Array.from({length:26},(_,i)=>String(i+1).padStart(2,'0')+' = '+String.fromCharCode(65+i)).join(' · '));
+  if(item.id==='shift'){
+   shopParagraph(owned,'Vergleiche die Reihen und suche die passende Verschiebung. Das Werkzeug wählt keine Lösung für dich.');
+   const label=document.createElement('label');label.htmlFor='shiftAmount';label.textContent='VERSCHIEBUNG (0–25)';owned.appendChild(label);
+   const input=document.createElement('input');input.id='shiftAmount';input.type='number';input.min='0';input.max='25';input.value='0';owned.appendChild(input);
+   const output=document.createElement('pre');output.style.overflowX='auto';
+   function update(){const n=Number(input.value);if(!Number.isInteger(n)||n<0||n>25){output.textContent='Bitte eine ganze Zahl von 0 bis 25 wählen.';return;}output.textContent='ABCDEFGHIJKLMNOPQRSTUVWXYZ\n'+Array.from({length:26},(_,i)=>String.fromCharCode(65+(i+n)%26)).join('');}
+   input.addEventListener('input',update);owned.appendChild(output);update();
+  }
+  if(item.id==='support'){
+   shopParagraph(owned,'Noch nicht versendet. Trage die Mission ein und kopiere die Anfrage in euren Discord-Kanal. Es wird keine automatische Nachricht verschickt.');
+   const label=document.createElement('label');label.htmlFor='supportMission';label.textContent='FÜR WELCHE MISSION BRAUCHST DU HILFE?';owned.appendChild(label);
+   const input=document.createElement('input');input.id='supportMission';input.maxLength=80;input.value=typeof saved.supportMission==='string'?saved.supportMission:'';owned.appendChild(input);
+   const label2=document.createElement('label');label2.htmlFor='supportText';label2.textContent='NACHRICHT ZUM KOPIEREN';owned.appendChild(label2);
+   const output=document.createElement('textarea');output.id='supportText';output.readOnly=true;output.rows=5;output.style.width='100%';
+   function update(){saved.supportMission=input.value.slice(0,80);output.value='PROTOCOL 2027 | AGENT 047\nPersönliche Hilfe gekauft: 100 Spielpunkte.\nMission: '+(saved.supportMission.trim()||'Bitte Mission ergänzen')+'\nBitte gib mir einen Hinweis, ohne die Lösung zu verraten.';save();}
+   input.addEventListener('input',update);owned.appendChild(output);update();
+  }
+  inventory.appendChild(owned);
+ });
+ if(!shopCatalog.some(item=>shopOwned(item.id)))shopParagraph(inventory,'Noch keine Hilfen gekauft.');
+}
 function stats(){
- let done=0,points=0;
+ let done=0,points=breach.completed===true?breachPoints():0;
+ document.getElementById("breachReward").textContent=breachPoints();
+ document.getElementById("breachStatus").textContent=breach.completed===true?"✓ +"+breachPoints()+" Punkte":"Noch offen";
  missionData.forEach((m,i)=>{if(saved["m"+i])done++;});
  bonusData.forEach((b,i)=>{if(saved["b"+i])points+=b[1];});
+ const earned=points;
+ points=availablePoints();
  let rank="REKRUT";
- if(points>=300)rank="LEVEL OMEGA";
- else if(points>=150)rank="ELITE AGENT";
- else if(points>=50)rank="OPERATIVE";
+ if(earned>=300)rank="LEVEL OMEGA";
+ else if(earned>=150)rank="ELITE AGENT";
+ else if(earned>=50)rank="OPERATIVE";
 
  document.getElementById("missionCount").textContent=done+" / 8";
  document.getElementById("pointCount").textContent=points+" P";
@@ -404,10 +523,12 @@ function stats(){
  document.getElementById("profileMissions").textContent=done+" / 8";
  document.getElementById("profilePoints").textContent=points+" P";
  document.getElementById("profileRank").textContent=rank;
+ renderShop();
  save();
 }
 
 function openPage(id){
+ if(!authenticated || !["missions","bonus","archive","lab","comms","profile"].includes(id)) return;
  document.getElementById("dashboard").classList.add("hidden");
  ["missions","bonus","archive","lab","comms","profile"].forEach(x=>{
   document.getElementById(x).classList.add("hidden");
@@ -418,6 +539,7 @@ function openPage(id){
 }
 
 function home(){
+ if(!authenticated) return;
  ["missions","bonus","archive","lab","comms","profile"].forEach(x=>{
   document.getElementById(x).classList.add("hidden");
  });
@@ -465,23 +587,55 @@ function createTasks(){
  });
 }
 
-document.getElementById("enter").addEventListener("click",()=>{
- const agent=document.getElementById("agent").value.trim().toUpperCase();
- const code=document.getElementById("code").value;
- if(agent==="AGENT 047"&&code==="START-2027"){
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
-  document.getElementById("error").textContent="";
-  stats();
-  window.scrollTo(0,0);
- }else{
-  document.getElementById("error").textContent="ZUGRIFF VERWEIGERT – IDENTITÄT NICHT BESTÄTIGT.";
- }
+let authenticated=false;
+let hintCount=hintUsage();
+function elapsedLabel(){
+ const duration=breach.startedAt?Math.max(0,Math.floor(((breach.finishedAt||Date.now())-breach.startedAt)/1000)):0;
+ return String(Math.floor(duration/60)).padStart(2,'0')+':'+String(duration%60).padStart(2,'0');
+}
+function tick(){document.getElementById('missionTimer').textContent=elapsedLabel();document.getElementById('completionTime').textContent=breach.completed?'EINSATZZEIT: '+elapsedLabel():'';}
+function renderHints(){
+ const list=document.getElementById('hints');list.textContent='';
+ mission00.hints.slice(0,hintCount).forEach(text=>{const item=document.createElement('li');item.textContent=text;list.appendChild(item);});
+ const button=document.getElementById('hintButton');button.disabled=hintCount===3;
+ button.textContent=hintCount===3?'ALLE HINWEISE ANGEZEIGT · BELOHNUNG: 0 P':'HINWEIS '+(hintCount+1)+' ANFORDERN · BELOHNUNG DANACH: '+[80,50,0][hintCount]+' P';
+}
+function renderMission(){
+ const started=!!breach.startedAt;
+ document.getElementById('startMission').classList.toggle('hidden',started);
+ document.getElementById('puzzleArea').classList.toggle('hidden',!started);
+ document.getElementById('stageProgress').textContent=breach.stage+' / 3 DATENPAKETE REKONSTRUIERT';
+ for(let n=1;n<=3;n++)document.getElementById('stage'+n).classList.toggle('hidden',!started || breach.stage!==n-1);
+ document.getElementById('accessForm').classList.toggle('hidden',!started || breach.stage!==3);
+ const fragments=document.getElementById('recoveredFragments');fragments.classList.toggle('hidden',breach.stage===0);
+ fragments.textContent='REKONSTRUIERT: '+breach.fragments.slice(0,breach.stage).filter(x=>typeof x==='string').join(' / ');
+ document.getElementById('hintArea').classList.toggle('hidden',breach.completed);tick();renderHints();
+}
+document.getElementById('startMission').addEventListener('click',()=>{if(!breach.startedAt){breach.startedAt=Date.now();save();}renderMission();document.getElementById('stageTitle1').focus();});
+for(let n=1;n<=3;n++)document.getElementById('stageForm'+n).addEventListener('submit',async event=>{
+ event.preventDefault();if(!breach.startedAt || breach.stage!==n-1)return;
+ const error=document.getElementById('stageError'+n);
+ const answer=mission00.normalize(document.getElementById('answer'+n).value);
+ try{
+  if(await mission00.fingerprint(answer)!==mission00.answerChecks[n-1]){error.textContent='Das Datenpaket ist noch nicht korrekt. Prüfe deine Notizen oder rufe einen Hinweis ab.';return;}
+ }catch(e){error.textContent=e.message;return;}
+ if(breach.stage!==n-1)return;
+ breach.fragments[n-1]=answer;
+ error.textContent='';document.getElementById('answer'+n).value='';breach.stage=n;save();renderMission();document.getElementById(n<3?'stageTitle'+(n+1):'agent').focus();
 });
-
-document.getElementById("code").addEventListener("keydown",e=>{
- if(e.key==="Enter")document.getElementById("enter").click();
+document.getElementById('hintButton').addEventListener('click',()=>{if(!breach.startedAt || breach.completed || hintCount>=3)return;breach.hints=++hintCount;save();renderHints();stats();});
+document.getElementById('accessForm').addEventListener('submit',async event=>{
+ event.preventDefault();
+ if(!breach.startedAt || breach.stage!==3){document.getElementById('error').textContent='Rekonstruiere zuerst alle drei Datenpakete.';return;}
+ let accepted=false;
+ try{accepted=await mission00.accepts(document.getElementById('agent').value,document.getElementById('code').value);}catch(e){document.getElementById('error').textContent=e.message;return;}
+ if(accepted){
+  if(!breach.completed){breach.finishedAt=Date.now();breach.completed=true;}
+  authenticated=true;document.getElementById('login').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('error').textContent='';document.getElementById('code').value='';stats();tick();document.getElementById('welcome').focus();window.scrollTo(0,0);
+ }else{document.getElementById('error').textContent='Prüfe die Kennung AGENT 047 und die drei Ergebnisse mit Bindestrichen dazwischen.';}
 });
+renderMission();setInterval(tick,1000);
 
 createTasks();
 stats();
