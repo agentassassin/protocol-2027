@@ -152,7 +152,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 5 · HILFEN-SHOP</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 6 · MISSION 01</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
 <p>Offizieller Spielstart: <strong>07.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
@@ -263,6 +263,8 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div class="progress"><div id="progressbar2"></div></div>
  <p id="missionText2">0 von 8 abgeschlossen</p>
  <div id="missionList"></div>
+ <div class="rule"></div>
+ <div id="missionOne"></div>
 </section>
 
 <!-- BONUS -->
@@ -277,6 +279,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <h3>DEINE GEKAUFTEN HILFEN</h3>
  <div id="shopInventory"></div>
  <h3>PUNKTE VERDIENEN</h3>
+ <div class="mission bonus">MISSION 01 – PAKETPRÜFUNG · +30 P <span id="m01BonusScore" class="points"></span><p>Freiwilliger Bonusauftrag zwischen den beiden Abschnitten.</p><button type="button" onclick="openPage('missions')">ZUM BONUS IN MISSION 01</button></div>
  <p>Freiwillige Sonderaufgaben bringen zusätzliche Punkte. Bestätige eine Aufgabe erst, wenn sie tatsächlich erledigt ist.</p>
  <div class="mission bonus">MISSION 00 – BREACH THE SYSTEM <span id="breachStatus" class="points"></span></div><div id="bonusList"></div>
  <div class="status">
@@ -391,13 +394,13 @@ const mission00={
 </script><script>
 const missionData=[
  ["SYSTEM INITIALIZATION","07.11.2026"],
- ["THE DIGITAL VAULT","08.11.2026"],
- ["CODE RED","15.11.2026"],
- ["TELEMETRY","22.11.2026"],
- ["LOCATION TRACE","29.11.2026"],
- ["THE CREW","06.12.2026"],
- ["FINAL INTEL","13.12.2026"],
- ["MISSION CLEARANCE","20.12.2026"]
+ ["THE DIGITAL VAULT","14.11.2026"],
+ ["CODE RED","21.11.2026"],
+ ["TELEMETRY","28.11.2026"],
+ ["LOCATION TRACE","05.12.2026"],
+ ["THE CREW","12.12.2026"],
+ ["FINAL INTEL","19.12.2026"],
+ ["MISSION CLEARANCE","21.12.2026"]
 ];
 
 const bonusData=[
@@ -439,13 +442,15 @@ function breachPoints(){ return [100,80,50,0][hintUsage()]; }
 const shopCatalog=[
  {id:'alphabet',title:'ALPHABET-KARTE',cost:20,description:'Eine Zahlen-Buchstaben-Tabelle zum Nachschlagen. Nach dem Kauf jederzeit verfügbar.'},
  {id:'shift',title:'VERSCHIEBE-WERKZEUG',cost:50,description:'Zwei verschiebbare Alphabetreihen zum Untersuchen von Buchstabencodes. Nach dem Kauf jederzeit verfügbar.'},
- {id:'support',title:'PERSÖNLICHE HILFE',cost:100,description:'Eine Hilfsanfrage für eine Mission vorbereiten. Die Nachricht sendest du anschließend selbst im Discord. Noch kein automatischer Versand.'}
+ {id:'support',title:'PERSÖNLICHE HILFE',cost:100,description:'Eine Hilfsanfrage für eine Mission vorbereiten. Die Nachricht sendest du anschließend selbst im Discord. Noch kein automatischer Versand.'},
+ {id:'binary',title:'BINÄR-KARTE',cost:30,unlockAt:Date.parse('2026-11-07T10:00:00+01:00'),description:'Neu zu Mission 01: Stellenwerte und Buchstabentabelle für 8-Bit-Codes. Dauerhaft nutzbar, keine fertige Rätsellösung.'}
 ];
 if(!saved.shop || typeof saved.shop!=='object' || Array.isArray(saved.shop))saved.shop={};
 function shopOwned(id){return saved.shop[id]===true;}
 function earnedTotal(){
  let total=breach.completed?breachPoints():0;
  bonusData.forEach((b,i)=>{if(saved['b'+i])total+=b[1];});
+ total+=m01Reward()+(m01.bonusAt?30:0);
  return total;
 }
 function spentTotal(){return shopCatalog.reduce((sum,item)=>sum+(shopOwned(item.id)?item.cost:0),0);}
@@ -453,7 +458,7 @@ function availablePoints(){return Math.max(0,earnedTotal()-spentTotal());}
 function purchaseHelp(id){
  if(!authenticated)return;
  const item=shopCatalog.find(x=>x.id===id);
- if(!item || shopOwned(id))return;
+ if(!item || shopOwned(id) || (item.unlockAt && Date.now()<item.unlockAt))return;
  if(availablePoints()<item.cost){document.getElementById('shopMessage').textContent='Dafür reichen deine verfügbaren Punkte noch nicht.';return;}
  saved.shop[id]=true;save();stats();
  document.getElementById('shopMessage').textContent=item.title+' gekauft. '+item.cost+' Punkte abgezogen. Du findest die Hilfe unten.';
@@ -466,6 +471,7 @@ function renderShop(){
  const offers=document.getElementById('shopItems');offers.textContent='';
  const inventory=document.getElementById('shopInventory');inventory.textContent='';
  shopCatalog.forEach(item=>{
+  if(item.unlockAt && Date.now()<item.unlockAt && !shopOwned(item.id))return;
   const card=document.createElement('div');card.className='mission bonus';
   const heading=document.createElement('h3');heading.textContent=item.title+' · '+item.cost+' P';card.appendChild(heading);
   shopParagraph(card,item.description);
@@ -476,6 +482,10 @@ function renderShop(){
   const owned=document.createElement('div');owned.className='labitem';
   const title=document.createElement('h3');title.textContent=item.title;owned.appendChild(title);
   if(item.id==='alphabet')shopParagraph(owned,Array.from({length:26},(_,i)=>String(i+1).padStart(2,'0')+' = '+String.fromCharCode(65+i)).join(' · '));
+  if(item.id==='binary'){
+   shopParagraph(owned,'8-Bit-Stellenwerte: 128 · 64 · 32 · 16 · 8 · 4 · 2 · 1. Addiere die Werte an den Stellen mit einer 1.');
+   shopParagraph(owned,Array.from({length:26},(_,i)=>String.fromCharCode(65+i)+' = '+(65+i)).join(' · '));
+  }
   if(item.id==='shift'){
    shopParagraph(owned,'Vergleiche die Reihen und suche die passende Verschiebung. Das Werkzeug wählt keine Lösung für dich.');
    const label=document.createElement('label');label.htmlFor='shiftAmount';label.textContent='VERSCHIEBUNG (0–25)';owned.appendChild(label);
@@ -503,7 +513,7 @@ function stats(){
  document.getElementById("breachStatus").textContent=breach.completed===true?"✓ +"+breachPoints()+" Punkte":"Noch offen";
  missionData.forEach((m,i)=>{if(saved["m"+i])done++;});
  bonusData.forEach((b,i)=>{if(saved["b"+i])points+=b[1];});
- const earned=points;
+ const earned=earnedTotal();
  points=availablePoints();
  let rank="REKRUT";
  if(earned>=300)rank="LEVEL OMEGA";
@@ -524,6 +534,7 @@ function stats(){
  document.getElementById("profilePoints").textContent=points+" P";
  document.getElementById("profileRank").textContent=rank;
  renderShop();
+ renderMissionOne();
  save();
 }
 
@@ -552,10 +563,17 @@ function createTasks(){
  missionData.forEach((m,i)=>{
   const div=document.createElement("div");
   div.className="mission";
+  if(i===0){
+   const heading=document.createElement('h3');heading.textContent='MISSION 01 – '+m[0];div.appendChild(heading);
+   const status=document.createElement('p');status.id='m01ListStatus';div.appendChild(status);
+   const link=document.createElement('button');link.type='button';link.textContent='ZUR MISSION';link.addEventListener('click',()=>document.getElementById('missionOne').scrollIntoView({behavior:'smooth'}));div.appendChild(link);
+   document.getElementById('missionList').appendChild(div);return;
+  }
   const label=document.createElement("label");
   label.className="task";
   const cb=document.createElement("input");
   cb.type="checkbox";
+  cb.disabled=true;
   cb.checked=!!saved["m"+i];
   cb.addEventListener("change",()=>{
    saved["m"+i]=cb.checked;stats();
@@ -564,7 +582,7 @@ function createTasks(){
   label.appendChild(document.createTextNode("MISSION "+String(i+1).padStart(2,"0")+" – "+m[0]));
   div.appendChild(label);
   const small=document.createElement("small");
-  small.textContent="Geplanter Start: "+m[1];
+  small.textContent="Geplanter Start: "+m[1]+" · Briefing folgt";
   div.appendChild(small);
   document.getElementById("missionList").appendChild(div);
  });
@@ -636,6 +654,123 @@ document.getElementById('accessForm').addEventListener('submit',async event=>{
  }else{document.getElementById('error').textContent='Prüfe die Kennung AGENT 047 und die drei Ergebnisse mit Bindestrichen dazwischen.';}
 });
 renderMission();setInterval(tick,1000);
+
+// Lokale Spielzustände und Zeitfreigaben sind Teil der Simulation, keine Zugriffssicherung.
+const m01Start=Date.parse('2026-11-07T10:00:00+01:00');
+const m01DayTwo=Date.parse('2026-11-08T10:00:00+01:00');
+let m01=saved.mission01;
+if(!m01 || typeof m01!=='object' || Array.isArray(m01))m01={};
+for(const key of ['part1At','completedAt','bonusAt'])if(!Number.isFinite(m01[key]) || m01[key]<=0)m01[key]=null;
+m01.hints=Number.isInteger(m01.hints)?Math.max(0,Math.min(3,m01.hints)):0;
+if(!m01.part1At)m01.completedAt=null;
+saved.mission01=m01;
+saved.m0=!!m01.completedAt;
+const m01Hints=[
+ 'Abschnitt 1: Vergleiche die Reihenfolge der Aktionen je Request. Abschnitt 2: Untersuche jede Binärgruppe getrennt; prüfe beim Zugang alle drei Bedingungen. Bonus: Vergleiche die Bits spaltenweise.',
+ 'Abschnitt 1: Suche eine Aktion, die vor der vorgeschriebenen Prüfung stattfindet. Abschnitt 2: Die Stellenwerte sind 128, 64, 32, 16, 8, 4, 2, 1; zähle nur die Stellen mit einer 1. Für den Zugang ist auch ein zusätzliches Recht ein Ausschlussgrund. Bonus: Verschiedene Bits ergeben 1, gleiche ergeben 0.',
+ 'Abschnitt 1: Notiere RECEIVE, VERIFY und WRITE pro Request untereinander und vergleiche mit der Regel. Abschnitt 2: Ermittle pro Byte erst eine Dezimalzahl und verwende die Buchstabentabelle. Streiche danach jeden Zugang, der eine der Anforderungen verletzt. Bonus: Decke alle Spalten bis auf eine ab und arbeite von links nach rechts.'
+];
+function m01Reward(){return m01.completedAt?[100,80,50,0][m01.hints]:0;}
+function m01Release(){
+ if(!m01.part1At)return m01DayTwo;
+ const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Vienna',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(m01.part1At));
+ const get=type=>Number(parts.find(p=>p.type===type).value);
+ const next=new Date(Date.UTC(get('year'),get('month')-1,get('day')+1));
+ // Der Spielzeitraum November/Dezember liegt vollständig in der Wiener Winterzeit.
+ const tomorrow=Date.parse(next.toISOString().slice(0,10)+'T10:00:00+01:00');
+ return Math.max(m01DayTwo,tomorrow,m01.part1At+12*60*60*1000);
+}
+function m01Date(stamp){return new Intl.DateTimeFormat('de-AT',{timeZone:'Europe/Vienna',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(stamp));}
+function initMissionOne(){
+ const root=document.getElementById('missionOne');
+ root.innerHTML=`<div class="badge">MISSION 01 // SYSTEM INITIALIZATION</div>
+ <h2>Ein Fehler im System</h2>
+ <p>AGENT 047, dein Zugang steht. Doch die Zentrale meldet eine beschädigte Warteschlange. Rekonstruiere den Vorfall, sichere das Protokoll und warte auf das zweite Datenpaket. Alle Vorgänge sind erfunden; du brauchst keine fremden Systeme oder Konten.</p>
+ <p>Zwei Spielabschnitte an verschiedenen Tagen, jeweils ungefähr 15–25 Minuten. Kein Ablaufdatum und keine Strafe für spätes Spielen. Bei schwierigen Aufgaben darfst du jederzeit unterbrechen.</p>
+ <div id="m01Status" class="status" role="status"></div>
+ <section id="m01Part1" class="mission">
+ <h3>TAG 1 // SPURENSICHERUNG</h3>
+ <p>Betriebsregel: Ein Request wird zuerst empfangen (RECEIVE), dann erfolgreich geprüft (VERIFY OK) und erst danach gespeichert (WRITE). Die Reihenfolge gilt für jeden Request einzeln. Zeitstempel laufen von oben nach unten.</p>
+ <pre style="overflow-x:auto;line-height:1.7">18:04:01  R12  RECEIVE
+18:04:02  R12  VERIFY OK
+18:04:03  R12  WRITE
+18:05:01  R17  RECEIVE
+18:05:02  R17  WRITE
+18:05:03  R17  VERIFY OK
+18:06:01  R24  RECEIVE
+18:06:02  R24  VERIFY OK
+18:06:03  R24  WRITE</pre>
+ <p>Welcher Request verletzt die Regel und welche Aktion wird zu früh ausgeführt? Notiere zur Begründung die beiden entscheidenden Zeilen.</p>
+ <form id="m01Form1"><label for="m01Request">REQUEST-KENNUNG</label><input id="m01Request" autocomplete="off" required><label for="m01Action">ZU FRÜHE AKTION</label><input id="m01Action" autocomplete="off" required><button type="submit" class="mainbutton">PROTOKOLL SICHERN</button><p id="m01Error1" class="error" role="status"></p></form>
+ </section>
+ <div id="m01Waiting" class="status hidden"></div>
+ <section id="m01Part2" class="mission hidden">
+ <h3>TAG 2 // VERBINDUNG WIEDERHERSTELLEN</h3>
+ <p>Die Zentrale hat den Fehler isoliert. Das neue Datenpaket enthält eine vierbuchstabige Richtung und drei mögliche Zugänge. Finde die Richtung und den einzigen Zugang, der die Sicherheitsregel erfüllt.</p>
+ <p><strong>01001110 · 01001111 · 01010010 · 01000100</strong></p>
+ <p>Jede Gruppe ist eine 8-Bit-Binärzahl. Die Stellen haben von links nach rechts die Werte 128, 64, 32, 16, 8, 4, 2, 1. Addiere nur die Werte mit einer 1. Beispiel: 01000001 = 65 = A. Für Großbuchstaben gilt A=65, B=66, …, Z=90.</p>
+ <p>Der gesuchte Zugang muss <strong>Lesen und Schreiben erlauben</strong>, darf aber <strong>Ausführen nicht erlauben</strong>.</p>
+ <div class="packetTable"><table><caption>Zugriffsmatrix</caption><thead><tr><th>Zugang</th><th>Lesen</th><th>Schreiben</th><th>Ausführen</th></tr></thead><tbody><tr><td>A</td><td>Ja</td><td>Nein</td><td>Nein</td></tr><tr><td>B</td><td>Ja</td><td>Ja</td><td>Nein</td></tr><tr><td>C</td><td>Ja</td><td>Ja</td><td>Ja</td></tr></tbody></table></div>
+ <form id="m01Form2"><label for="m01Direction">ENTSCHLÜSSELTE RICHTUNG</label><input id="m01Direction" autocomplete="off" required><label for="m01Gate">ZUGANG A, B ODER C</label><input id="m01Gate" autocomplete="off" maxlength="1" required><button type="submit" class="mainbutton">INITIALISIERUNG ABSCHLIESSEN</button><p id="m01Error2" class="error" role="status"></p></form>
+ </section>
+ <section id="m01Done" class="status hidden">MISSION 01 ABGESCHLOSSEN. Die Warteschlange ist wieder bereit. Die nächste Akte wird am 14.11.2026 freigegeben. Bis dahin bleibt Zeit für den Bonusauftrag und deinen Werkzeugbestand.</section>
+ <section id="m01Bonus" class="mission bonus hidden"><h3>BONUSAUFTRAG // PAKETPRÜFUNG · +30 P</h3>
+ <p>Zwischen den beiden Spielabschnitten kannst du die Prüfbits rekonstruieren. Verknüpfe <strong>00101100</strong> und <strong>00010110</strong> mit XOR: Gleiche Bits ergeben 0, verschiedene Bits ergeben 1. Bearbeite jede Spalte einzeln und behalte alle acht Stellen einschließlich führender Nullen. Beispiel: 0101 XOR 0011 = 0110.</p>
+ <p>Dieser freiwillige Auftrag kostet keine Hinweise und verfällt nicht.</p><form id="m01BonusForm"><label for="m01Bits">ACHT PRÜFBITS</label><input id="m01Bits" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[01]{8}" required><button type="submit" class="mainbutton">PRÜFBITS BESTÄTIGEN</button><p id="m01BonusError" class="error" role="status"></p></form><p id="m01BonusDone" class="points hidden">PAKET GEPRÜFT · 30 P EINMALIG GUTGESCHRIEBEN</p></section>
+ <div id="m01HintArea"><button type="button" id="m01HintButton" class="back"></button><ol id="m01HintList" aria-live="polite"></ol><p>Die Hinweisstaffel gilt für die ganze Mission: 100 P ohne Hinweis, 80 P mit einem, 50 P mit zwei, 0 P mit drei. Kein Hinweis verrät die vollständige Lösung. Der Bonusauftrag bringt unabhängig davon 30 P.</p></div>`;
+ const bind=(id,handler)=>document.getElementById(id).addEventListener('submit',async event=>{
+  event.preventDefault();if(!authenticated)return;
+  const button=document.getElementById(id).querySelector('button');button.disabled=true;
+  try{await handler();}finally{button.disabled=false;}
+ });
+ bind('m01Form1',async()=>{
+  if(Date.now()<m01Start || m01.part1At)return;
+  const input=document.getElementById('m01Request').value.trim()+'-'+document.getElementById('m01Action').value.trim();
+  if(!await m01Check(input,'a93575508b40124ac7841dd7b9687ab307771e6f89f74f6c4591b779268c0081','m01Error1'))return;
+  if(m01.part1At)return;m01.part1At=Date.now();save();stats();renderMissionOne();
+ });
+ bind('m01Form2',async()=>{
+  if(!m01.part1At || Date.now()<m01Release() || m01.completedAt)return;
+  const input=document.getElementById('m01Direction').value.trim()+'-'+document.getElementById('m01Gate').value.trim();
+  if(!await m01Check(input,'b3e44ad4dccd9d1eba6045cb13218b37ca9531d90abd5ccb6fe01d64a8d57cbf','m01Error2'))return;
+  if(m01.completedAt)return;m01.completedAt=Date.now();saved.m0=true;save();stats();renderMissionOne();
+ });
+ bind('m01BonusForm',async()=>{
+  if(!m01.part1At || m01.bonusAt)return;
+  if(!await m01Check(document.getElementById('m01Bits').value,'72483ce334a5ef20dd2e823c518c747fadce57d90982743cfb72a679d0767557','m01BonusError'))return;
+  if(m01.bonusAt)return;m01.bonusAt=Date.now();save();stats();renderMissionOne();
+ });
+ document.getElementById('m01HintButton').addEventListener('click',()=>{
+  if(!authenticated || Date.now()<m01Start || m01.completedAt || m01.hints>=3)return;
+  m01.hints++;save();stats();renderMissionOne();
+ });
+ renderMissionOne();
+}
+async function m01Check(input,hash,errorId){
+ const error=document.getElementById(errorId);
+ try{if(await mission00.fingerprint(input)===hash){error.textContent='';return true;}error.textContent='Noch nicht stimmig. Prüfe die Regeln und deine Notizen. Du kannst beliebig oft versuchen.';}catch(e){error.textContent=e.message;}
+ return false;
+}
+function renderMissionOne(){
+ const now=Date.now(),started=now>=m01Start,done=!!m01.completedAt;
+ document.getElementById('m01Part1').classList.toggle('hidden',!started || !!m01.part1At);
+ document.getElementById('m01Part2').classList.toggle('hidden',!m01.part1At || now<m01Release() || done);
+ document.getElementById('m01Waiting').classList.toggle('hidden',!m01.part1At || now>=m01Release() || done);
+ document.getElementById('m01Waiting').textContent='Protokoll gesichert. Die Zentrale analysiert deinen Befund. Zweites Datenpaket ab '+m01Date(m01Release())+' Uhr (Wien). Du musst nichts neu beginnen. Bis dahin ist der Bonusauftrag verfügbar.';
+ document.getElementById('m01Done').classList.toggle('hidden',!done);
+ document.getElementById('m01Bonus').classList.toggle('hidden',!m01.part1At);
+ document.getElementById('m01BonusForm').classList.toggle('hidden',!!m01.bonusAt);
+ document.getElementById('m01BonusDone').classList.toggle('hidden',!m01.bonusAt);
+ document.getElementById('m01HintArea').classList.toggle('hidden',!started || done);
+ document.getElementById('m01Status').textContent=!started?'FREIGABE: '+m01Date(m01Start)+' Uhr (Wien).':done?'ABGESCHLOSSEN · '+m01Reward()+' P Missionsbonus':!m01.part1At?'ABSCHNITT 1 / 2 · SPURENSICHERUNG':'ABSCHNITT 1 GESICHERT · ABSCHNITT 2 / 2 '+(now>=m01Release()?'VERFÜGBAR':'IN VORBEREITUNG');
+ const button=document.getElementById('m01HintButton');button.disabled=m01.hints===3;
+ button.textContent=m01.hints===3?'ALLE HINWEISE ANGEZEIGT · MISSIONSBONUS: 0 P':'HINWEIS '+(m01.hints+1)+' · MISSIONSBONUS DANACH: '+[80,50,0][m01.hints]+' P';
+ const list=document.getElementById('m01HintList');list.textContent='';m01Hints.slice(0,m01.hints).forEach(text=>{const li=document.createElement('li');li.textContent=text;list.appendChild(li);});
+ const record=document.getElementById('m01ListStatus');if(record)record.textContent=done?'✓ Abgeschlossen':!started?'Freigabe am 07.11.2026, 10:00 Uhr':m01.part1At?'Abschnitt 1 gesichert':'Bereit';
+ document.getElementById('m01BonusScore').textContent=m01.bonusAt?'✓ +30 P gutgeschrieben':m01.part1At?'Verfügbar in Mission 01':'Nach Abschnitt 1 verfügbar';
+}
+initMissionOne();
+setInterval(renderMissionOne,30000);
 
 createTasks();
 stats();
