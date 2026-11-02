@@ -152,7 +152,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 6 · MISSION 01</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 7 · KLARE AUFGABEN</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
 <p>Offizieller Spielstart: <strong>07.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
@@ -666,9 +666,9 @@ if(!m01.part1At)m01.completedAt=null;
 saved.mission01=m01;
 saved.m0=!!m01.completedAt;
 const m01Hints=[
- 'Abschnitt 1: Vergleiche die Reihenfolge der Aktionen je Request. Abschnitt 2: Untersuche jede Binärgruppe getrennt; prüfe beim Zugang alle drei Bedingungen. Bonus: Vergleiche die Bits spaltenweise.',
+ 'Abschnitt 1: Vergleiche bei jedem Auftrag die Reihenfolge der Aktionen. Abschnitt 2: Untersuche jede Binärgruppe getrennt; prüfe beim Zugang alle drei Bedingungen. Bonus: Vergleiche die Bits spaltenweise.',
  'Abschnitt 1: Suche eine Aktion, die vor der vorgeschriebenen Prüfung stattfindet. Abschnitt 2: Die Stellenwerte sind 128, 64, 32, 16, 8, 4, 2, 1; zähle nur die Stellen mit einer 1. Für den Zugang ist auch ein zusätzliches Recht ein Ausschlussgrund. Bonus: Verschiedene Bits ergeben 1, gleiche ergeben 0.',
- 'Abschnitt 1: Notiere RECEIVE, VERIFY und WRITE pro Request untereinander und vergleiche mit der Regel. Abschnitt 2: Ermittle pro Byte erst eine Dezimalzahl und verwende die Buchstabentabelle. Streiche danach jeden Zugang, der eine der Anforderungen verletzt. Bonus: Decke alle Spalten bis auf eine ab und arbeite von links nach rechts.'
+ 'Abschnitt 1: Notiere RECEIVE, VERIFY und WRITE pro Auftrag untereinander und vergleiche mit der Regel. Abschnitt 2: Ermittle pro Byte erst eine Dezimalzahl und verwende die Buchstabentabelle. Streiche danach jeden Zugang, der eine der Anforderungen verletzt. Bonus: Decke alle Spalten bis auf eine ab und arbeite von links nach rechts.'
 ];
 function m01Reward(){return m01.completedAt?[100,80,50,0][m01.hints]:0;}
 function m01Release(){
@@ -685,12 +685,15 @@ function initMissionOne(){
  const root=document.getElementById('missionOne');
  root.innerHTML=`<div class="badge">MISSION 01 // SYSTEM INITIALIZATION</div>
  <h2>Ein Fehler im System</h2>
- <p>AGENT 047, dein Zugang steht. Doch die Zentrale meldet eine beschädigte Warteschlange. Rekonstruiere den Vorfall, sichere das Protokoll und warte auf das zweite Datenpaket. Alle Vorgänge sind erfunden; du brauchst keine fremden Systeme oder Konten.</p>
- <p>Zwei Spielabschnitte an verschiedenen Tagen, jeweils ungefähr 15–25 Minuten. Kein Ablaufdatum und keine Strafe für spätes Spielen. Bei schwierigen Aufgaben darfst du jederzeit unterbrechen.</p>
+ <p>AGENT 047, du bist in der Zentrale angekommen. Doch beim Speichern von Daten ist etwas schiefgelaufen. Finde heute heraus, was passiert ist. Morgen erhältst du die nächste Aufgabe.</p>
+ <p>Die Mission hat zwei Teile. Du kannst jederzeit eine Pause machen. Dein Fortschritt bleibt in diesem Browser gespeichert. Wenn du erst später Zeit hast, kannst du weiterspielen – du verlierst keine Punkte.</p>
  <div id="m01Status" class="status" role="status"></div>
  <section id="m01Part1" class="mission">
  <h3>TAG 1 // SPURENSICHERUNG</h3>
- <p>Betriebsregel: Ein Request wird zuerst empfangen (RECEIVE), dann erfolgreich geprüft (VERIFY OK) und erst danach gespeichert (WRITE). Die Reihenfolge gilt für jeden Request einzeln. Zeitstempel laufen von oben nach unten.</p>
+ <p>Unten siehst du ein <strong>Protokoll</strong>: Der Computer hat aufgeschrieben, was er wann getan hat. Jede Zeile enthält eine Uhrzeit, eine Auftragsnummer und eine Aktion. Ein Auftrag heißt in der IT auch <strong>Request</strong>.</p>
+ <p>Für jeden Auftrag gilt diese Reihenfolge:</p>
+ <ol><li><strong>RECEIVE</strong> = Auftrag empfangen.</li><li><strong>VERIFY OK</strong> = Daten erfolgreich geprüft.</li><li><strong>WRITE</strong> = Daten gespeichert.</li></ol>
+ <p>Bei einem Auftrag stimmt die Reihenfolge nicht. Lies die Zeilen von oben nach unten und suche den Fehler.</p>
  <pre style="overflow-x:auto;line-height:1.7">18:04:01  R12  RECEIVE
 18:04:02  R12  VERIFY OK
 18:04:03  R12  WRITE
@@ -700,23 +703,35 @@ function initMissionOne(){
 18:06:01  R24  RECEIVE
 18:06:02  R24  VERIFY OK
 18:06:03  R24  WRITE</pre>
- <p>Welcher Request verletzt die Regel und welche Aktion wird zu früh ausgeführt? Notiere zur Begründung die beiden entscheidenden Zeilen.</p>
- <form id="m01Form1"><label for="m01Request">REQUEST-KENNUNG</label><input id="m01Request" autocomplete="off" required><label for="m01Action">ZU FRÜHE AKTION</label><input id="m01Action" autocomplete="off" required><button type="submit" class="mainbutton">PROTOKOLL SICHERN</button><p id="m01Error1" class="error" role="status"></p></form>
+ <p><strong>Deine Aufgabe:</strong> Trage zuerst die Nummer des fehlerhaften Auftrags ein. Trage darunter das englische Wort der Aktion ein, die zu früh passiert. Du brauchst keinen ganzen Satz.</p>
+ <form id="m01Form1"><label for="m01Request">WELCHE AUFTRAGSNUMMER HAT DEN FEHLER?</label><input id="m01Request" autocomplete="off" required><label for="m01Action">WELCHE AKTION PASSIERT ZU FRÜH?</label><input id="m01Action" autocomplete="off" required><button type="submit" class="mainbutton">ANTWORT PRÜFEN</button><p id="m01Error1" class="error" role="status"></p></form>
  </section>
  <div id="m01Waiting" class="status hidden"></div>
  <section id="m01Part2" class="mission hidden">
  <h3>TAG 2 // VERBINDUNG WIEDERHERSTELLEN</h3>
- <p>Die Zentrale hat den Fehler isoliert. Das neue Datenpaket enthält eine vierbuchstabige Richtung und drei mögliche Zugänge. Finde die Richtung und den einzigen Zugang, der die Sicherheitsregel erfüllt.</p>
+ <p>Gut gearbeitet. Die Zentrale kennt jetzt den Fehler. Um das System wieder zu starten, brauchst du noch <strong>eine Richtung und den passenden Zugang</strong>.</p>
+ <h4>Aufgabe A: Welche Richtung steht in der Nachricht?</h4>
+ <p>Die Nachricht besteht aus vier Gruppen mit jeweils acht Nullen und Einsen. Jede Gruppe ergibt einen Buchstaben. Zusammen bilden die vier Buchstaben eine Richtung.</p>
  <p><strong>01001110 · 01001111 · 01010010 · 01000100</strong></p>
- <p>Jede Gruppe ist eine 8-Bit-Binärzahl. Die Stellen haben von links nach rechts die Werte 128, 64, 32, 16, 8, 4, 2, 1. Addiere nur die Werte mit einer 1. Beispiel: 01000001 = 65 = A. Für Großbuchstaben gilt A=65, B=66, …, Z=90.</p>
- <p>Der gesuchte Zugang muss <strong>Lesen und Schreiben erlauben</strong>, darf aber <strong>Ausführen nicht erlauben</strong>.</p>
+ <p>So übersetzt du eine Gruppe:</p>
+ <ol><li>Schreibe über die acht Stellen diese Werte: <strong>128 · 64 · 32 · 16 · 8 · 4 · 2 · 1</strong>.</li><li>Addiere nur die Werte, unter denen eine <strong>1</strong> steht. Eine 0 zählt nicht mit.</li><li>Übersetze deine Summe in einen Buchstaben: <strong>65 = A, 66 = B, 67 = C</strong> und so weiter bis <strong>90 = Z</strong>.</li><li>Wiederhole das für die anderen drei Gruppen. Lies die Buchstaben von links nach rechts.</li></ol>
+ <p><strong>Beispiel:</strong> Bei 01000001 stehen die Einsen unter 64 und 1. Also rechnest du 64 + 1 = 65. Das ergibt den Buchstaben A. Dieses Beispiel ist nicht Teil deiner Nachricht.</p>
+ <h4>Aufgabe B: Welcher Zugang passt?</h4>
+ <p>Vergleiche die drei Zeilen der Tabelle. Gesucht ist ein Zugang, bei dem <strong>Lesen = Ja</strong>, <strong>Schreiben = Ja</strong> und <strong>Ausführen = Nein</strong> steht. Alle drei Bedingungen müssen gleichzeitig stimmen.</p>
  <div class="packetTable"><table><caption>Zugriffsmatrix</caption><thead><tr><th>Zugang</th><th>Lesen</th><th>Schreiben</th><th>Ausführen</th></tr></thead><tbody><tr><td>A</td><td>Ja</td><td>Nein</td><td>Nein</td></tr><tr><td>B</td><td>Ja</td><td>Ja</td><td>Nein</td></tr><tr><td>C</td><td>Ja</td><td>Ja</td><td>Ja</td></tr></tbody></table></div>
- <form id="m01Form2"><label for="m01Direction">ENTSCHLÜSSELTE RICHTUNG</label><input id="m01Direction" autocomplete="off" required><label for="m01Gate">ZUGANG A, B ODER C</label><input id="m01Gate" autocomplete="off" maxlength="1" required><button type="submit" class="mainbutton">INITIALISIERUNG ABSCHLIESSEN</button><p id="m01Error2" class="error" role="status"></p></form>
+ <p><strong>Jetzt eingeben:</strong> Oben das Richtungswort aus Aufgabe A, darunter nur den Buchstaben des Zugangs aus Aufgabe B.</p>
+ <form id="m01Form2"><label for="m01Direction">WELCHE RICHTUNG ERGEBEN DIE VIER BUCHSTABEN?</label><input id="m01Direction" autocomplete="off" required><label for="m01Gate">WELCHER ZUGANG PASST: A, B ODER C?</label><input id="m01Gate" autocomplete="off" maxlength="1" required><button type="submit" class="mainbutton">MISSION ABSCHLIESSEN</button><p id="m01Error2" class="error" role="status"></p></form>
  </section>
  <section id="m01Done" class="status hidden">MISSION 01 ABGESCHLOSSEN. Die Warteschlange ist wieder bereit. Die nächste Akte wird am 14.11.2026 freigegeben. Bis dahin bleibt Zeit für den Bonusauftrag und deinen Werkzeugbestand.</section>
  <section id="m01Bonus" class="mission bonus hidden"><h3>BONUSAUFTRAG // PAKETPRÜFUNG · +30 P</h3>
- <p>Zwischen den beiden Spielabschnitten kannst du die Prüfbits rekonstruieren. Verknüpfe <strong>00101100</strong> und <strong>00010110</strong> mit XOR: Gleiche Bits ergeben 0, verschiedene Bits ergeben 1. Bearbeite jede Spalte einzeln und behalte alle acht Stellen einschließlich führender Nullen. Beispiel: 0101 XOR 0011 = 0110.</p>
- <p>Dieser freiwillige Auftrag kostet keine Hinweise und verfällt nicht.</p><form id="m01BonusForm"><label for="m01Bits">ACHT PRÜFBITS</label><input id="m01Bits" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[01]{8}" required><button type="submit" class="mainbutton">PRÜFBITS BESTÄTIGEN</button><p id="m01BonusError" class="error" role="status"></p></form><p id="m01BonusDone" class="points hidden">PAKET GEPRÜFT · 30 P EINMALIG GUTGESCHRIEBEN</p></section>
+ <p>Du möchtest während der Wartezeit zusätzliche Punkte sammeln? Vergleiche diese beiden Zahlenreihen:</p>
+ <pre style="line-height:1.8">00101100
+00010110</pre>
+ <p>Schau dir immer die beiden Zeichen direkt übereinander an:</p>
+ <ul><li><strong>Gleich</strong> (0 und 0 oder 1 und 1): Schreibe eine <strong>0</strong>.</li><li><strong>Verschieden</strong> (0 und 1 oder 1 und 0): Schreibe eine <strong>1</strong>.</li></ul>
+ <p>Das nennt man <strong>XOR</strong>. Arbeite von links nach rechts. Dein Ergebnis hat wieder acht Zeichen. Nullen am Anfang bleiben stehen.</p>
+ <p><strong>Kurzes Beispiel:</strong> Aus 0101 und 0011 wird 0110. Probiere dieses Beispiel auf Papier aus, bevor du die beiden längeren Reihen vergleichst.</p>
+ <p>Der Bonusauftrag ist freiwillig. Du kannst ihn auch später lösen.</p><form id="m01BonusForm"><label for="m01Bits">DEIN ERGEBNIS: ACHT NULLEN UND EINSEN</label><input id="m01Bits" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[01]{8}" required><button type="submit" class="mainbutton">BONUSANTWORT PRÜFEN</button><p id="m01BonusError" class="error" role="status"></p></form><p id="m01BonusDone" class="points hidden">PAKET GEPRÜFT · 30 P EINMALIG GUTGESCHRIEBEN</p></section>
  <div id="m01HintArea"><button type="button" id="m01HintButton" class="back"></button><ol id="m01HintList" aria-live="polite"></ol><p>Die Hinweisstaffel gilt für die ganze Mission: 100 P ohne Hinweis, 80 P mit einem, 50 P mit zwei, 0 P mit drei. Kein Hinweis verrät die vollständige Lösung. Der Bonusauftrag bringt unabhängig davon 30 P.</p></div>`;
  const bind=(id,handler)=>document.getElementById(id).addEventListener('submit',async event=>{
   event.preventDefault();if(!authenticated)return;
@@ -756,7 +771,7 @@ function renderMissionOne(){
  document.getElementById('m01Part1').classList.toggle('hidden',!started || !!m01.part1At);
  document.getElementById('m01Part2').classList.toggle('hidden',!m01.part1At || now<m01Release() || done);
  document.getElementById('m01Waiting').classList.toggle('hidden',!m01.part1At || now>=m01Release() || done);
- document.getElementById('m01Waiting').textContent='Protokoll gesichert. Die Zentrale analysiert deinen Befund. Zweites Datenpaket ab '+m01Date(m01Release())+' Uhr (Wien). Du musst nichts neu beginnen. Bis dahin ist der Bonusauftrag verfügbar.';
+ document.getElementById('m01Waiting').textContent='Teil 1 ist geschafft. Die Zentrale prüft deinen Fund. Teil 2 öffnet am '+m01Date(m01Release())+' Uhr (Wiener Zeit). Dein Fortschritt ist gespeichert. Bis dahin kannst du den freiwilligen Bonusauftrag lösen.';
  document.getElementById('m01Done').classList.toggle('hidden',!done);
  document.getElementById('m01Bonus').classList.toggle('hidden',!m01.part1At);
  document.getElementById('m01BonusForm').classList.toggle('hidden',!!m01.bonusAt);
@@ -771,6 +786,7 @@ function renderMissionOne(){
 }
 initMissionOne();
 setInterval(renderMissionOne,30000);
+
 
 createTasks();
 stats();
