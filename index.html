@@ -152,7 +152,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 10 · MISSIONSGESCHICHTE</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 11 · ANTWORTDIALOGE</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
 <p>Offizieller Spielstart: <strong>07.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
@@ -342,20 +342,20 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
  <div class="badge">SECURE COMMUNICATION</div>
  <h2>AGENTENFUNK</h2>
- <p>Hier setzt sich deine Geschichte fort. Die Dialoge sind vorbereitete Spielszenen, die zu deinem Missionsstand passen. Für persönliche Antworten erreichst du die echten Agenten in Discord.</p>
+ <p>Wähle, was du deinem Ansprechpartner sagen möchtest. Auf jede Auswahl bekommst du hier direkt eine passende Antwort. Diese vorbereiteten Spieldialoge setzen sich mit deinem Missionsfortschritt fort.</p>
  <section class="mission" aria-labelledby="storyTitle"><div class="badge">AKTUELLE SZENE</div><h3 id="storyTitle"></h3>
  <div id="storyMessages" aria-live="polite" aria-relevant="additions"></div><div id="storyChoices" class="storyOptions"></div>
  <button type="button" class="back" onclick="openPage('missions')">ZUR PASSENDEN MISSIONSAUFGABE</button>
- <form id="storyForm"><label for="storyNote" id="storyPrompt">DEIN BERICHT ODER DEINE FRAGE</label><textarea id="storyNote" rows="4" minlength="10" maxlength="600" required></textarea><button type="submit" class="mainbutton">IM MISSIONSPROTOKOLL FESTHALTEN</button></form>
+ <h3>WAS MÖCHTEST DU FRAGEN?</h3><div id="storyQuestions" class="storyOptions"></div>
  <p id="storyStatus" role="status" aria-live="polite"></p><small id="storyNoteCount"></small>
- <button type="button" id="storyToDiscord" class="mainbutton">LETZTE NOTIZ ALS DISCORD-NACHRICHT VORBEREITEN</button>
+ <button type="button" id="storyToDiscord" class="mainbutton">GESPRÄCHSSTAND FÜR DISCORD VORBEREITEN</button>
  </section>
  <details class="mission"><summary>DEIN BISHERIGES MISSIONSPROTOKOLL</summary><div id="storyArchive"></div></details>
- <div class="rule"></div><h3>MIT DEN ECHTEN AGENTEN SPRECHEN</h3>
+ <details class="mission"><summary>OPTIONAL: MIT DEN ECHTEN AGENTEN IN DISCORD SPRECHEN</summary>
  <p>Ein Agent arbeitet nicht allein. Tausche dich mit der Zentrale und den Agenten in eurem bestehenden Discord aus. Hier bereitest du deine Nachrichten vor. Sie werden nicht automatisch versendet.</p>
  <h3>DEIN AKTUELLER FUNKAUFTRAG</h3><p id="radioTask" class="status"></p>
  <p id="radioReward" class="points"></p>
- <ol><li>Schreibe unten, was du herausgefunden hast oder wobei du Hilfe brauchst. Du kannst auch deine letzte Protokollnotiz übernehmen.</li><li>Kopiere die vorbereitete Nachricht und sende sie selbst in <strong>#agenten-zentrale</strong> auf eurem Discord-Server <strong>PROTOCOL 2027</strong>.</li><li>Lies die Antwort eines Agenten und beantworte seine Rückfrage dort. Nach einem geprüften Einsatzbericht gibt dir Commander Zero einen Bestätigungscode. Trage ihn unten ein.</li></ol>
+ <ol><li>Schreibe unten, was du herausgefunden hast oder wobei du Hilfe brauchst. Du kannst auch deinen Gesprächsstand übernehmen.</li><li>Kopiere die vorbereitete Nachricht und sende sie selbst in <strong>#agenten-zentrale</strong> auf eurem Discord-Server <strong>PROTOCOL 2027</strong>.</li><li>Lies die Antwort eines Agenten und beantworte seine Rückfrage dort. Nach einem geprüften Einsatzbericht gibt dir Commander Zero einen Bestätigungscode. Trage ihn unten ein.</li></ol>
  <label for="radioKind">WAS MÖCHTEST DU SENDEN?</label><select id="radioKind"><option value="report">Einsatzbericht an die Zentrale</option><option value="help">Frage an die Agenten</option></select>
  <label for="radioRecipient">AN WELCHEN AGENTEN?</label><select id="radioRecipient"><option>Agent Assassin</option><option>Agent Nyx</option><option>Agent 391</option><option>Commander Zero</option><option>Agent 045</option><option>Agent 033</option></select>
  <label for="radioNote">DEINE BEOBACHTUNG ODER FRAGE IN EIGENEN WORTEN</label><textarea id="radioNote" rows="5" maxlength="600"></textarea>
@@ -364,6 +364,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <p id="radioStatus" role="status" aria-live="polite"></p>
  <form id="radioReplyForm"><label for="radioReply">FUNK-BESTÄTIGUNGSCODE VON COMMANDER ZERO</label><input id="radioReply" autocomplete="off" required><button type="submit" id="radioConfirm" class="mainbutton">FUNKKONTAKT BESTÄTIGEN</button></form>
  <p>Der Funkbonus ist freiwillig und verfällt nicht. Mission 01 und ihr zweiter Teil lassen sich auch ohne Discord-Antwort abschließen. Der Code wird hier nicht angezeigt.</p>
+ </details>
 </section>
 
 <!-- PROFIL -->
@@ -899,6 +900,48 @@ for(const key of Object.keys(saved.story.choices))if(!storyChoiceIds[key]?.inclu
 if(!Array.isArray(saved.story.notes))saved.story.notes=[];
 saved.story.notes=saved.story.notes.filter(n=>n && typeof n.text==='string' && typeof n.scene==='string' && Number.isFinite(n.at)).slice(-12).map(n=>({text:n.text.slice(0,600),scene:n.scene.slice(0,30),at:n.at}));
 let storySignature='';
+const storyQuestions={
+ standby:[
+  ['ready','Agent Assassin, ich bin bereit.',['Agent Assassin','Bereitschaft vermerkt, 047. Dein erster Auftrag beginnt mit einer Protokollkopie. Sobald die Akte freigegeben ist, findest du die Aufgabe unter Hauptmissionen.']],
+  ['team','Wer ist mein Ansprechpartner?',['Commander Zero','Agent Assassin gibt den Auftrag. Agent Nyx prüft mit dir den Befund. Agent 391 hält die Spuren fest, Agent 033 unterstützt bei der Wiederherstellung und Agent 045 betreut die Paketprüfung. Ich führe die Ergebnisse zusammen.']],
+  ['wait','Muss ich bis zum Start hierbleiben?',['Commander Zero','Nein. Schließe die Seite ruhig. Wenn du auf diesem Gerät im selben Browser zurückkommst, bleibt dein Fortschritt erhalten. Der Auftrag verfällt nicht, wenn du später beginnst.']]
+ ],
+ briefing:[
+  ['evidence','Was wissen wir bisher sicher?',['Agent Assassin','Sicher ist nur: Beim Speichern trat ein Widerspruch auf. Ursache und Absicht sind noch offen. Trenne in deinem Bericht deshalb Beobachtungen von Vermutungen.']],
+  ['material','Welche Unterlagen darf ich verwenden?',['Agent 391','Die Protokollkopie unter Hauptmissionen ist dein Arbeitsmaterial. Du brauchst keine zusätzlichen Dateien und keinen Zugriff auf echte Systeme. Notizen auf Papier sind erlaubt.']],
+  ['next','Wie melde ich meinen Befund?',['Agent Nyx','Öffne Teil 1 unter Hauptmissionen. Trage dort die Auftragsnummer und die zu früh ausgeführte Aktion ein. Sobald die Prüfung stimmt, folgt hier unser Gespräch über deinen Befund.']]
+ ],
+ review:[
+  ['why','Warum reicht eine frühere Prüfung nicht?',['Agent Nyx','Sie bestätigt nur den Zustand zum Prüfzeitpunkt. Werden die Daten anschließend geändert, muss der neue Zustand erneut geprüft werden. Genau dieser Unterschied ist für unseren Befund wichtig.']],
+  ['next','Wann geht es mit Teil 2 weiter?',['Commander Zero',()=> 'Die Freigabe ist am '+m01Date(m01Release())+' Uhr. Du musst während der Wartezeit nicht online bleiben. Nach der Freigabe wird hier der nächste Auftrag sichtbar.']],
+  ['bonus','Agent 045, gibt es bis dahin etwas zu tun?',['Agent 045','Ja, die freiwillige Paketprüfung in Mission 01. Du vergleichst dort zwei Bitreihen. Die Regeln stehen bei der Aufgabe. Dafür gibt es einmalig 30 Punkte; du kannst sie auch später lösen.']]
+ ],
+ recovery:[
+  ['message','Mein Zwischenergebnis ist noch kein Wort.',['Agent 033','Das kann zu diesem Zeitpunkt normal sein. Die Nachricht wurde in mehreren Schritten verändert. Prüfe anhand der Aufgabenbeschreibung, welchen Schritt du schon rückgängig gemacht hast und welcher noch fehlt. Für zusätzliche Rätselhinweise gibt es die gekennzeichnete Hinweisstaffel in der Mission.']],
+  ['rights','Warum ist der mächtigste Zugang nicht automatisch der beste?',['Agent Nyx','Unser Auftrag verlangt bestimmte Rechte und Bedingungen. Zusätzliche Rechte können dagegen verstoßen. Entscheidend ist, ob ein Zugang genau zum Auftrag passt – nicht, wie viel er insgesamt darf.']],
+  ['next','Wo gebe ich die beiden Ergebnisse ein?',['Agent 033','In Teil 2 unter Hauptmissionen: zuerst das ursprüngliche Richtungswort, darunter den Buchstaben des passenden Zugangs. Wenn beides stimmt, meldet Commander Zero hier den Abschluss.']]
+ ],
+ clearance:[
+  ['trace','Was bedeutet die offene Spur für uns?',['Agent 391','Ein Bezug zu einem zweiten Datenbestand fehlt. Wir wissen noch nicht, ob die Unterlagen unvollständig sind oder ob etwas falsch zugeordnet wurde. In der nächsten Akte prüfen wir das, bevor wir weitergehende Schlüsse ziehen.']],
+  ['next','Wann kommt der nächste Auftrag?',['Commander Zero','Die nächste Akte öffnet am 14.11.2026. Du kannst bis dahin den noch offenen Paketbonus bearbeiten oder deine gekauften Werkzeuge im Shop ansehen. Für späteres Spielen gibt es keine Strafe.']],
+  ['report','Wie bespreche ich das mit den echten Agenten?',['Agent Assassin','Mit dem Knopf unter diesem Gespräch bereitest du eine Zusammenfassung für Discord vor. Kopiere sie anschließend in #agenten-zentrale auf PROTOCOL 2027. Dort antworten wir persönlich, sobald jemand Zeit hat.']]
+ ]
+};
+if(!Array.isArray(saved.story.turns))saved.story.turns=[];
+const seenStoryTurns=new Set();
+saved.story.turns=saved.story.turns.filter(t=>{
+ if(!t || !storyQuestions[t.scene]?.some(q=>q[0]===t.id))return false;
+ const key=t.scene+':'+t.id;if(seenStoryTurns.has(key))return false;seenStoryTurns.add(key);return true;
+}).slice(-15).map(t=>({scene:t.scene,id:t.id}));
+function storyReply(question){const [agent,text]=question[2];return [agent,typeof text==='function'?text():text];}
+function askStoryQuestion(id){
+ if(!authenticated)return;
+ const scene=storyScene();
+ if(!storyQuestions[scene]?.some(q=>q[0]===id)||saved.story.turns.some(t=>t.scene===scene&&t.id===id))return;
+ saved.story.turns.push({scene,id});save();renderStory();
+ document.getElementById('storyMessages').lastElementChild?.scrollIntoView({block:'nearest',behavior:'smooth'});
+ document.getElementById('storyStatus').textContent='Antwort eingegangen. Du kannst eine weitere Frage wählen oder zur Missionsaufgabe wechseln.';
+}
 function storyScene(now=Date.now()){
  if(m01.completedAt)return 'clearance';
  if(m01.part1At)return now>=m01Release()?'recovery':'review';
@@ -958,11 +1001,10 @@ function storyBubble(root,agent,text,player=false){
 function renderStory(){
  const data=storyContent();
  document.getElementById('storyDashboardTitle').textContent=data.title;
- document.getElementById('storyDashboardText').textContent='Nachricht von '+data.agent+' · Im Agentenfunk kannst du antworten und deinen Bericht ergänzen.';
- const signature=JSON.stringify([data.scene,saved.story.choices,saved.story.notes,m01.bonusAt]);
+ document.getElementById('storyDashboardText').textContent='Nachricht von '+data.agent+' · Wähle im Agentenfunk deine Antwort und erhalte direkt eine Rückmeldung.';
+ const signature=JSON.stringify([data.scene,saved.story.choices,saved.story.notes,saved.story.turns,m01.bonusAt]);
  if(signature===storySignature)return;storySignature=signature;
  document.getElementById('storyTitle').textContent=data.title;
- document.getElementById('storyPrompt').textContent=data.prompt;
  const root=document.getElementById('storyMessages');root.textContent='';
  data.messages.forEach(([agent,text])=>storyBubble(root,agent,text));
  const options=document.getElementById('storyChoices');options.textContent='';
@@ -972,8 +1014,14 @@ function renderStory(){
   if(label)storyBubble(root,'Agent 047',label,true);
   const response=storyConsequence(data.scene,choice);if(response)storyBubble(root,...response);
  }else data.choices.forEach(([id,text])=>{const button=document.createElement('button');button.type='button';button.className='storyOption';button.textContent=text;button.addEventListener('click',()=>chooseStory(id));options.appendChild(button);});
- saved.story.notes.filter(n=>n.scene===data.scene).forEach(n=>storyBubble(root,'Agent 047 · Protokollnotiz',n.text,true));
- document.getElementById('storyNoteCount').textContent=saved.story.notes.length+' / 12 Notizen im Missionsprotokoll';
+ const questions=document.getElementById('storyQuestions');questions.textContent='';
+ const turns=saved.story.turns.filter(t=>t.scene===data.scene);
+ for(const turn of turns){const question=storyQuestions[data.scene].find(q=>q[0]===turn.id);storyBubble(root,'Agent 047',question[1],true);storyBubble(root,...storyReply(question));}
+ for(const question of storyQuestions[data.scene]){
+  if(turns.some(t=>t.id===question[0]))continue;
+  const button=document.createElement('button');button.type='button';button.className='storyOption';button.textContent=question[1];button.addEventListener('click',()=>askStoryQuestion(question[0]));questions.appendChild(button);
+ }
+ document.getElementById('storyNoteCount').textContent=turns.length===storyQuestions[data.scene].length?'Alle Rückfragen dieser Szene sind beantwortet. Dein Gespräch bleibt hier und im Protokoll sichtbar.': 'Wähle eine Rückfrage. Du erhältst sofort eine vorbereitete Antwort. Diese Fragen zu Ablauf und Geschichte kosten keine Punkte.';
  document.getElementById('storyArchive').textContent='';
  const labels={briefing:'Erster Einsatzplan',review:'Bewertung des Befunds',clearance:'Entscheidung zu den Rechten'};
  for(const [scene,id] of Object.entries(saved.story.choices)){
@@ -984,35 +1032,28 @@ function renderStory(){
   const p=document.createElement('p');p.textContent=new Intl.DateTimeFormat('de-AT',{timeZone:'Europe/Vienna',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(n.at))+' · '+n.text;
   document.getElementById('storyArchive').appendChild(p);
  }
-}
-function sendStoryNote(event){
- event.preventDefault();if(!authenticated)return;
- const input=document.getElementById('storyNote'),text=input.value.trim(),status=document.getElementById('storyStatus');
- if(text.length<10){status.textContent='Schreibe bitte einen kurzen Satz zu deinem Gedanken oder deiner Frage.';return;}
- if(text.length>600){status.textContent='Die Notiz darf höchstens 600 Zeichen haben.';return;}
- if(saved.story.notes.length>=12){status.textContent='Dein Missionsprotokoll enthält bereits zwölf Notizen. Du kannst weitere Gedanken in Discord besprechen.';return;}
- const scene=storyScene();saved.story.notes.push({scene,text,at:Date.now()});input.value='';save();renderStory();
- status.textContent='Deine Notiz steht jetzt im Missionsprotokoll dieses Browsers. Für eine persönliche Antwort von '+storyContent().agent+' kannst du sie unten als Discord-Nachricht vorbereiten.';
- document.getElementById('storyToDiscord').disabled=false;
+ for(const turn of saved.story.turns){const question=storyQuestions[turn.scene].find(q=>q[0]===turn.id);const answer=storyReply(question);const p=document.createElement('p');p.textContent='Agent 047: '+question[1]+' — '+answer[0]+': '+answer[1];document.getElementById('storyArchive').appendChild(p);}
 }
 function prepareStoryForDiscord(){
  if(!authenticated)return;
- const note=saved.story.notes[saved.story.notes.length-1];if(!note)return;
- document.getElementById('radioNote').value=note.text;
+ const scene=storyScene(),data=storyContent();
+ const turn=saved.story.turns.filter(t=>t.scene===scene).slice(-1)[0];
+ const question=turn?storyQuestions[scene].find(q=>q[0]===turn.id):null;
+ const report='Stand: '+data.title+'. '+(question?'Im Gespräch gefragt: '+question[1]+'. ':'')+'Ich möchte meinen bisherigen Lösungsweg mit euch besprechen.';
+ document.getElementById('radioNote').value=report;
  document.getElementById('radioKind').value='report';
  const recipients={standby:'Agent Assassin',briefing:'Agent Assassin',review:'Agent Nyx',recovery:'Agent 033',clearance:'Commander Zero'};
- document.getElementById('radioRecipient').value=recipients[note.scene]||'Agent Assassin';
+ document.getElementById('radioRecipient').value=recipients[scene]||'Agent Assassin';
  updateRadioDraft();document.getElementById('radioMessage').scrollIntoView({behavior:'smooth'});
- document.getElementById('radioStatus').textContent='Deine Notiz ist als Nachricht vorbereitet. Kopiere sie und sende sie selbst in #agenten-zentrale. Noch nicht gesendet.';
+ document.getElementById('radioStatus').textContent='Dein Gesprächsstand ist als Nachricht vorbereitet. Ergänze für einen geprüften Funkbericht deinen eigenen Befund. Kopiere die Nachricht und sende sie selbst in #agenten-zentrale. Noch nicht gesendet.';
 }
 function initStory(){
- document.getElementById('storyForm').addEventListener('submit',sendStoryNote);
  document.getElementById('storyToDiscord').addEventListener('click',prepareStoryForDiscord);
- document.getElementById('storyToDiscord').disabled=saved.story.notes.length===0;
  renderStory();
 }
 initStory();
 setInterval(()=>{renderStory();renderRadio();},30000);
+
 
 
 createTasks();
