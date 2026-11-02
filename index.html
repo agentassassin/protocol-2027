@@ -131,7 +131,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  .statusbar{grid-template-columns:1fr 1fr}
  .panel{padding:17px}
 }
-:focus-visible{outline:3px solid var(--gold);outline-offset:4px} #hints li{color:var(--muted);line-height:1.6;margin:10px 0} button:disabled{opacity:.65;cursor:default} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}} .packetTable{overflow-x:auto}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}caption{text-align:left;color:var(--muted);margin-bottom:8px}th,td{padding:12px;text-align:left;border:1px solid var(--line)}th{background:#0d141e}.cipher{letter-spacing:5px;font-size:22px}.clues li{line-height:1.7;margin:10px 0}#missionTimer{font-variant-numeric:tabular-nums;font-size:20px} </style>
+:focus-visible{outline:3px solid var(--gold);outline-offset:4px} #hints li{color:var(--muted);line-height:1.6;margin:10px 0} button:disabled{opacity:.65;cursor:default} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}} .packetTable{overflow-x:auto}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}caption{text-align:left;color:var(--muted);margin-bottom:8px}th,td{padding:12px;text-align:left;border:1px solid var(--line)}th{background:#0d141e}.cipher{letter-spacing:5px;font-size:22px}.clues li{line-height:1.7;margin:10px 0}#missionTimer{font-variant-numeric:tabular-nums;font-size:20px} textarea,select{width:100%;padding:12px;background:#080e15;color:#f1f4f8;border:1px solid #526174;font:inherit}textarea{resize:vertical;line-height:1.6} .storyBubble{border:1px solid var(--line);border-left:3px solid #61b5ed;background:#0d1621;padding:16px;margin:14px 0;overflow-wrap:anywhere}.storyBubble>strong{color:#8dcefa;font-size:13px}.storyBubble p{margin:8px 0 0}.playerBubble{margin-left:20px;border-left-color:var(--gold)}.playerBubble>strong{color:var(--gold)}.storyOptions{display:flex;gap:10px;flex-wrap:wrap}.storyOption{flex:1 1 240px;background:#202b38;border-color:var(--line);text-align:left;line-height:1.5}button,input,textarea,select{font-size:16px}button{min-height:44px}summary{cursor:pointer;line-height:1.6}#storyNoteCount{display:block;color:var(--muted)}@media(max-width:430px){.playerBubble{margin-left:8px}.storyBubble{padding:12px}.storyOption{flex-basis:100%}} </style>
 </head>
 
 <body>
@@ -152,7 +152,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 8 · ERWEITERTE AGENTENPRÜFUNG</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 10 · MISSIONSGESCHICHTE</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
 <p>Offizieller Spielstart: <strong>07.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
@@ -209,6 +209,11 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
   <p id="progressText">0 von 8 Missionen abgeschlossen</p>
  </div>
 
+ <div class="panel">
+  <div class="badge">AKTUELLE LAGE</div>
+  <h2 id="storyDashboardTitle">Nachricht der Zentrale</h2><p id="storyDashboardText"></p>
+  <button type="button" class="mainbutton" onclick="openPage('comms')">NACHRICHT LESEN UND ANTWORTEN</button>
+ </div>
  <div class="panel">
   <div class="badge">NAVIGATION</div>
   <h2>OPERATIONSZENTRALE</h2>
@@ -337,13 +342,28 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
  <div class="badge">SECURE COMMUNICATION</div>
  <h2>AGENTENFUNK</h2>
- <p>Die Kommunikation der Agenten erfolgt über den offiziellen PROTOCOL-2027-Discord-Server.</p>
- <div class="status">
-  FUNKSTATUS: <span class="connected">BEREIT</span><br>
-  KOMMUNIKATIONSKANAL: DISCORD<br>
-  KENNUNG: AGENT 047
- </div>
- <p>Nutze den Einladungslink, den du von der Zentrale erhalten hast.</p>
+ <p>Hier setzt sich deine Geschichte fort. Die Dialoge sind vorbereitete Spielszenen, die zu deinem Missionsstand passen. Für persönliche Antworten erreichst du die echten Agenten in Discord.</p>
+ <section class="mission" aria-labelledby="storyTitle"><div class="badge">AKTUELLE SZENE</div><h3 id="storyTitle"></h3>
+ <div id="storyMessages" aria-live="polite" aria-relevant="additions"></div><div id="storyChoices" class="storyOptions"></div>
+ <button type="button" class="back" onclick="openPage('missions')">ZUR PASSENDEN MISSIONSAUFGABE</button>
+ <form id="storyForm"><label for="storyNote" id="storyPrompt">DEIN BERICHT ODER DEINE FRAGE</label><textarea id="storyNote" rows="4" minlength="10" maxlength="600" required></textarea><button type="submit" class="mainbutton">IM MISSIONSPROTOKOLL FESTHALTEN</button></form>
+ <p id="storyStatus" role="status" aria-live="polite"></p><small id="storyNoteCount"></small>
+ <button type="button" id="storyToDiscord" class="mainbutton">LETZTE NOTIZ ALS DISCORD-NACHRICHT VORBEREITEN</button>
+ </section>
+ <details class="mission"><summary>DEIN BISHERIGES MISSIONSPROTOKOLL</summary><div id="storyArchive"></div></details>
+ <div class="rule"></div><h3>MIT DEN ECHTEN AGENTEN SPRECHEN</h3>
+ <p>Ein Agent arbeitet nicht allein. Tausche dich mit der Zentrale und den Agenten in eurem bestehenden Discord aus. Hier bereitest du deine Nachrichten vor. Sie werden nicht automatisch versendet.</p>
+ <h3>DEIN AKTUELLER FUNKAUFTRAG</h3><p id="radioTask" class="status"></p>
+ <p id="radioReward" class="points"></p>
+ <ol><li>Schreibe unten, was du herausgefunden hast oder wobei du Hilfe brauchst. Du kannst auch deine letzte Protokollnotiz übernehmen.</li><li>Kopiere die vorbereitete Nachricht und sende sie selbst in <strong>#agenten-zentrale</strong> auf eurem Discord-Server <strong>PROTOCOL 2027</strong>.</li><li>Lies die Antwort eines Agenten und beantworte seine Rückfrage dort. Nach einem geprüften Einsatzbericht gibt dir Commander Zero einen Bestätigungscode. Trage ihn unten ein.</li></ol>
+ <label for="radioKind">WAS MÖCHTEST DU SENDEN?</label><select id="radioKind"><option value="report">Einsatzbericht an die Zentrale</option><option value="help">Frage an die Agenten</option></select>
+ <label for="radioRecipient">AN WELCHEN AGENTEN?</label><select id="radioRecipient"><option>Agent Assassin</option><option>Agent Nyx</option><option>Agent 391</option><option>Commander Zero</option><option>Agent 045</option><option>Agent 033</option></select>
+ <label for="radioNote">DEINE BEOBACHTUNG ODER FRAGE IN EIGENEN WORTEN</label><textarea id="radioNote" rows="5" maxlength="600"></textarea>
+ <label for="radioMessage">FERTIGE NACHRICHT FÜR DISCORD</label><textarea id="radioMessage" rows="8" readonly></textarea>
+ <button type="button" id="copyRadio" class="mainbutton">NACHRICHT KOPIEREN</button>
+ <p id="radioStatus" role="status" aria-live="polite"></p>
+ <form id="radioReplyForm"><label for="radioReply">FUNK-BESTÄTIGUNGSCODE VON COMMANDER ZERO</label><input id="radioReply" autocomplete="off" required><button type="submit" id="radioConfirm" class="mainbutton">FUNKKONTAKT BESTÄTIGEN</button></form>
+ <p>Der Funkbonus ist freiwillig und verfällt nicht. Mission 01 und ihr zweiter Teil lassen sich auch ohne Discord-Antwort abschließen. Der Code wird hier nicht angezeigt.</p>
 </section>
 
 <!-- PROFIL -->
@@ -362,7 +382,10 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  </div>
  <h3>AKTUELLER RANG</h3>
  <p id="profileRank" class="points">REKRUT</p>
+ <h3>DEIN FORTSCHRITT</h3><p>Deine Antworten, Punkte und Käufe bleiben in diesem Browser gespeichert. Ein anderes WLAN ändert daran nichts. Auf einem anderen Gerät beginnt ein eigener Spielstand.</p>
 </section>
+
+
 
 <div class="footer">
  <span>PROTOCOL 2027 // OMEGA</span>
@@ -451,6 +474,7 @@ function earnedTotal(){
  let total=breach.completed?breachPoints():0;
  bonusData.forEach((b,i)=>{if(saved['b'+i])total+=b[1];});
  total+=m01Reward()+(m01.bonusAt?30:0);
+ total+=saved.radio&&saved.radio.confirmedAt?20:0;
  return total;
 }
 function spentTotal(){return shopCatalog.reduce((sum,item)=>sum+(shopOwned(item.id)?item.cost:0),0);}
@@ -502,6 +526,7 @@ function renderShop(){
    const output=document.createElement('textarea');output.id='supportText';output.readOnly=true;output.rows=5;output.style.width='100%';
    function update(){saved.supportMission=input.value.slice(0,80);output.value='PROTOCOL 2027 | AGENT 047\nPersönliche Hilfe gekauft: 100 Spielpunkte.\nMission: '+(saved.supportMission.trim()||'Bitte Mission ergänzen')+'\nBitte gib mir einen Hinweis, ohne die Lösung zu verraten.';save();}
    input.addEventListener('input',update);owned.appendChild(output);update();
+   const radio=document.createElement('button');radio.type='button';radio.textContent='FRAGE IM AGENTENFUNK VORBEREITEN';radio.addEventListener('click',()=>{openPage('comms');document.getElementById('radioKind').value='help';document.getElementById('radioMessage').value=buildRadioMessage();});owned.appendChild(radio);
   }
   inventory.appendChild(owned);
  });
@@ -535,6 +560,8 @@ function stats(){
  document.getElementById("profileRank").textContent=rank;
  renderShop();
  renderMissionOne();
+ renderRadio();
+ if(saved.story)renderStory();
  save();
 }
 
@@ -799,6 +826,193 @@ function renderMissionOne(){
 initMissionOne();
 setInterval(renderMissionOne,30000);
 
+
+
+// Agentenfunk: Nachrichten werden nur vorbereitet, niemals automatisch versendet.
+const radioAgents=['Agent Assassin','Agent Nyx','Agent 391','Commander Zero','Agent 045','Agent 033'];
+if(!saved.radio || typeof saved.radio!=='object' || Array.isArray(saved.radio))saved.radio={};
+function radioTask(){
+ if(!m01.part1At)return 'Melde dich bei Agent Assassin einsatzbereit. Nach Teil 1 schickst du deinen Befund an Agent Nyx. Für diesen freiwilligen Austausch kannst du später 20 Bonuspunkte erhalten.';
+ if(!m01.completedAt)return 'Schicke Agent Nyx deinen Befund aus Teil 1: die zwei entscheidenden Uhrzeiten und deine Erklärung, weshalb die frühere Prüfung nicht mehr gilt. Beantworte ihre Rückfrage in Discord. Danach bitte Commander Zero um die Funkbestätigung. Agent 045 ist dein Ansprechpartner für den freiwilligen Paketbonus.';
+ return 'Melde Commander Zero den Abschluss von Mission 01 und erkläre, warum ein Zugang mit zu vielen Rechten ungeeignet ist. Falls dein Funkbonus noch offen ist: Schicke zuerst Agent Nyx deinen Bericht zu Teil 1 und beantworte ihre Rückfrage.';
+}
+function buildRadioMessage(){
+ const note=document.getElementById('radioNote').value.trim();
+ const kind=document.getElementById('radioKind').value;
+ const chosen=document.getElementById('radioRecipient').value;
+ const recipient=radioAgents.includes(chosen)?chosen:'Agent Nyx';
+ const header='PROTOCOL 2027 | AGENT 047 → '+recipient.toUpperCase();
+ if(kind==='help')return header+'\nHILFSANFRAGE\nMission: '+(saved.supportMission||'MISSION 01')+'\n'+(shopOwned('support')?'Persönliche Hilfe im Shop gekauft.':'Noch keine persönliche Hilfe im Shop gekauft.')+'\nMeine Frage: '+note+'\nBitte einen Denkanstoß geben, keine fertige Lösung.';
+ return header+'\nEINSATZBERICHT – MISSION 01\n'+note+'\nBitte prüft meinen Gedankengang und stellt mir eine Rückfrage. Nach meiner Antwort bitte ich um den Funk-Bestätigungscode.';
+}
+function updateRadioDraft(){
+ saved.radio.draft=document.getElementById('radioNote').value.slice(0,600);
+ saved.radio.recipient=document.getElementById('radioRecipient').value;
+ saved.radio.kind=document.getElementById('radioKind').value;
+ document.getElementById('radioMessage').value=buildRadioMessage();save();
+}
+async function copyRadioMessage(){
+ const output=document.getElementById('radioMessage');
+ const status=document.getElementById('radioStatus');
+ try{await navigator.clipboard.writeText(output.value);status.textContent='Nachricht kopiert, noch nicht gesendet. Öffne Discord und füge sie in euren Funkkanal ein.';}
+ catch(e){output.focus();output.select();status.textContent='Bitte den markierten Text mit Strg+C kopieren und in Discord einfügen. Noch nicht gesendet.';}
+}
+async function confirmRadio(event){
+ event.preventDefault();const status=document.getElementById('radioStatus');
+ if(!authenticated||!m01.part1At){status.textContent='Löse zuerst Teil 1 von Mission 01.';return;}
+ if(saved.radio.confirmedAt){status.textContent='Der Funkbonus wurde bereits gutgeschrieben.';return;}
+ if((saved.radio.draft||'').trim().length<20){status.textContent='Schreibe zuerst deinen eigenen Einsatzbericht. Ein kurzer Code allein reicht nicht.';return;}
+ try{
+  const hash=await mission00.fingerprint(document.getElementById('radioReply').value);
+  if(hash!=='ab8f03e4d62ce28dc88c0d094269bdd06b1ded71d7206aa5f425b4ce99c31705'){status.textContent='Die Bestätigung passt noch nicht. Bitte Commander Zero in Discord nach der Rückfrage um den Funk-Bestätigungscode.';return;}
+  if(saved.radio.confirmedAt)return;
+  saved.radio.confirmedAt=Date.now();save();stats();document.getElementById('radioReply').value='';
+  status.textContent='Funkkontakt bestätigt. Einmalig 20 Spielpunkte gutgeschrieben.';
+ }catch(e){status.textContent=e.message;}
+}
+function renderRadio(){
+ const task=document.getElementById('radioTask');if(!task)return;
+ task.textContent=radioTask();
+ document.getElementById('radioReward').textContent=saved.radio.confirmedAt?'✓ Funkbonus: 20 P gutgeschrieben':'Freiwilliger Funkbonus: +20 P nach Rückfrage und Bestätigung durch die Spielleitung';
+ document.getElementById('radioConfirm').disabled=!!saved.radio.confirmedAt;
+}
+function initRadio(){
+ document.getElementById('radioNote').value=typeof saved.radio.draft==='string'?saved.radio.draft:'';
+ document.getElementById('radioRecipient').value=radioAgents.includes(saved.radio.recipient)?saved.radio.recipient:'Agent Nyx';
+ document.getElementById('radioKind').value=saved.radio.kind==='help'?'help':'report';
+ document.getElementById('radioNote').addEventListener('input',updateRadioDraft);
+ document.getElementById('radioRecipient').addEventListener('change',updateRadioDraft);
+ document.getElementById('radioKind').addEventListener('change',()=>{document.getElementById('radioRecipient').value=document.getElementById('radioKind').value==='help'?'Agent 033':'Agent Nyx';updateRadioDraft();});
+ document.getElementById('copyRadio').addEventListener('click',copyRadioMessage);
+ document.getElementById('radioReplyForm').addEventListener('submit',confirmRadio);
+ document.getElementById('radioMessage').value=buildRadioMessage();renderRadio();
+}
+initRadio();
+
+
+
+// Vorbereitete Spieldialoge. Keine Live-Nachrichten und keine Übermittlung eigener Antworten.
+const storyChoiceIds={briefing:['inspect','restart'],review:['invalidate','keep'],clearance:['minimum','all']};
+if(!saved.story || typeof saved.story!=='object' || Array.isArray(saved.story))saved.story={};
+if(!saved.story.choices || typeof saved.story.choices!=='object' || Array.isArray(saved.story.choices))saved.story.choices={};
+for(const key of Object.keys(saved.story.choices))if(!storyChoiceIds[key]?.includes(saved.story.choices[key]))delete saved.story.choices[key];
+if(!Array.isArray(saved.story.notes))saved.story.notes=[];
+saved.story.notes=saved.story.notes.filter(n=>n && typeof n.text==='string' && typeof n.scene==='string' && Number.isFinite(n.at)).slice(-12).map(n=>({text:n.text.slice(0,600),scene:n.scene.slice(0,30),at:n.at}));
+let storySignature='';
+function storyScene(now=Date.now()){
+ if(m01.completedAt)return 'clearance';
+ if(m01.part1At)return now>=m01Release()?'recovery':'review';
+ return now>=m01Start?'briefing':'standby';
+}
+function storyContent(){
+ const scene=storyScene();
+ if(scene==='standby')return {scene,title:'Aufnahme in die Zentrale',agent:'Agent Assassin',prompt:'Was möchtest du vor dem ersten Einsatz festhalten?',messages:[
+  ['Agent Assassin','Dein Zugang ist bestätigt, 047. Für deinen ersten Einsatz bekommst du eine Kopie eines internen Systemprotokolls. Du arbeitest nur mit den Unterlagen hier in der Zentrale.'],
+  ['Commander Zero','Die Akte wird am 07.11.2026 um 10:00 Uhr geöffnet. Bis dahin kannst du dich im Agentenfunk vorstellen. Wir brauchen keine persönlichen Daten – dein Codename genügt.']
+ ],choices:[]};
+ if(scene==='briefing')return {scene,title:'Akte 01 · Ein widersprüchlicher Eintrag',agent:'Agent Assassin',prompt:'Notiere deinen Plan oder eine Frage zu den Unterlagen.',messages:[
+  ['Agent Assassin','Beim Speichern eines Datensatzes gab es einen Widerspruch. Die Daten kamen an, aber das Protokoll bestätigt keinen sauberen Ablauf. Wir wissen noch nicht, ob es ein Bedienfehler oder ein Fehler in der Reihenfolge war.'],
+  ['Agent Nyx','Ich habe die Protokollkopie für dich vorbereitet. Mehrere Aufträge liefen gleichzeitig. Trenne sie in deinen Notizen, sonst sieht eine harmlose Verzögerung schnell wie ein Fehler aus.'],
+  ['Agent Assassin','Du übernimmst die erste Sichtung. Wie gehst du vor?']
+ ],choices:[['inspect','Zuerst die Protokollkopie untersuchen'],['restart','Zuerst einen Neustart vorschlagen']]};
+ if(scene==='review')return {scene,title:'Akte 01 · Der Befund',agent:'Agent Nyx',prompt:'Begründe deinen Befund mit eigenen Worten. Welche Reihenfolge ist entscheidend?',messages:[
+  ['Agent Nyx','Dein Befund passt zum Protokoll. Entscheidend ist nicht nur, ob irgendwann erfolgreich geprüft wurde, sondern ob diese Prüfung beim Speichern noch galt.'],
+  ['Agent 391','Ich halte den ursprünglichen Auszug und deine Fundstelle getrennt von den weiteren Arbeitsschritten fest. So lässt sich später nachvollziehen, worauf die Entscheidung beruhte.'],
+  ['Agent Nyx','Eine Rückfrage an dich: Was muss passieren, wenn sich Daten nach ihrer Prüfung noch einmal ändern?'],
+  ['Commander Zero','Teil 2 wird am '+m01Date(m01Release())+' Uhr bereitgestellt. Dein Befund bleibt erhalten. Du kannst bis dahin den Paketbonus untersuchen oder ihn mit den Agenten in Discord besprechen.']
+ ],choices:[['invalidate','Die geänderten Daten müssen erneut geprüft werden'],['keep','Die frühere Prüfung sollte weiterhin genügen']]};
+ if(scene==='recovery')return {scene,title:'Akte 01 · Der begrenzte Rückkanal',agent:'Agent 033',prompt:'Notiere deinen Lösungsweg oder eine Frage zum zweiten Teil.',messages:[
+  ['Commander Zero','Der zweite Teil der Akte ist jetzt freigegeben. Der Fehler ist eingegrenzt; als Nächstes rekonstruierst du die Nachricht und wählst einen passenden Zugang.'],
+  ['Agent 033','Die Nachricht wurde in veränderter Reihenfolge übertragen und die Buchstaben wurden verschoben. Arbeite schrittweise. Wenn das erste Zwischenergebnis noch kein Wort ergibt, muss es nicht falsch sein.'],
+  ['Agent Nyx','Bei den Zugängen zählen alle Bedingungen. Ein Zugang kann die nötigen Rechte haben und trotzdem ungeeignet sein. Halte deine Begründung fest, bevor du ihn auswählst.']
+ ],choices:[]};
+ return {scene,title:'Akte 01 · Abschlussvermerk',agent:'Commander Zero',prompt:'Schreibe deinen kurzen Abschlussbericht: Was war der Fehler und was würdest du künftig prüfen?',messages:[
+  ['Commander Zero','Die Initialisierung ist abgeschlossen. Dein Protokollbefund und die Zugangswahl sind dokumentiert. Das System kann mit einem begrenzten Zugang weiterarbeiten.'],
+  ['Agent 391','Die Unterlagen bleiben unter Akte 01 erhalten. An einem Eintrag fehlt noch der Bezug zu einem zweiten Datenbestand. Das ist eine offene Spur für die nächste Akte, noch kein Beweis für Absicht.'],
+  ['Commander Zero','Eine letzte Entscheidung für deinen Abschlussbericht: Welche Rechte würdest du für den nächsten Arbeitsschritt freigeben?'],
+  ['Agent 045',m01.bonusAt?'Die Paketprüfung ist ebenfalls abgeschlossen. Die Prüfbits passen.':'Falls du die Paketprüfung noch nicht gemacht hast, bleibt sie offen. Sie hilft uns, Übertragungsfehler von einem Fehler im Ablauf zu unterscheiden.']
+ ],choices:[['minimum','Nur die Rechte, die für die Aufgabe nötig sind'],['all','Vorsichtshalber sämtliche Rechte freigeben']]};
+}
+function chooseStory(choice){
+ if(!authenticated)return;
+ const scene=storyScene();
+ if(!storyChoiceIds[scene]?.includes(choice) || saved.story.choices[scene])return;
+ saved.story.choices[scene]=choice;save();renderStory();
+}
+function storyConsequence(scene,choice){
+ const answers={
+  inspect:['Agent Assassin','Einverstanden. Du arbeitest mit der unveränderten Protokollkopie. Öffne jetzt Teil 1 unter Hauptmissionen und markiere zuerst die Auftragsnummern.'],
+  restart:['Agent Nyx','Ein Neustart könnte den Betrieb vorübergehend wiederherstellen, erklärt aber den Fehler nicht. In dieser Übung wird nichts neu gestartet. Sichere zuerst den Befund in der vorhandenen Protokollkopie.'],
+  invalidate:['Agent Nyx','Genau. Eine Prüfung gilt für den Zustand, der geprüft wurde. Nach einer Änderung braucht es eine erneute Prüfung. Halte im Bericht fest, welche Zeilen diesen Unterschied zeigen.'],
+  keep:['Agent Nyx','Die frühere Prüfung bezieht sich auf die alten Daten. Nach einer Änderung kann sie den neuen Zustand nicht mehr bestätigen. Das erklärt, warum im Protokoll eine Prüfung vorhanden sein kann und der Schreibvorgang trotzdem zu früh erfolgt.'],
+  minimum:['Commander Zero','So wird es im Abschlussvermerk festgehalten: nur die nötigen Rechte. Das begrenzt die Folgen, falls der nächste Arbeitsschritt fehlerhaft ist. Die nächste Akte wird am 14.11.2026 geöffnet.'],
+  all:['Commander Zero','Zusätzliche Rechte würden hier keinen Nutzen bringen, aber mögliche Fehlerfolgen vergrößern. Für den weiteren Verlauf bleiben wir bei den nötigen Rechten. Notiere deine korrigierte Einschätzung im Abschlussbericht.']
+ };
+ return storyChoiceIds[scene]?.includes(choice)?answers[choice]:null;
+}
+function storyBubble(root,agent,text,player=false){
+ const div=document.createElement('article');div.className=player?'storyBubble playerBubble':'storyBubble';
+ const title=document.createElement('strong');title.textContent=agent;div.appendChild(title);
+ const body=document.createElement('p');body.textContent=text;div.appendChild(body);root.appendChild(div);
+}
+function renderStory(){
+ const data=storyContent();
+ document.getElementById('storyDashboardTitle').textContent=data.title;
+ document.getElementById('storyDashboardText').textContent='Nachricht von '+data.agent+' · Im Agentenfunk kannst du antworten und deinen Bericht ergänzen.';
+ const signature=JSON.stringify([data.scene,saved.story.choices,saved.story.notes,m01.bonusAt]);
+ if(signature===storySignature)return;storySignature=signature;
+ document.getElementById('storyTitle').textContent=data.title;
+ document.getElementById('storyPrompt').textContent=data.prompt;
+ const root=document.getElementById('storyMessages');root.textContent='';
+ data.messages.forEach(([agent,text])=>storyBubble(root,agent,text));
+ const options=document.getElementById('storyChoices');options.textContent='';
+ const choice=saved.story.choices[data.scene];
+ if(choice){
+  const label=data.choices.find(item=>item[0]===choice)?.[1];
+  if(label)storyBubble(root,'Agent 047',label,true);
+  const response=storyConsequence(data.scene,choice);if(response)storyBubble(root,...response);
+ }else data.choices.forEach(([id,text])=>{const button=document.createElement('button');button.type='button';button.className='storyOption';button.textContent=text;button.addEventListener('click',()=>chooseStory(id));options.appendChild(button);});
+ saved.story.notes.filter(n=>n.scene===data.scene).forEach(n=>storyBubble(root,'Agent 047 · Protokollnotiz',n.text,true));
+ document.getElementById('storyNoteCount').textContent=saved.story.notes.length+' / 12 Notizen im Missionsprotokoll';
+ document.getElementById('storyArchive').textContent='';
+ const labels={briefing:'Erster Einsatzplan',review:'Bewertung des Befunds',clearance:'Entscheidung zu den Rechten'};
+ for(const [scene,id] of Object.entries(saved.story.choices)){
+  const answer=storyConsequence(scene,id);if(!answer)continue;
+  const p=document.createElement('p');p.textContent=labels[scene]+' · '+answer[0]+': '+answer[1];document.getElementById('storyArchive').appendChild(p);
+ }
+ for(const n of saved.story.notes){
+  const p=document.createElement('p');p.textContent=new Intl.DateTimeFormat('de-AT',{timeZone:'Europe/Vienna',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(n.at))+' · '+n.text;
+  document.getElementById('storyArchive').appendChild(p);
+ }
+}
+function sendStoryNote(event){
+ event.preventDefault();if(!authenticated)return;
+ const input=document.getElementById('storyNote'),text=input.value.trim(),status=document.getElementById('storyStatus');
+ if(text.length<10){status.textContent='Schreibe bitte einen kurzen Satz zu deinem Gedanken oder deiner Frage.';return;}
+ if(text.length>600){status.textContent='Die Notiz darf höchstens 600 Zeichen haben.';return;}
+ if(saved.story.notes.length>=12){status.textContent='Dein Missionsprotokoll enthält bereits zwölf Notizen. Du kannst weitere Gedanken in Discord besprechen.';return;}
+ const scene=storyScene();saved.story.notes.push({scene,text,at:Date.now()});input.value='';save();renderStory();
+ status.textContent='Deine Notiz steht jetzt im Missionsprotokoll dieses Browsers. Für eine persönliche Antwort von '+storyContent().agent+' kannst du sie unten als Discord-Nachricht vorbereiten.';
+ document.getElementById('storyToDiscord').disabled=false;
+}
+function prepareStoryForDiscord(){
+ if(!authenticated)return;
+ const note=saved.story.notes[saved.story.notes.length-1];if(!note)return;
+ document.getElementById('radioNote').value=note.text;
+ document.getElementById('radioKind').value='report';
+ const recipients={standby:'Agent Assassin',briefing:'Agent Assassin',review:'Agent Nyx',recovery:'Agent 033',clearance:'Commander Zero'};
+ document.getElementById('radioRecipient').value=recipients[note.scene]||'Agent Assassin';
+ updateRadioDraft();document.getElementById('radioMessage').scrollIntoView({behavior:'smooth'});
+ document.getElementById('radioStatus').textContent='Deine Notiz ist als Nachricht vorbereitet. Kopiere sie und sende sie selbst in #agenten-zentrale. Noch nicht gesendet.';
+}
+function initStory(){
+ document.getElementById('storyForm').addEventListener('submit',sendStoryNote);
+ document.getElementById('storyToDiscord').addEventListener('click',prepareStoryForDiscord);
+ document.getElementById('storyToDiscord').disabled=saved.story.notes.length===0;
+ renderStory();
+}
+initStory();
+setInterval(()=>{renderStory();renderRadio();},30000);
 
 
 createTasks();
