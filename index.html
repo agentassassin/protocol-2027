@@ -139,6 +139,12 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 .code-workbench textarea.editable-code:focus{outline:2px solid #fff;outline-offset:2px}
 .code-workbench ol{padding-left:1.4rem;line-height:1.55}
 .code-workbench li{margin:.35rem 0}
+.flow-node{border:1px solid #69c8ff;background:#142b42;padding:.65rem .8rem;border-radius:.35rem;font-weight:700}
+.flow-decision{border-style:dashed}
+.flow-arrow{text-align:center;color:#aee0ff}
+.flow-branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px;margin:.7rem 0}
+.flow-branch{padding:.7rem;border-left:3px solid #69c8ff;background:#102136}
+.flow-branch label{display:block;margin:.75rem 0 .3rem}
 </style>
 </head>
 
@@ -160,7 +166,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 16 · CODE-REPARATUR</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 17 · ABLAUFPLAN UND C</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
 <p>Offizieller Spielstart: <strong>06.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
@@ -330,7 +336,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div class="badge">DIGITAL TRAINING UNIT</div>
  <h2>HACKER LAB</h2>
  <p>Trainiere deine Fähigkeiten in einer sicheren Testumgebung.</p>
- <p>Drei kurze Übungen ohne Punktkosten. Deine Antworten werden direkt geprüft.</p><div id="campaignTraining"></div>
+ <section id="campaignFlowLab" class="mission"></section><p>Drei weitere Übungen ohne Punktkosten. Deine Antworten werden direkt geprüft.</p><div id="campaignTraining"></div>
 </section>
 
 <!-- DISCORD -->
@@ -688,7 +694,7 @@ function initMissionOne(){
  <p>AGENT 047, du bist in der Zentrale angekommen. Doch beim Speichern von Daten ist etwas schiefgelaufen. Finde heute heraus, was passiert ist. Morgen erhältst du die nächste Aufgabe.</p>
  <p>Die Mission hat zwei Teile. Du kannst jederzeit eine Pause machen. Dein Fortschritt bleibt in diesem Browser gespeichert. Wenn du erst später Zeit hast, kannst du weiterspielen – du verlierst keine Punkte.</p>
  <div id="m01Status" class="status" role="status"></div>
- <p><strong>Dein Auftrag in Teil 1</strong> · Finde zuerst den Fehler im Protokoll. Danach öffnet sich der Code-Editor. Dort änderst du das fehlerhafte Prüfskript selbst und testest es.</p>
+ <p><strong>Dein Auftrag in Teil 1</strong> · Finde zuerst den Fehler im Protokoll. Danach öffnet sich der C-Editor. Dort änderst du das fehlerhafte Prüfskript selbst und testest es. Im Hacker-Lab kannst du vorher einen grafischen Ablauf ausprobieren.</p>
  <section id="m01Part1" class="mission">
  <h3>TAG 1 // SPURENSICHERUNG</h3>
  <p>Unten siehst du ein <strong>Protokoll</strong>: Der Computer hat aufgeschrieben, was er wann getan hat. Jede Zeile enthält eine Uhrzeit, eine Auftragsnummer und eine Aktion. Ein Auftrag heißt in der IT auch <strong>Request</strong>.</p>
@@ -1050,7 +1056,7 @@ const campaignMissions = [
     "prompt": "Welche Paketkennung passt?",
     "followup": {
      "title": "Programmierauftrag · Archivfilter",
-     "body": "Agent 391 möchte die Suche für neue Pakete wiederverwenden. Ergänze die Bedingung, damit nur Pakete aus Fach C mit Prüfwert 17 im Ergebnis landen. Die Schleife liest jede Zeile und append hängt die Kennung an die Ergebnisliste an.",
+     "body": "Agent 391 möchte die Suche für neue Pakete wiederverwenden. Repariere die C-Bedingung, damit nur Pakete aus Fach C mit Prüfwert 17 ausgegeben werden. Die Schleife prüft jeden Datensatz. printf zeigt die Kennung eines Treffers an.",
      "program": {
       "fields": [
        "fach",
@@ -1072,7 +1078,7 @@ const campaignMissions = [
       ],
       "starter": [
        "==",
-       "or",
+       "||",
        "=="
       ],
       "cases": [
@@ -1147,10 +1153,10 @@ const campaignMissions = [
     "data": "30  ZUERST\n10  DIE\n40  PRÜFEN\n20  QUELLE",
     "prompt": "Welches Wort steht in der sortierten Anweisung an zweiter Stelle?",
     "followup": {
-     "title": "Eine Schleife von Hand ausführen",
-     "body": "Die Streifen sind nach Nummer sortiert. Lies den Code Zeile für Zeile. Die Schleife besucht alle Paare in Reihenfolge. += hängt rechts ein Zeichen an den bisherigen Text. Notiere nach jeder Funkzeile den neuen Stand von quelle.",
-     "data": "streifen = [(\"Archiv\", \"A\"), (\"Funk\", \"S\"),\n            (\"Funk\", \"T\"), (\"Funk\", \"4\"),\n            (\"Funk\", \"1\"), (\"Archiv\", \"2\")]\nquelle = \"\"\nfor bereich, zeichen in streifen:\n    if bereich == \"Funk\":\n        quelle += zeichen\nprint(quelle)",
-     "prompt": "Was gibt print aus?",
+     "title": "Eine C-Schleife von Hand ausführen",
+     "body": "Die Streifen sind nach Nummer sortiert. In bereich steht A für Archiv und F für Funk. i beginnt bei 0 und steigt pro Runde um eins. bereich[i] und zeichen[i] gehören zum selben Streifen. putchar gibt genau ein Zeichen aus.",
+     "data": "char bereich[] = {'A', 'F', 'F', 'F', 'F', 'A'};\nchar zeichen[] = \"AST412\";\nfor (int i = 0; i < 6; i++) {\n    if (bereich[i] == 'F') {\n        putchar(zeichen[i]);\n    }\n}",
+     "prompt": "Welche Zeichenfolge erscheint ohne Leerzeichen?",
      "hash": "8c37af8fcec061556f5463098c62ea39b4879d5c0dcb50f615c4d4c9b535b358"
     },
     "hash": "cd52cec53443f3073e3b2c7e828041f7d79c27878a1d976ddac506ca735b59fa"
@@ -1187,9 +1193,9 @@ const campaignMissions = [
     "prompt": "Welche Meldung kam tatsächlich zuerst?",
     "followup": {
      "title": "Eine Funktion verstehen",
-     "body": "Die Meldungen liegen als Minuten nach 18:00 vor. Eine Funktion liefert mit return einen Wert zurück. Wende korrigieren auf jedes Paar an. max und min nehmen aus einer Liste den größten und kleinsten Wert.",
-     "data": "def korrigieren(station, minute):\n    if station == \"A\":\n        return minute - 2\n    return minute + 1\n\nzeiten = []\nfor station, minute in [(\"B\", 13), (\"A\", 11), (\"A\", 18), (\"B\", 10)]:\n    zeiten.append(korrigieren(station, minute))\nprint(max(zeiten) - min(zeiten))",
-     "prompt": "Welche Zahl gibt das Programm aus?",
+     "body": "Die Zeitwerte sind Minuten nach 18:00. return liefert das Ergebnis der Funktion. Berechne für jeden Aufruf die korrigierte Minute und nimm den Abstand zwischen dem größten und dem kleinsten Ergebnis.",
+     "data": "int korrigieren(char station, int minute) {\n    if (station == 'A') {\n        return minute - 2;\n    }\n    return minute + 1;\n}\n\nAufrufe aus dem Protokoll:\nkorrigieren('B', 13)\nkorrigieren('A', 11)\nkorrigieren('A', 18)\nkorrigieren('B', 10)",
+     "prompt": "Wie groß ist der Abstand zwischen den korrigierten Zeiten in Minuten?",
      "hash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451"
     },
     "hash": "73ab66a033c267e00b7429bb256f6deb2734ebc4cd4ff5b564a8c9f9b2c8a719"
@@ -1278,7 +1284,7 @@ const campaignMissions = [
       ],
       "starter": [
        ">",
-       "and",
+       "&&",
        "<"
       ],
       "cases": [
@@ -1377,9 +1383,9 @@ const campaignMissions = [
     "prompt": "Auf welchem Feld endet der Weg?",
     "followup": {
      "title": "Variablen beim Navigieren verfolgen",
-     "body": "Die Spalten A bis D entsprechen den Zahlen 1 bis 4. x ist die Spalte und y die Zeile. Führe jede Zuweisung der Reihe nach aus. print zeigt nur die Werte, die genau an seiner Stelle gelten. Übersetze die ausgegebene Spaltenzahl wieder in einen Buchstaben.",
-     "data": "x = 3\ny = 1\nx = x - 1\ny = y + 2\nprint(x, y)\nx = x + 1",
-     "prompt": "Welche Feldkennung gibt das Programm aus? Beispiel für das Format: A2.",
+     "body": "Die Spalten A bis D entsprechen den Zahlen 1 bis 4. x ist die Spalte und y die Zeile. Verfolge die Zuweisungen. printf gibt die Werte aus, die an dieser Stelle gelten. Übersetze die ausgegebene Spaltenzahl wieder in einen Buchstaben.",
+     "data": "int x = 3;\nint y = 1;\nx = x - 1;\ny = y + 2;\nprintf(\"%d %d\", x, y);\nx = x + 1;",
+     "prompt": "Welche Feldkennung entspricht der Ausgabe? Beispiel für das Format A2.",
      "hash": "0cd20d37dbaa799d1d2f6f04adbab0b9e958b083f38e06512cdefadd20863f98"
     },
     "hash": "ab861dc170dc2e43224e45278d3d31a675b9ebc34c9b0f48c066ca1eeaed8ee6"
@@ -1443,10 +1449,10 @@ const campaignMissions = [
     "data": "Termine: 18:10 · 18:20 · 18:30\nRollen:  Analyse · Archiv · Technik",
     "prompt": "Wann übernimmt die Technik? Format HH:MM.",
     "followup": {
-     "title": "Einen Listenfehler finden",
-     "body": "Die Rollen und Zeiten stehen in derselben Reihenfolge in zwei Listen. In Python hat der erste Eintrag den Index 0. Die Zeile für Funk benutzt den falschen Index. Prüfe die Position von Funk und gib den richtigen Index ein.",
-     "data": "rollen = [\"Analyse\", \"Technik\", \"Funk\", \"Archiv\"]\nzeiten = [\"19:00\", \"19:10\", \"19:20\", \"19:30\"]\nprint(zeiten[3])  # Soll die Zeit für Funk ausgeben",
-     "prompt": "Welche Zahl gehört in die eckigen Klammern?",
+     "title": "Einen Indexfehler in C finden",
+     "body": "Die vier Rollen haben dieselbe Reihenfolge wie ihre Minutenwerte im Array. In C hat der erste Eintrag den Index 0. Die Ausgabe für Funk benutzt den falschen Index. %02d zeigt die Minute zweistellig an.",
+     "data": "/* Analyse, Technik, Funk, Archiv */\nint minuten[] = {0, 10, 20, 30};\nprintf(\"19:%02d\", minuten[3]);  // Soll Funk zeigen",
+     "prompt": "Welche Zahl gehört in die eckigen Klammern bei minuten?",
      "hash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
     },
     "hash": "292d4ab496b20cb4f635ac5c485d857f4282041496efe5030187a5d24b667a60"
@@ -1482,10 +1488,10 @@ const campaignMissions = [
     "data": "17:58  Fassung 6  Prüfung OK\n18:01  Fassung 7  Änderung\n18:02  Fassung 7  gespeichert\n18:04  Fassung 7  Prüfung OK\n\nA  Die Änderung war absichtlich schädlich.\nB  Fassung 7 wurde vor ihrer Prüfung gespeichert.\nC  Beide Stationen sind ausgefallen.",
     "prompt": "Welche Aussage ist belegt? Gib A, B oder C ein.",
     "followup": {
-     "title": "Einen Prüfstatus im Code verfolgen",
-     "body": "True bedeutet gültig, False ungültig. not geprüft ist wahr, wenn geprüft gerade False ist. Gehe die Ereignisse der Reihe nach durch und notiere nach jeder Zeile den Zustand der Variablen.",
-     "data": "geprueft = False\nereignisse = [(\"Z1\", \"PRÜFUNG OK\"), (\"Z2\", \"SPEICHERN\"),\n              (\"Z3\", \"ÄNDERUNG\"), (\"Z4\", \"SPEICHERN\"),\n              (\"Z5\", \"PRÜFUNG OK\")]\nfor zeile, aktion in ereignisse:\n    if aktion == \"PRÜFUNG OK\":\n        geprueft = True\n    if aktion == \"ÄNDERUNG\":\n        geprueft = False\n    if aktion == \"SPEICHERN\" and not geprueft:\n        print(zeile)",
-     "prompt": "Welche Zeilenkennung gibt das Programm aus?",
+     "title": "Einen Prüfstatus im C-Code verfolgen",
+     "body": "P steht für Prüfung, S für Speichern und A für Änderung. Die Zahl 1 bedeutet geprüft, 0 bedeutet ungeprüft. && verlangt beide Bedingungen. Verfolge den Zustand pro Schleifenrunde. Die Zeilennummer ist i + 1.",
+     "data": "int geprueft = 0;\nchar aktion[] = {'P', 'S', 'A', 'S', 'P'};\nfor (int i = 0; i < 5; i++) {\n    if (aktion[i] == 'P') geprueft = 1;\n    if (aktion[i] == 'A') geprueft = 0;\n    if (aktion[i] == 'S' && geprueft == 0) {\n        printf(\"Z%d\", i + 1);\n    }\n}",
+     "prompt": "Welche Zeilenkennung gibt printf aus?",
      "hash": "ae68e0261d6e8c8ae882f72c537d7e5e2a760bef071c36963c626be0c7bce0fa"
     },
     "hash": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c"
@@ -1572,7 +1578,7 @@ const campaignMissions = [
       ],
       "starter": [
        "==",
-       "or",
+       "||",
        "=="
       ],
       "cases": [
@@ -1701,7 +1707,7 @@ const firstPatch = {
   ],
   "starter": [
    "!=",
-   "or",
+   "||",
    "=="
   ],
   "cases": [
@@ -1861,11 +1867,17 @@ function addCampaignCard(mission, card) {
  campaignBonusCards.set(mission.id, bonusStatus);
 }
 
+function campaignCLiteral(value) {
+ if (typeof value === 'number') return String(value);
+ if (/^[A-Z]$/.test(value)) return "'"+value+"'";
+ return value.toUpperCase().replace(/[^A-Z0-9_]/g,'_');
+}
+
 function campaignProgramLine(program, operators) {
  const [left, join, right] = operators;
  const [leftField, rightField] = program.fields;
- const [leftValue, rightValue] = program.values.map(value => JSON.stringify(value));
- return 'if '+leftField+' '+left+' '+leftValue+' '+join+' '+rightField+' '+right+' '+rightValue+':';
+ const [leftValue, rightValue] = program.values.map(campaignCLiteral);
+ return 'if ('+leftField+' '+left+' '+leftValue+' '+join+' '+rightField+' '+right+' '+rightValue+') {';
 }
 
 function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgram') {
@@ -1877,7 +1889,12 @@ function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgr
   campaignElement('li','Klicke in das markierte Codefeld und ändere die if-Zeile.'),
   campaignElement('li','Teste erneut. Übernimm den Befund, sobald alle Fälle passen.'));
  wrapper.appendChild(steps);
- const code = campaignElement('pre', '# daten wird für jeden Testfall eingesetzt\n'+'treffer = []\nfor kennung, '+columns.join(', ')+' in daten:');
+ const symbols = [...new Set(program.cases.flatMap(({rows}) => rows.flatMap(row => row.slice(1)))
+  .map(campaignCLiteral).filter(value => /^[A-Z_]/.test(value)))];
+ const constants = symbols.length ? 'enum { '+symbols.join(', ')+' };\n' : '';
+ const declarations = columns.map(name=>'    int '+name+' = daten[i].'+name+';').join('\n');
+ const code = campaignElement('pre', '/* C-Ausschnitt. daten und anzahl kommen aus dem Test. */\n'+constants+
+  'for (int i = 0; i < anzahl; i++) {\n'+declarations);
  code.style.whiteSpace = 'pre-wrap';
  code.style.overflowWrap = 'anywhere';
  wrapper.appendChild(code);
@@ -1891,10 +1908,10 @@ function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgr
  editor.autocapitalize = 'off';
  editor.style.fontFamily = 'monospace';
  editor.value = campaignProgramLine(program,program.starter);
- const label = campaignElement('label', 'EDITIERBARER PYTHON-CODE · HIER TIPPEN','code-editor-label');
+ const label = campaignElement('label', 'EDITIERBARER C-CODE · HIER TIPPEN','code-editor-label');
  label.htmlFor = editor.id;
- form.append(label,editor,campaignElement('pre','        treffer.append(kennung)\nprint(treffer)'));
- form.appendChild(campaignElement('p', 'Du bearbeitest eine Zeile. Behalte Namen, Werte und Doppelpunkt bei. == prüft auf Gleichheit, != auf Ungleichheit. and verlangt beide Bedingungen, or mindestens eine. >= und <= schließen den Grenzwert mit ein.'));
+ form.append(label,editor,campaignElement('pre','        printf("%s\\n", daten[i].kennung);\n    }\n}'));
+ form.appendChild(campaignElement('p', 'Du bearbeitest die if-Zeile. Behalte Namen, Werte und Klammern bei. == prüft auf Gleichheit, != auf Ungleichheit. && verlangt beide Bedingungen, || mindestens eine. >= und <= schließen den Grenzwert mit ein.'));
  const test = campaignElement('button', 'CODE TESTEN', 'mainbutton');
  test.type = 'submit';
  const results = campaignElement('div', '', 'status');
@@ -1917,11 +1934,10 @@ function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgr
   event.preventDefault();
   verified = false;
   confirm.disabled = true;
-  const match = /^if\s+([a-z_]+)\s*(==|!=|>=|<=|>|<)\s*("[^"\r\n]*"|'[^'\r\n]*'|-?\d+)\s+(and|or)\s+([a-z_]+)\s*(==|!=|>=|<=|>|<)\s*("[^"\r\n]*"|'[^'\r\n]*'|-?\d+)\s*:$/.exec(editor.value.trim());
-  const valueOf = token => /^["']/.test(token) ? token.slice(1,-1) : Number(token);
+  const match = /^if\s*\(\s*([a-z_]+)\s*(==|!=|>=|<=|>|<)\s*('[A-Z]'|[A-Z][A-Z0-9_]*|-?\d+)\s*(&&|\|\|)\s*([a-z_]+)\s*(==|!=|>=|<=|>|<)\s*('[A-Z]'|[A-Z][A-Z0-9_]*|-?\d+)\s*\)\s*\{$/.exec(editor.value.trim());
   if (!match || match[1] !== program.fields[0] || match[5] !== program.fields[1] ||
-      valueOf(match[3]) !== program.values[0] || valueOf(match[7]) !== program.values[1]) {
-   results.textContent = 'Prüfe die Schreibweise. Beginne mit if, behalte die Namen und Werte bei und setze einen Doppelpunkt ans Ende.';
+      match[3] !== campaignCLiteral(program.values[0]) || match[7] !== campaignCLiteral(program.values[1])) {
+   results.textContent = 'Prüfe die C-Schreibweise. Die Bedingung steht in runden Klammern nach if. Die Zeile endet mit einer öffnenden geschweiften Klammer {.';
    return;
   }
   const [, ,left,,join,,right] = match;
@@ -1939,7 +1955,7 @@ function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgr
    const output = rows.filter(row => {
     const a = compare[left](row[leftIndex],program.values[0]);
     const b = compare[right](row[rightIndex],program.values[1]);
-    return join === 'and' ? a && b : a || b;
+    return join === '&&' ? a && b : a || b;
    }).map(row => row[0]);
    return {rows, expected, output, passed:JSON.stringify(output)===JSON.stringify(expected)};
   });
@@ -1947,7 +1963,8 @@ function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgr
   confirm.disabled = !verified;
   results.textContent = verified ? 'Alle Tests bestanden. Du kannst den Befund übernehmen.' : 'Mindestens ein Test weicht ab. Vergleiche die Daten und versuche es noch einmal.';
   runs.forEach((run,index) => {
-   const data = campaignElement('pre', 'daten = '+JSON.stringify(run.rows));
+   const rows = run.rows.map(row => '  {'+JSON.stringify(row[0])+', '+row.slice(1).map(campaignCLiteral).join(', ')+'}');
+   const data = campaignElement('pre', 'Testdaten · Kennung, '+columns.join(', ')+'\n'+rows.join('\n'));
    data.style.whiteSpace = 'pre-wrap';
    data.style.overflowWrap = 'anywhere';
    results.append(campaignElement('p', 'Test '+(index+1)+' · '+(run.passed?'bestanden':'abweichend')), data,
@@ -2130,6 +2147,70 @@ function initCampaignTraining() {
  });
 }
 
+function initFlowTraining() {
+ const panel = document.getElementById('campaignFlowLab');
+ panel.append(campaignElement('h3','Grafisches Programmieren · Alarmablauf'),
+  campaignElement('p','Programmiere die drei Ausgänge des Ablaufplans. Ungültige Messungen müssen verworfen werden. Gültige Messungen ab 70 brauchen einen Alarm. Gültige Werte unter 70 werden nur protokolliert.'));
+ const form = document.createElement('form');
+ form.id = 'flowTrainingForm';
+ form.append(campaignElement('div','START · Messung einlesen','flow-node'),
+  campaignElement('div','↓','flow-arrow'),
+  campaignElement('div','ENTSCHEIDUNG · Ist die Messung gültig?','flow-node flow-decision'));
+ const branches = campaignElement('div','','flow-branches');
+ const rejected = campaignElement('div','','flow-branch');
+ const valid = campaignElement('div','','flow-branch');
+ const actions = [['discard','Messung verwerfen'],['alarm','Alarm melden'],['log','Messung protokollieren']];
+ function addOutput(branch,id,caption) {
+  const select = document.createElement('select');
+  select.id = id;
+  select.required = true;
+  const placeholder = campaignElement('option','Aktion auswählen …');
+  placeholder.value = '';
+  select.appendChild(placeholder);
+  for (const [value,name] of actions) {
+   const option = campaignElement('option',name);
+   option.value = value;
+   select.appendChild(option);
+  }
+  const label = campaignElement('label',caption);
+  label.htmlFor = id;
+  branch.append(label,select);
+  return select;
+ }
+ const invalid = addOutput(rejected,'flowInvalid','NEIN ↓ Ausgang für ungültige Messungen');
+ valid.append(campaignElement('p','JA ↓ Grenzwert prüfen'),
+  campaignElement('div','ENTSCHEIDUNG · Ist der Wert mindestens 70?','flow-node flow-decision'));
+ const high = addOutput(valid,'flowHigh','JA ↓ Ausgang ab 70');
+ const low = addOutput(valid,'flowLow','NEIN ↓ Ausgang unter 70');
+ branches.append(rejected,valid);
+ const button = campaignElement('button','ABLAUF TESTEN','mainbutton');
+ button.type = 'submit';
+ const feedback = campaignElement('div','','status');
+ feedback.id = 'flowTrainingResult';
+ feedback.setAttribute('aria-live','polite');
+ form.append(branches,button,feedback);
+ panel.appendChild(form);
+ form.addEventListener('submit',event => {
+  event.preventDefault();
+  const labels = Object.fromEntries(actions);
+  if (![invalid,high,low].every(field => Object.hasOwn(labels,field.value))) {
+   feedback.textContent = 'Wähle für alle drei Ausgänge eine Aktion.';
+   return;
+  }
+  const cases = [
+   {valid:false,value:91,expected:'discard'},
+   {valid:true,value:70,expected:'alarm'},
+   {valid:true,value:69,expected:'log'},
+   {valid:true,value:84,expected:'alarm'}
+  ];
+  const results = cases.map(item => ({...item,actual:!item.valid ? invalid.value : item.value>=70 ? high.value : low.value}));
+  feedback.textContent = results.every(item=>item.actual===item.expected) ? '✓ Alle Pfade stimmen.' : 'Mindestens ein Pfad führt zur falschen Aktion.';
+  for (const item of results) {
+   feedback.appendChild(campaignElement('p', (item.valid?'Gültig':'Ungültig')+' · Wert '+item.value+' → '+labels[item.actual]+' · Erwartet '+labels[item.expected]));
+  }
+ });
+}
+
 async function loadCampaignFinalImage() {
  if (!saved.m7 || !saved.campaignFinalAt || (!campaignTest && Date.now() < campaignFinalDate)) return;
  campaignFinalImageRequested = true;
@@ -2233,6 +2314,7 @@ for (const mission of campaignMissions) {
 }
 createTasks();
 initCampaignTraining();
+initFlowTraining();
 initMissionOnePatch();
 stats();
 </script>
