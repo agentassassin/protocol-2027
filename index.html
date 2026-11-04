@@ -152,8 +152,8 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 11 · ANTWORTDIALOGE</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
-<p>Offizieller Spielstart: <strong>07.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 15 · EINSATZBEREIT</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<p>Offizieller Spielstart: <strong>06.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
 <p>Die Uhr startet bei „Mission starten“. Es gibt kein Zeitlimit und keinen Zeitabzug. Auch beim Schließen der Seite läuft die Zeit weiter; am Ende wird sie gestoppt.</p>
@@ -270,6 +270,19 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div id="missionList"></div>
  <div class="rule"></div>
  <div id="missionOne"></div>
+ <div class="rule"></div><div id="campaignPanel" aria-label="Weitere Missionsakten"></div>
+ <section id="campaignFinal" class="mission hidden">
+  <div class="badge">ABSCHLUSS · 24.12.2026</div>
+  <h2>Letzte Meldung der Zentrale</h2><p id="campaignFinalStatus"></p>
+  <button type="button" class="mainbutton" id="campaignFinalOpen">ABSCHLUSSMELDUNG ÖFFNEN</button>
+  <div id="campaignFinalMessage" class="status hidden">
+   <p><strong>Commander Zero:</strong> Agent 047, alle acht Akten sind abgeschlossen. Die Belege sind gesichert. Die Operation ist beendet.</p>
+   <p>Zeige der Spielleitung diesen Übergabevermerk: <strong>PROTOCOL 2027 · EINSATZ ABGESCHLOSSEN</strong>.</p>
+   <iframe id="campaignFinalImage" class="hidden" title="Bild zur Abschlussmeldung" sandbox="allow-popups" referrerpolicy="no-referrer" style="width:100%;height:min(760px,85vh);border:0"></iframe>
+   <p id="campaignFinalImageStatus" role="status"></p>
+   <button type="button" class="back hidden" id="campaignFinalRetry">BILD ERNEUT LADEN</button>
+  </div>
+ </section>
 </section>
 
 <!-- BONUS -->
@@ -285,8 +298,8 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div id="shopInventory"></div>
  <h3>PUNKTE VERDIENEN</h3>
  <div class="mission bonus">MISSION 01 – PAKETPRÜFUNG · +30 P <span id="m01BonusScore" class="points"></span><p>Freiwilliger Bonusauftrag zwischen den beiden Abschnitten.</p><button type="button" onclick="openPage('missions')">ZUM BONUS IN MISSION 01</button></div>
- <p>Freiwillige Sonderaufgaben bringen zusätzliche Punkte. Bestätige eine Aufgabe erst, wenn sie tatsächlich erledigt ist.</p>
- <div class="mission bonus">MISSION 00 – BREACH THE SYSTEM <span id="breachStatus" class="points"></span></div><div id="bonusList"></div>
+ <p>Für jede gelöste Bonusaufgabe werden einmalig 30 Punkte gutgeschrieben.</p><div id="campaignBonusList"></div>
+ <div class="mission bonus">MISSION 00 – BREACH THE SYSTEM <span id="breachStatus" class="points"></span></div>
  <div class="status">
   BONUS-PUNKTSTAND: <span class="points" id="bonusScore">0</span><br>
   RANG: <span id="bonusRank">REKRUT</span>
@@ -300,18 +313,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div class="badge">KLASSIFIZIERTE DATEN</div>
  <h2>DATENARCHIV</h2>
  <p>Hier werden Informationen gesammelt, sobald sie im Verlauf der Operation freigegeben werden.</p>
- <div class="archiveitem">
-  <strong>ARCHIV 001</strong><br>
-  <small class="locked">🔒 Noch keine Informationen freigegeben</small>
- </div>
- <div class="archiveitem">
-  <strong>ARCHIV 002</strong><br>
-  <small class="locked">🔒 Weitere Daten folgen</small>
- </div>
- <div class="archiveitem">
-  <strong>ARCHIV 003</strong><br>
-  <small class="locked">🔒 Klassifizierte Informationen</small>
- </div>
+ <div id="campaignArchive"></div>
 </section>
 
 <!-- HACKER LAB -->
@@ -320,21 +322,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div class="badge">DIGITAL TRAINING UNIT</div>
  <h2>HACKER LAB</h2>
  <p>Trainiere deine Fähigkeiten in einer sicheren Testumgebung.</p>
- <div class="labitem">
-  <strong>TRAINING 001 – CODEKNACKEN</strong>
-  <p>Finde heraus, wie verschlüsselte Nachrichten aufgebaut sind.</p>
-  <span class="locked">🔒 Freigabe folgt</span>
- </div>
- <div class="labitem">
-  <strong>TRAINING 002 – DIGITALE SPUREN</strong>
-  <p>Untersuche Hinweise und finde die richtigen Informationen.</p>
-  <span class="locked">🔒 Freigabe folgt</span>
- </div>
- <div class="labitem">
-  <strong>TRAINING 003 – SYSTEMANALYSE</strong>
-  <p>Erkenne Muster und löse eine digitale Herausforderung.</p>
-  <span class="locked">🔒 Freigabe folgt</span>
- </div>
+ <p>Drei kurze Übungen ohne Punktkosten. Deine Antworten werden direkt geprüft.</p><div id="campaignTraining"></div>
 </section>
 
 <!-- DISCORD -->
@@ -343,14 +331,14 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div class="badge">SECURE COMMUNICATION</div>
  <h2>AGENTENFUNK</h2>
  <p>Wähle, was du deinem Ansprechpartner sagen möchtest. Auf jede Auswahl bekommst du hier direkt eine passende Antwort. Diese vorbereiteten Spieldialoge setzen sich mit deinem Missionsfortschritt fort.</p>
- <section class="mission" aria-labelledby="storyTitle"><div class="badge">AKTUELLE SZENE</div><h3 id="storyTitle"></h3>
+ <details id="missionOneRadio" class="mission" open><summary>FUNKPROTOKOLL · AKTE 01</summary><div class="badge">AKTUELLE SZENE</div><h3 id="storyTitle"></h3>
  <div id="storyMessages" aria-live="polite" aria-relevant="additions"></div><div id="storyChoices" class="storyOptions"></div>
  <button type="button" class="back" onclick="openPage('missions')">ZUR PASSENDEN MISSIONSAUFGABE</button>
  <h3>WAS MÖCHTEST DU FRAGEN?</h3><div id="storyQuestions" class="storyOptions"></div>
  <p id="storyStatus" role="status" aria-live="polite"></p><small id="storyNoteCount"></small>
  <button type="button" id="storyToDiscord" class="mainbutton">GESPRÄCHSSTAND FÜR DISCORD VORBEREITEN</button>
- </section>
- <details class="mission"><summary>DEIN BISHERIGES MISSIONSPROTOKOLL</summary><div id="storyArchive"></div></details>
+ </details>
+ <section id="campaignRadio" class="mission hidden" aria-live="polite"></section><details class="mission"><summary>DEIN BISHERIGES MISSIONSPROTOKOLL</summary><div id="storyArchive"></div></details>
  <details class="mission"><summary>OPTIONAL: MIT DEN ECHTEN AGENTEN IN DISCORD SPRECHEN</summary>
  <p>Ein Agent arbeitet nicht allein. Tausche dich mit der Zentrale und den Agenten in eurem bestehenden Discord aus. Hier bereitest du deine Nachrichten vor. Sie werden nicht automatisch versendet.</p>
  <h3>DEIN AKTUELLER FUNKAUFTRAG</h3><p id="radioTask" class="status"></p>
@@ -416,8 +404,11 @@ const mission00={
  async accepts(agent,code){return this.normalize(agent).replace(/\s+/g,'')==='AGENT047' && await this.fingerprint(code)==='5cd064543144ffc28c7e489d0f5be5669f491de107642da2a17dc4fe7554175f';}
 };
 </script><script>
+const campaignTest = false;
+const campaignPreviewImage = null;
+const campaignStart = Date.parse('2026-11-06T10:00:00+01:00');
 const missionData=[
- ["SYSTEM INITIALIZATION","07.11.2026"],
+ ["SYSTEM INITIALIZATION","06.11.2026"],
  ["THE DIGITAL VAULT","14.11.2026"],
  ["CODE RED","21.11.2026"],
  ["TELEMETRY","28.11.2026"],
@@ -467,14 +458,14 @@ const shopCatalog=[
  {id:'alphabet',title:'ALPHABET-KARTE',cost:20,description:'Eine Zahlen-Buchstaben-Tabelle zum Nachschlagen. Nach dem Kauf jederzeit verfügbar.'},
  {id:'shift',title:'VERSCHIEBE-WERKZEUG',cost:50,description:'Zwei verschiebbare Alphabetreihen zum Untersuchen von Buchstabencodes. Nach dem Kauf jederzeit verfügbar.'},
  {id:'support',title:'PERSÖNLICHE HILFE',cost:100,description:'Eine Hilfsanfrage für eine Mission vorbereiten. Die Nachricht sendest du anschließend selbst im Discord. Noch kein automatischer Versand.'},
- {id:'binary',title:'BINÄR-KARTE',cost:30,unlockAt:Date.parse('2026-11-07T10:00:00+01:00'),description:'Neu zu Mission 01: Stellenwerte und Buchstabentabelle für 8-Bit-Codes. Dauerhaft nutzbar, keine fertige Rätsellösung.'}
+ {id:'binary',title:'BINÄR-KARTE',cost:30,unlockAt:Date.parse('2026-11-06T10:00:00+01:00'),description:'Neu zu Mission 01: Stellenwerte und Buchstabentabelle für 8-Bit-Codes. Dauerhaft nutzbar, keine fertige Rätsellösung.'}
 ];
 if(!saved.shop || typeof saved.shop!=='object' || Array.isArray(saved.shop))saved.shop={};
 function shopOwned(id){return saved.shop[id]===true;}
 function earnedTotal(){
  let total=breach.completed?breachPoints():0;
  bonusData.forEach((b,i)=>{if(saved['b'+i])total+=b[1];});
- total+=m01Reward()+(m01.bonusAt?30:0);
+ total+=m01Reward()+(m01.bonusAt?30:0)+campaignEarned();
  total+=saved.radio&&saved.radio.confirmedAt?20:0;
  return total;
 }
@@ -507,6 +498,7 @@ function renderShop(){
   const owned=document.createElement('div');owned.className='labitem';
   const title=document.createElement('h3');title.textContent=item.title;owned.appendChild(title);
   if(item.id==='alphabet')shopParagraph(owned,Array.from({length:26},(_,i)=>String(i+1).padStart(2,'0')+' = '+String.fromCharCode(65+i)).join(' · '));
+  if(item.tip)shopParagraph(owned,item.tip);
   if(item.id==='binary'){
    shopParagraph(owned,'8-Bit-Stellenwerte: 128 · 64 · 32 · 16 · 8 · 4 · 2 · 1. Addiere die Werte an den Stellen mit einer 1.');
    shopParagraph(owned,Array.from({length:26},(_,i)=>String.fromCharCode(65+i)+' = '+(65+i)).join(' · '));
@@ -563,6 +555,7 @@ function stats(){
  renderMissionOne();
  renderRadio();
  if(saved.story)renderStory();
+ renderCampaign();
  save();
 }
 
@@ -597,39 +590,7 @@ function createTasks(){
    const link=document.createElement('button');link.type='button';link.textContent='ZUR MISSION';link.addEventListener('click',()=>document.getElementById('missionOne').scrollIntoView({behavior:'smooth'}));div.appendChild(link);
    document.getElementById('missionList').appendChild(div);return;
   }
-  const label=document.createElement("label");
-  label.className="task";
-  const cb=document.createElement("input");
-  cb.type="checkbox";
-  cb.disabled=true;
-  cb.checked=!!saved["m"+i];
-  cb.addEventListener("change",()=>{
-   saved["m"+i]=cb.checked;stats();
-  });
-  label.appendChild(cb);
-  label.appendChild(document.createTextNode("MISSION "+String(i+1).padStart(2,"0")+" – "+m[0]));
-  div.appendChild(label);
-  const small=document.createElement("small");
-  small.textContent="Geplanter Start: "+m[1]+" · Briefing folgt";
-  div.appendChild(small);
-  document.getElementById("missionList").appendChild(div);
- });
-
- bonusData.forEach((b,i)=>{
-  const div=document.createElement("div");
-  div.className="mission bonus";
-  const label=document.createElement("label");
-  label.className="task";
-  const cb=document.createElement("input");
-  cb.type="checkbox";
-  cb.checked=!!saved["b"+i];
-  cb.addEventListener("change",()=>{
-   saved["b"+i]=cb.checked;stats();
-  });
-  label.appendChild(cb);
-  label.appendChild(document.createTextNode(b[0]+" (+"+b[1]+" Punkte)"));
-  div.appendChild(label);
-  document.getElementById("bonusList").appendChild(div);
+  addCampaignCard(campaignMissions[i-1],div);
  });
 }
 
@@ -649,6 +610,8 @@ function renderHints(){
 function renderMission(){
  const started=!!breach.startedAt;
  document.getElementById('startMission').classList.toggle('hidden',started);
+ document.getElementById('startMission').disabled=!campaignTest&&!started&&Date.now()<campaignStart;
+ document.getElementById('startMission').textContent=document.getElementById('startMission').disabled?'START AM FREITAG · 10 UHR':'MISSION STARTEN';
  document.getElementById('puzzleArea').classList.toggle('hidden',!started);
  document.getElementById('stageProgress').textContent=breach.stage+' / 3 DATENPAKETE REKONSTRUIERT';
  for(let n=1;n<=3;n++)document.getElementById('stage'+n).classList.toggle('hidden',!started || breach.stage!==n-1);
@@ -657,7 +620,7 @@ function renderMission(){
  fragments.textContent='REKONSTRUIERT: '+breach.fragments.slice(0,breach.stage).filter(x=>typeof x==='string').join(' / ');
  document.getElementById('hintArea').classList.toggle('hidden',breach.completed);tick();renderHints();
 }
-document.getElementById('startMission').addEventListener('click',()=>{if(!breach.startedAt){breach.startedAt=Date.now();save();}renderMission();document.getElementById('stageTitle1').focus();});
+document.getElementById('startMission').addEventListener('click',()=>{if(!breach.startedAt){if(!campaignTest&&Date.now()<campaignStart)return;breach.startedAt=Date.now();save();}renderMission();document.getElementById('stageTitle1').focus();});
 for(let n=1;n<=3;n++)document.getElementById('stageForm'+n).addEventListener('submit',async event=>{
  event.preventDefault();if(!breach.startedAt || breach.stage!==n-1)return;
  const error=document.getElementById('stageError'+n);
@@ -684,8 +647,8 @@ document.getElementById('accessForm').addEventListener('submit',async event=>{
 renderMission();setInterval(tick,1000);
 
 // Lokale Spielzustände und Zeitfreigaben sind Teil der Simulation, keine Zugriffssicherung.
-const m01Start=Date.parse('2026-11-07T10:00:00+01:00');
-const m01DayTwo=Date.parse('2026-11-08T10:00:00+01:00');
+const m01Start=campaignTest ? 0 : campaignStart;
+const m01DayTwo=Date.parse('2026-11-07T10:00:00+01:00');
 let m01=saved.mission01;
 if(!m01 || typeof m01!=='object' || Array.isArray(m01))m01={};
 for(const key of ['part1At','completedAt','bonusAt'])if(!Number.isFinite(m01[key]) || m01[key]<=0)m01[key]=null;
@@ -700,6 +663,7 @@ const m01Hints=[
 ];
 function m01Reward(){return m01.completedAt?[100,80,50,0][m01.hints]:0;}
 function m01Release(){
+ if(campaignTest)return 0;
  if(!m01.part1At)return m01DayTwo;
  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Vienna',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(m01.part1At));
  const get=type=>Number(parts.find(p=>p.type===type).value);
@@ -741,6 +705,7 @@ function initMissionOne(){
 18:04:16  R31  WRITE</pre>
  <p><strong>Deine Aufgabe:</strong> Trage zuerst die Nummer des fehlerhaften Auftrags ein. Trage darunter das englische Wort der Aktion ein, die zu früh passiert. Du brauchst keinen ganzen Satz.</p>
  <form id="m01Form1"><label for="m01Request">WELCHE AUFTRAGSNUMMER HAT DEN FEHLER?</label><input id="m01Request" autocomplete="off" required><label for="m01Action">WELCHE AKTION PASSIERT ZU FRÜH?</label><input id="m01Action" autocomplete="off" required><button type="submit" class="mainbutton">ANTWORT PRÜFEN</button><p id="m01Error1" class="error" role="status"></p></form>
+ <section id="m01Patch" class="mission hidden" aria-label="Prüfskript reparieren"></section>
  </section>
  <div id="m01Waiting" class="status hidden"></div>
  <section id="m01Part2" class="mission hidden">
@@ -779,10 +744,13 @@ function initMissionOne(){
   try{await handler();}finally{button.disabled=false;}
  });
  bind('m01Form1',async()=>{
-  if(Date.now()<m01Start || m01.part1At)return;
+  if(Date.now()<m01Start || m01.part1At || m01.findingConfirmed)return;
   const input=document.getElementById('m01Request').value.trim()+'-'+document.getElementById('m01Action').value.trim();
   if(!await m01Check(input,'a93575508b40124ac7841dd7b9687ab307771e6f89f74f6c4591b779268c0081','m01Error1'))return;
-  if(m01.part1At)return;m01.part1At=Date.now();save();stats();renderMissionOne();
+  if(m01.part1At || m01.findingConfirmed)return;
+  m01.findingConfirmed=true;
+  stats();
+  document.getElementById('m01Patch').scrollIntoView({block:'start'});
  });
  bind('m01Form2',async()=>{
   if(!m01.part1At || Date.now()<m01Release() || m01.completedAt)return;
@@ -809,6 +777,8 @@ async function m01Check(input,hash,errorId){
 function renderMissionOne(){
  const now=Date.now(),started=now>=m01Start,done=!!m01.completedAt;
  document.getElementById('m01Part1').classList.toggle('hidden',!started || !!m01.part1At);
+ document.getElementById('m01Form1').classList.toggle('hidden',!!m01.findingConfirmed);
+ document.getElementById('m01Patch').classList.toggle('hidden',!m01.findingConfirmed || !!m01.part1At);
  document.getElementById('m01Part2').classList.toggle('hidden',!m01.part1At || now<m01Release() || done);
  document.getElementById('m01Waiting').classList.toggle('hidden',!m01.part1At || now>=m01Release() || done);
  document.getElementById('m01Waiting').textContent='Protokoll gesichert. Die Zentrale analysiert deinen Befund. Zweites Datenpaket ab '+m01Date(m01Release())+' Uhr (Wien). Du musst nichts neu beginnen. Bis dahin ist der Bonusauftrag verfügbar.';
@@ -821,7 +791,7 @@ function renderMissionOne(){
  const button=document.getElementById('m01HintButton');button.disabled=m01.hints===3;
  button.textContent=m01.hints===3?'ALLE HINWEISE ANGEZEIGT · MISSIONSBONUS: 0 P':'HINWEIS '+(m01.hints+1)+' · MISSIONSBONUS DANACH: '+[80,50,0][m01.hints]+' P';
  const list=document.getElementById('m01HintList');list.textContent='';m01Hints.slice(0,m01.hints).forEach(text=>{const li=document.createElement('li');li.textContent=text;list.appendChild(li);});
- const record=document.getElementById('m01ListStatus');if(record)record.textContent=done?'✓ Abgeschlossen':!started?'Freigabe am 07.11.2026, 10:00 Uhr':m01.part1At?'Abschnitt 1 gesichert':'Bereit';
+ const record=document.getElementById('m01ListStatus');if(record)record.textContent=done?'✓ Abgeschlossen':!started?'Freigabe am 06.11.2026, 10:00 Uhr':m01.part1At?'Abschnitt 1 gesichert':'Bereit';
  document.getElementById('m01BonusScore').textContent=m01.bonusAt?'✓ +30 P gutgeschrieben':m01.part1At?'Verfügbar in Mission 01':'Nach Abschnitt 1 verfügbar';
 }
 initMissionOne();
@@ -951,7 +921,7 @@ function storyContent(){
  const scene=storyScene();
  if(scene==='standby')return {scene,title:'Aufnahme in die Zentrale',agent:'Agent Assassin',prompt:'Was möchtest du vor dem ersten Einsatz festhalten?',messages:[
   ['Agent Assassin','Dein Zugang ist bestätigt, 047. Für deinen ersten Einsatz bekommst du eine Kopie eines internen Systemprotokolls. Du arbeitest nur mit den Unterlagen hier in der Zentrale.'],
-  ['Commander Zero','Die Akte wird am 07.11.2026 um 10:00 Uhr geöffnet. Bis dahin kannst du dich im Agentenfunk vorstellen. Wir brauchen keine persönlichen Daten – dein Codename genügt.']
+  ['Commander Zero','Die Akte wird am 06.11.2026 um 10:00 Uhr geöffnet. Bis dahin kannst du dich im Agentenfunk vorstellen. Wir brauchen keine persönlichen Daten – dein Codename genügt.']
  ],choices:[]};
  if(scene==='briefing')return {scene,title:'Akte 01 · Ein widersprüchlicher Eintrag',agent:'Agent Assassin',prompt:'Notiere deinen Plan oder eine Frage zu den Unterlagen.',messages:[
   ['Agent Assassin','Beim Speichern eines Datensatzes gab es einen Widerspruch. Die Daten kamen an, aber das Protokoll bestätigt keinen sauberen Ablauf. Wir wissen noch nicht, ob es ein Bedienfehler oder ein Fehler in der Reihenfolge war.'],
@@ -1052,11 +1022,1195 @@ function initStory(){
  renderStory();
 }
 initStory();
-setInterval(()=>{renderStory();renderRadio();},30000);
+setInterval(()=>{if(!breach.startedAt)renderMission();renderStory();renderRadio();renderCampaign();},30000);
 
 
 
+const campaignMissions = [
+ {
+  "id": 2,
+  "title": "THE DIGITAL VAULT",
+  "date": "2026-11-14",
+  "agent": "Agent 391",
+  "intro": "Der fehlende Bezug aus Akte 01 führt zum Archiv. Ein Datensatz wurde doppelt abgelegt. Finde die Kopie, die zur ursprünglichen Ablage passt.",
+  "parts": [
+   {
+    "title": "Die richtige Kopie",
+    "body": "Der Übergabezettel nennt drei Merkmale: Fach C, Länge 48 und Prüfwert 17. Nur ein Paket erfüllt alle drei.",
+    "data": "Paket  Fach  Länge  Prüfwert\nK12    C     48     71\nK27    C     48     17\nK31    B     48     17\nK44    C     84     17",
+    "prompt": "Welche Paketkennung passt?",
+    "followup": {
+     "title": "Programmierauftrag · Archivfilter",
+     "body": "Agent 391 möchte die Suche für neue Pakete wiederverwenden. Ergänze die Bedingung, damit nur Pakete aus Fach C mit Prüfwert 17 im Ergebnis landen. Die Schleife liest jede Zeile und append hängt die Kennung an die Ergebnisliste an.",
+     "program": {
+      "fields": [
+       "fach",
+       "pruefwert"
+      ],
+      "values": [
+       "C",
+       17
+      ],
+      "operators": [
+       [
+        "==",
+        "!="
+       ],
+       [
+        "==",
+        "!="
+       ]
+      ],
+      "starter": [
+       "==",
+       "or",
+       "=="
+      ],
+      "cases": [
+       {
+        "rows": [
+         [
+          "K12",
+          "C",
+          71
+         ],
+         [
+          "K27",
+          "C",
+          17
+         ],
+         [
+          "K31",
+          "B",
+          17
+         ],
+         [
+          "K44",
+          "C",
+          17
+         ]
+        ],
+        "expected": [
+         "K27",
+         "K44"
+        ]
+       },
+       {
+        "rows": [
+         [
+          "K50",
+          "C",
+          18
+         ],
+         [
+          "K51",
+          "A",
+          17
+         ]
+        ],
+        "expected": []
+       },
+       {
+        "rows": [
+         [
+          "K52",
+          "A",
+          18
+         ],
+         [
+          "K53",
+          "C",
+          17
+         ]
+        ],
+        "expected": [
+         "K53"
+        ]
+       }
+      ]
+     }
+    },
+    "hash": "e01a2f64f30bc38400bfeb76287a5c12cce06411b87f7aade181761132cff97f"
+   },
+   {
+    "title": "Die Archivnotiz",
+    "body": "Die vier Streifen sind durcheinander. Sortiere sie nach ihrer Nummer, vom kleinsten zum größten Wert. Lies dann die Wörter als Anweisung.",
+    "data": "30  ZUERST\n10  DIE\n40  PRÜFEN\n20  QUELLE",
+    "prompt": "Welches Wort steht in der sortierten Anweisung an zweiter Stelle?",
+    "followup": {
+     "title": "Eine Schleife von Hand ausführen",
+     "body": "Die Streifen sind nach Nummer sortiert. Lies den Code Zeile für Zeile. Die Schleife besucht alle Paare in Reihenfolge. += hängt rechts ein Zeichen an den bisherigen Text. Notiere nach jeder Funkzeile den neuen Stand von quelle.",
+     "data": "streifen = [(\"Archiv\", \"A\"), (\"Funk\", \"S\"),\n            (\"Funk\", \"T\"), (\"Funk\", \"4\"),\n            (\"Funk\", \"1\"), (\"Archiv\", \"2\")]\nquelle = \"\"\nfor bereich, zeichen in streifen:\n    if bereich == \"Funk\":\n        quelle += zeichen\nprint(quelle)",
+     "prompt": "Was gibt print aus?",
+     "hash": "8c37af8fcec061556f5463098c62ea39b4879d5c0dcb50f615c4d4c9b535b358"
+    },
+    "hash": "cd52cec53443f3073e3b2c7e828041f7d79c27878a1d976ddac506ca735b59fa"
+   }
+  ],
+  "hints": [
+   "Schreibe die drei Merkmale nebeneinander und hake sie für jedes Paket ab.",
+   "Ein Paket mit zwei passenden Merkmalen reicht nicht.",
+   "Für Teil 2 zählt die Zahl auf dem Streifen, auch wenn ein Wort an anderer Stelle sinnvoll klingt."
+  ],
+  "bonus": {
+   "title": "Prüfsumme",
+   "body": "Addiere die einzelnen Ziffern der Archivnummer 5827. Verwende die Summe als Kontrollwert.",
+   "prompt": "Wie lautet der Kontrollwert?",
+   "hash": "785f3ec7eb32f30b90cd0fcf3657d388b5ff4297f2f9716ff66e9b69c05ddd09"
+  },
+  "tool": "Archiv-Checkliste",
+  "tip": "Notiere pro Paket Fach, Länge und Prüfwert in getrennten Spalten. Streiche eine Zeile erst, wenn du die Abweichung benennen kannst.",
+  "reason": "Wenn wir die falsche Kopie übernehmen, arbeiten alle späteren Akten mit der falschen Ausgangslage. Deshalb halten wir fest, anhand welcher Merkmale wir die Kopie zuordnen.",
+  "lead": "Die Archivnotiz fordert eine zweite Quelle. In Akte 03 vergleichen wir deshalb die Meldungen zweier Stationen."
+ },
+ {
+  "id": 3,
+  "title": "CODE RED",
+  "date": "2026-11-21",
+  "agent": "Agent Nyx",
+  "intro": "Zwei Stationen melden dieselbe Störung. Ihre Uhren gehen verschieden. Bevor die Zentrale reagiert, braucht sie die tatsächliche Reihenfolge.",
+  "parts": [
+   {
+    "title": "Zwei Uhren",
+    "body": "Station A geht zwei Minuten vor, Station B eine Minute nach. Rechne die angezeigten Uhrzeiten auf die richtige Zeit um.",
+    "data": "ALPHA  A  18:08\nBRAVO  B  18:06\nCHARLY A  18:10",
+    "prompt": "Welche Meldung kam tatsächlich zuerst?",
+    "followup": {
+     "title": "Eine Funktion verstehen",
+     "body": "Die Meldungen liegen als Minuten nach 18:00 vor. Eine Funktion liefert mit return einen Wert zurück. Wende korrigieren auf jedes Paar an. max und min nehmen aus einer Liste den größten und kleinsten Wert.",
+     "data": "def korrigieren(station, minute):\n    if station == \"A\":\n        return minute - 2\n    return minute + 1\n\nzeiten = []\nfor station, minute in [(\"B\", 13), (\"A\", 11), (\"A\", 18), (\"B\", 10)]:\n    zeiten.append(korrigieren(station, minute))\nprint(max(zeiten) - min(zeiten))",
+     "prompt": "Welche Zahl gibt das Programm aus?",
+     "hash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451"
+    },
+    "hash": "73ab66a033c267e00b7429bb256f6deb2734ebc4cd4ff5b564a8c9f9b2c8a719"
+   },
+   {
+    "title": "Fehlalarm oder Ausfall?",
+    "body": "Ein Ausfall wird nur bestätigt, wenn zwei voneinander unabhängige Quellen ihn melden. Kopien zählen zur ursprünglichen Quelle.",
+    "data": "A  Sensor Ost    AUSFALL\nB  Kopie von A  AUSFALL\nC  Sensor West   BETRIEB\nD  Kopie von C  BETRIEB",
+    "prompt": "Wie viele unabhängige Quellen melden einen Ausfall? Gib eine Zahl ein.",
+    "followup": {
+     "title": "Die Kopien zurückverfolgen",
+     "body": "Vier neue Ausfallmeldungen treffen ein. Folge bei jeder Kopie den Verweisen bis zur ursprünglichen Meldung. Zähle am Ende alle unterschiedlichen Originale mit dem Status AUSFALL, auch den bereits bekannten Sensor Ost.",
+     "data": "E  Kopie von B   AUSFALL\nF  Sensor Nord   AUSFALL\nG  Kopie von F   AUSFALL\nH  Kopie von E   AUSFALL\nAus der ersten Prüfung: B ist eine Kopie von A. A stammt von Sensor Ost.",
+     "prompt": "Wie viele unabhängige Ausfallmeldungen sind es jetzt insgesamt?",
+     "hash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+    },
+    "hash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+   }
+  ],
+  "hints": [
+   "Eine Uhr, die vorgeht, zeigt eine zu späte Zeit an.",
+   "Schreibe korrigierte Uhrzeiten untereinander.",
+   "Zeichne für Teil 2 einen Pfeil von jeder Kopie zur Originalmeldung."
+  ],
+  "bonus": {
+   "title": "Uhrentest",
+   "body": "Eine Uhr geht vier Minuten nach und zeigt 19:26. Die Zentrale braucht die tatsächliche Zeit.",
+   "prompt": "Wie spät ist es wirklich? Format HH:MM.",
+   "hash": "98fe8ce1ab6241a0e5b3106407461a0450b44153db167be647acb92bbf0bcea2"
+  },
+  "tool": "Zeitachsenblatt",
+  "tip": "Lege drei Spalten an: Meldung, angezeigte Zeit, korrigierte Zeit. Entscheide erst nach der Korrektur über die Reihenfolge.",
+  "reason": "Mehrere Meldungen können auf demselben Sensor beruhen. Wir prüfen die Herkunft, bevor wir aus der Anzahl der Meldungen auf einen Ausfall schließen.",
+  "lead": "Zwei unabhängige Stationen melden eine Störung. Wie lange sie anhielt, klären wir anhand der Messreihe in Akte 04."
+ },
+ {
+  "id": 4,
+  "title": "TELEMETRY",
+  "date": "2026-11-28",
+  "agent": "Agent 033",
+  "intro": "Die Messreihe ist erhalten. Ein einzelner hoher Wert könnte ein Fehler sein. Wir suchen eine Abweichung, die länger anhält.",
+  "parts": [
+   {
+    "title": "Das erste stabile Signal",
+    "body": "Ein Signal zählt als stabil, wenn zwei aufeinanderfolgende Messungen mindestens 70 erreichen. Gesucht ist die Kennung der ersten Messung dieses ersten gültigen Paars.",
+    "data": "P1  65\nP2  76\nP3  64\nP4  70\nP5  74\nP6  81",
+    "prompt": "Wo beginnt das erste stabile Signal?",
+    "followup": {
+     "title": "Das Signal erneut prüfen",
+     "body": "Die Station sendet eine weitere Reihe. Prüfe erneut benachbarte Paare. Gesucht ist diesmal das letzte Paar, bei dem beide Werte mindestens 70 erreichen. Gib beide Kennungen in Reihenfolge mit Bindestrich ein.",
+     "data": "R1  73\nR2  71\nR3  67\nR4  82\nR5  76\nR6  70\nR7  66",
+     "prompt": "Welche beiden Kennungen bilden das letzte gültige Paar?",
+     "hash": "a105350b0da5740aa1ecbc44625899e158a01866c4e0409b50adca04a78ad7c1"
+    },
+    "hash": "e05184c1f58012abeecc03933a7cc6b1e9f87b0d23de1f96993b154064ad8dca"
+   },
+   {
+    "title": "Den Gerätefehler ausgleichen",
+    "body": "Bei Gerät B müssen von jedem Messwert 6 abgezogen werden. Gerät A misst richtig. Vergleiche die korrigierten Werte.",
+    "data": "M1  Gerät A  72\nM2  Gerät B  80\nM3  Gerät A  73\nM4  Gerät B  76",
+    "prompt": "Welche Kennung hat den höchsten korrigierten Wert?",
+    "followup": {
+     "title": "Programmierauftrag · Grenzwerte testen",
+     "body": "Die Korrektur von Gerät B ist bereits eingerechnet. Eine Messung gilt nur, wenn der korrigierte Wert mindestens 70 und höchstens 80 ist. Ergänze die Bedingung. Die Fälle mit 70 und 80 prüfen, ob dein Programm die Grenzen richtig behandelt.",
+     "program": {
+      "fields": [
+       "wert",
+       "wert"
+      ],
+      "values": [
+       70,
+       80
+      ],
+      "operators": [
+       [
+        ">=",
+        ">",
+        "<="
+       ],
+       [
+        "<=",
+        "<",
+        ">="
+       ]
+      ],
+      "starter": [
+       ">",
+       "and",
+       "<"
+      ],
+      "cases": [
+       {
+        "rows": [
+         [
+          "M1",
+          69
+         ],
+         [
+          "M2",
+          70
+         ],
+         [
+          "M3",
+          76
+         ],
+         [
+          "M4",
+          80
+         ],
+         [
+          "M5",
+          81
+         ]
+        ],
+        "expected": [
+         "M2",
+         "M3",
+         "M4"
+        ]
+       },
+       {
+        "rows": [
+         [
+          "M6",
+          64
+         ],
+         [
+          "M7",
+          95
+         ]
+        ],
+        "expected": []
+       },
+       {
+        "rows": [
+         [
+          "M8",
+          71
+         ],
+         [
+          "M9",
+          79
+         ]
+        ],
+        "expected": [
+         "M8",
+         "M9"
+        ]
+       }
+      ]
+     }
+    },
+    "hash": "0892a10ece1f933ee98f5d554601b28f8437801d1aa1b77799e4035ddcb6950c"
+   }
+  ],
+  "hints": [
+   "Die Schwelle ist einschließlich 70.",
+   "Ein einzelner hoher Wert bildet noch kein Paar.",
+   "Korrigiere nur die Werte von Gerät B, bevor du vergleichst."
+  ],
+  "bonus": {
+   "title": "Gegenprobe",
+   "body": "Ein Kontrollgerät zeigt nacheinander 68, 72 und 76. Addiere die Werte und teile durch drei.",
+   "prompt": "Wie hoch ist der Durchschnitt?",
+   "hash": "8722616204217eddb39e7df969e0698aed8e599ba62ed2de1ce49b03ade0fede"
+  },
+  "tool": "Messprotokoll",
+  "tip": "Schreibe neben jeden Rohwert den korrigierten Wert. Markiere bei der Schwellenprüfung die benachbarten Paare.",
+  "reason": "Die Messreihe soll zeigen, ob der Rückkanal wirklich länger aktiv war. Ein einzelner Ausschlag wäre zu wenig, um eine Spur daraus abzuleiten.",
+  "lead": "Die Messung bestätigt einen aktiven Rückkanal. In Akte 05 müssen wir herausfinden, welcher Knoten ihn ausgelöst hat."
+ },
+ {
+  "id": 5,
+  "title": "LOCATION TRACE",
+  "date": "2026-12-05",
+  "agent": "Agent 045",
+  "intro": "Der Rückkanal ist einer Station auf einem fiktiven Raster zugeordnet. Eine Wegnotiz und eine Ersatzroute liegen vor.",
+  "parts": [
+   {
+    "title": "Weg auf dem Raster",
+    "body": "Beginne bei B2. Gehe zwei Felder nach Osten, eines nach Norden und eines nach Westen. Osten erhöht den Spaltenbuchstaben. Norden verringert die Zeilennummer.",
+    "data": "     A   B   C   D\n1   A1  B1  C1  D1\n2   A2  B2  C2  D2\n3   A3  B3  C3  D3",
+    "prompt": "Auf welchem Feld endet der Weg?",
+    "followup": {
+     "title": "Variablen beim Navigieren verfolgen",
+     "body": "Die Spalten A bis D entsprechen den Zahlen 1 bis 4. x ist die Spalte und y die Zeile. Führe jede Zuweisung der Reihe nach aus. print zeigt nur die Werte, die genau an seiner Stelle gelten. Übersetze die ausgegebene Spaltenzahl wieder in einen Buchstaben.",
+     "data": "x = 3\ny = 1\nx = x - 1\ny = y + 2\nprint(x, y)\nx = x + 1",
+     "prompt": "Welche Feldkennung gibt das Programm aus? Beispiel für das Format: A2.",
+     "hash": "0cd20d37dbaa799d1d2f6f04adbab0b9e958b083f38e06512cdefadd20863f98"
+    },
+    "hash": "ab861dc170dc2e43224e45278d3d31a675b9ebc34c9b0f48c066ca1eeaed8ee6"
+   },
+   {
+    "title": "Die Ersatzroute",
+    "body": "Verbindungen gelten in beide Richtungen. Die direkte Strecke A–C ist gesperrt. Finde die günstigste offene Route von A nach D. Zahlen sind Minuten.",
+    "data": "A–B  3\nA–C  2  GESPERRT\nB–C  2\nB–D  7\nC–D  2",
+    "prompt": "Wie viele Minuten braucht die günstigste Route?",
+    "followup": {
+     "title": "Mit der neuen Sperre planen",
+     "body": "Jetzt sind A–C und C–D gesperrt. Dafür ist ein Weg über E offen. Vergleiche die möglichen offenen Routen von A nach D. Die Zahlen sind Minuten und Verbindungen gelten in beide Richtungen.",
+     "data": "A–B  3\nA–E  6\nB–E  1\nB–D  7\nE–D  4\nA–C und C–D gesperrt",
+     "prompt": "Wie viele Minuten benötigt die beste Ersatzroute?",
+     "hash": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3"
+    },
+    "hash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451"
+   }
+  ],
+  "hints": [
+   "Setze einen Punkt auf B2 und zeichne jeden Schritt einzeln.",
+   "Der Spaltenbuchstabe und die Zeilennummer ändern sich nie gleichzeitig.",
+   "Streiche gesperrte Strecken vor dem Rechnen. Vergleiche die Summen der offenen Routen."
+  ],
+  "bonus": {
+   "title": "Rückweg",
+   "body": "Vom Feld D3 gehst du ein Feld nach Westen und zwei nach Norden. Nutze dasselbe Raster.",
+   "prompt": "Wo kommst du an?",
+   "hash": "ab861dc170dc2e43224e45278d3d31a675b9ebc34c9b0f48c066ca1eeaed8ee6"
+  },
+  "tool": "Routenblatt",
+  "tip": "Skizziere Knoten als Punkte und verbinde sie mit beschrifteten Linien. Streiche eine gesperrte Linie durch, bevor du Wegzeiten addierst.",
+  "reason": "Der Knoten hilft uns, den Rückkanal einer bestimmten Schicht zuzuordnen. Du arbeitest nur mit dem Raster und den Wegdaten in der Akte.",
+  "lead": "Der gefundene Knoten gehört zu einer Schicht, in der mehrere Agenten dieselben Unterlagen bearbeiteten. Akte 06 klärt die Zuständigkeiten."
+ },
+ {
+  "id": 6,
+  "title": "THE CREW",
+  "date": "2026-12-12",
+  "agent": "Agent Assassin",
+  "intro": "Die Schicht ist dokumentiert, aber der Rollenplan wurde von den Zeitangaben getrennt. Setze die Übergabe wieder zusammen.",
+  "parts": [
+   {
+    "title": "Der Rollenplan",
+    "body": "Vier Agenten übernehmen je genau eine Rolle. Agent 045 übernimmt Funk. Agent 033 arbeitet weder im Archiv noch in der Analyse. Nyx wertet die Meldungen aus. Archiv und Analyse werden von verschiedenen Personen erledigt.",
+    "data": "Agenten: Nyx, 391, 033, 045\nRollen: Analyse, Archiv, Technik, Funk",
+    "prompt": "Welche Rolle hat Agent 391?",
+    "followup": {
+     "title": "Den Schichtplan prüfen",
+     "body": "Die vier Rollen besetzen je einen der vier Termine. Funk ist um 18:00. Die Technik kommt direkt nach dem Archiv. Die Analyse ist später als die Technik. Nutze die Zuordnung aus dem Rollenplan. Agent 391 übernimmt das Archiv.",
+     "data": "Termine: 18:00 · 18:10 · 18:20 · 18:30",
+     "prompt": "Wann ist Agent 391 an der Reihe? Format HH:MM.",
+     "hash": "300f791e723af33238ceb294a65b2e3acdb8c7539e5813da337d4f3bf55f0eb3"
+    },
+    "hash": "b80db269abd337155154579effeeecd4a4830f09ed06f5b70c41bffd97f5f34c"
+   },
+   {
+    "title": "Die Übergabe",
+    "body": "Jede Rolle braucht einen anderen Termin. Die Technik kommt nach dem Archiv. Die Analyse beginnt um 18:10.",
+    "data": "Termine: 18:10 · 18:20 · 18:30\nRollen:  Analyse · Archiv · Technik",
+    "prompt": "Wann übernimmt die Technik? Format HH:MM.",
+    "followup": {
+     "title": "Einen Listenfehler finden",
+     "body": "Die Rollen und Zeiten stehen in derselben Reihenfolge in zwei Listen. In Python hat der erste Eintrag den Index 0. Die Zeile für Funk benutzt den falschen Index. Prüfe die Position von Funk und gib den richtigen Index ein.",
+     "data": "rollen = [\"Analyse\", \"Technik\", \"Funk\", \"Archiv\"]\nzeiten = [\"19:00\", \"19:10\", \"19:20\", \"19:30\"]\nprint(zeiten[3])  # Soll die Zeit für Funk ausgeben",
+     "prompt": "Welche Zahl gehört in die eckigen Klammern?",
+     "hash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+    },
+    "hash": "292d4ab496b20cb4f635ac5c485d857f4282041496efe5030187a5d24b667a60"
+   }
+  ],
+  "hints": [
+   "Streiche bei jedem Agenten die Rollen, die laut Text unmöglich sind.",
+   "Eine vergebene Rolle kann kein zweiter Agent bekommen.",
+   "Lege in Teil 2 zuerst den festen Termin fest. Ordne danach die übrigen Rollen."
+  ],
+  "bonus": {
+   "title": "Terminabstand",
+   "body": "Zwei Übergaben beginnen um 18:20 und 18:45.",
+   "prompt": "Wie viele Minuten liegen dazwischen?",
+   "hash": "b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569"
+  },
+  "tool": "Ausschlusstabelle",
+  "tip": "Zeichne eine Zeile pro Person und eine Spalte pro Rolle. Markiere Nein-Felder und übertrage jede sichere Zuordnung auf die übrigen Zeilen.",
+  "reason": "Wer eine Unterlage übergibt, muss den ursprünglichen Eintrag nicht selbst erstellt haben. Wir rekonstruieren Zuständigkeiten, bevor wir Namen mit dem Vorfall verbinden.",
+  "lead": "Die Übergabe ist geklärt. Jetzt kann die Zentrale die Aussagen aus den bisherigen Akten gemeinsam bewerten."
+ },
+ {
+  "id": 7,
+  "title": "FINAL INTEL",
+  "date": "2026-12-19",
+  "agent": "Agent Nyx",
+  "intro": "Commander Zero braucht einen Abschlussbefund. Formuliere nur, was die Akten tatsächlich hergeben.",
+  "parts": [
+   {
+    "title": "Beobachtung oder Vermutung",
+    "body": "Akte 01 zeigt, dass Daten nach einer Änderung ohne erneute gültige Prüfung gespeichert wurden. Die Akten zeigen keine Absicht und keine Person als Ursache.",
+    "data": "A  Eine Person hat das System absichtlich gestört.\nB  Nach einer Änderung fehlte eine gültige Prüfung.\nC  Beide Stationen sind sicher ausgefallen.",
+    "prompt": "Welche Aussage ist durch die Akte belegt? Gib A, B oder C ein.",
+    "followup": {
+     "title": "Einen Prüfstatus im Code verfolgen",
+     "body": "True bedeutet gültig, False ungültig. not geprüft ist wahr, wenn geprüft gerade False ist. Gehe die Ereignisse der Reihe nach durch und notiere nach jeder Zeile den Zustand der Variablen.",
+     "data": "geprueft = False\nereignisse = [(\"Z1\", \"PRÜFUNG OK\"), (\"Z2\", \"SPEICHERN\"),\n              (\"Z3\", \"ÄNDERUNG\"), (\"Z4\", \"SPEICHERN\"),\n              (\"Z5\", \"PRÜFUNG OK\")]\nfor zeile, aktion in ereignisse:\n    if aktion == \"PRÜFUNG OK\":\n        geprueft = True\n    if aktion == \"ÄNDERUNG\":\n        geprueft = False\n    if aktion == \"SPEICHERN\" and not geprueft:\n        print(zeile)",
+     "prompt": "Welche Zeilenkennung gibt das Programm aus?",
+     "hash": "ae68e0261d6e8c8ae882f72c537d7e5e2a760bef071c36963c626be0c7bce0fa"
+    },
+    "hash": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c"
+   },
+   {
+    "title": "Die zweite Quelle",
+    "body": "Für den Abschluss brauchen wir eine unabhängige Bestätigung, die sich auf denselben Zeitraum bezieht. Ein Export derselben Datei zählt nicht als zweite Quelle.",
+    "data": "Q1  Export des vorhandenen Protokolls, gleicher Zeitraum\nQ2  Messprotokoll eines anderen Geräts, anderer Zeitraum\nQ3  Messprotokoll eines anderen Geräts, gleicher Zeitraum",
+    "prompt": "Welche Quelle erfüllt beide Anforderungen?",
+    "followup": {
+     "title": "Die Aussage eingrenzen",
+     "body": "Das Ereignis liegt zwischen 18:04 und 18:06. Die zweite Quelle muss diesen gesamten Zeitraum abdecken und von einem anderen Gerät kommen. Prüfe die Herkunft und beide Uhrzeiten.",
+     "data": "B1  Anderes Gerät       18:05–18:10\nB2  Dasselbe Gerät      18:01–18:08\nB3  Anderes Gerät       18:02–18:07\nB4  Anderes Gerät       18:00–18:03",
+     "prompt": "Welche Belegkennung gehört in den Abschlussbericht?",
+     "hash": "0cd20d37dbaa799d1d2f6f04adbab0b9e958b083f38e06512cdefadd20863f98"
+    },
+    "hash": "9fc58f1abf0d4f134609c7572d4475fd5b6469591323164a998d435099198294"
+   }
+  ],
+  "hints": [
+   "Unterstreiche nur Tatsachen, die ausdrücklich in der Akte stehen.",
+   "Eine naheliegende Erklärung ist noch kein Beweis.",
+   "Eine zweite Quelle muss unabhängig und zeitlich passend sein. Prüfe beides getrennt."
+  ],
+  "bonus": {
+   "title": "Quellen zählen",
+   "body": "Vier Meldungen liegen vor. Zwei sind Originale von verschiedenen Geräten. Die anderen beiden sind Kopien des ersten Originals.",
+   "prompt": "Wie viele unabhängige Quellen sind das?",
+   "hash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+  },
+  "tool": "Belegmatrix",
+  "tip": "Lege pro Aussage eine Zeile an. Notiere Quelle, Zeitraum und den Unterschied zwischen Beobachtung und Schlussfolgerung.",
+  "reason": "Für einen Abschlussbefund muss eine zweite Quelle denselben Vorgang tatsächlich bestätigen. Eine Kopie kann den Inhalt wiederholen, aber keinen unabhängigen Nachweis liefern.",
+  "lead": "Die Belege reichen für den Abschlussbericht. In Akte 08 entscheidet Commander Zero, welche Freigabe verantwortbar ist."
+ },
+ {
+  "id": 8,
+  "title": "MISSION CLEARANCE",
+  "date": "2026-12-21",
+  "agent": "Commander Zero",
+  "intro": "Die Störung ist eingegrenzt. Vor Abschluss muss die Zentrale sicherstellen, dass Prüfung, Entscheidung und Übergabe in der richtigen Reihenfolge stehen.",
+  "parts": [
+   {
+    "title": "Das Abschlussprotokoll",
+    "body": "Ordne die vier Arbeitsschritte von 1 bis 4. Die Quellenprüfung kommt vor der Freigabe. Zwischen Quellenprüfung und Freigabe liegt genau ein Schritt. Der Bericht wird direkt nach der Freigabe übergeben. Der übrige Schritt ist die Rechteprüfung.",
+    "data": "Schritte: Quellenprüfung, Rechteprüfung, Freigabe, Übergabe",
+    "prompt": "An welcher Position steht die Rechteprüfung? Gib eine Zahl ein.",
+    "followup": {
+     "title": "Den Übergabezeitpunkt prüfen",
+     "body": "Quellenprüfung beginnt um 17:40 und dauert sechs Minuten. Danach braucht die Rechteprüfung vier Minuten. Für die Freigabe sind anschließend drei Minuten eingeplant. Die Übergabe kann sofort nach der Freigabe beginnen.",
+     "data": "Start 17:40 → Quellenprüfung +6 Min. → Rechteprüfung +4 Min. → Freigabe +3 Min.",
+     "prompt": "Wann kann die Übergabe frühestens beginnen? Format HH:MM.",
+     "hash": "da35bbada9bb316ed2abed3cad6c10712c9cff3e582d0edf59894285295693bf"
+    },
+    "hash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+   },
+   {
+    "title": "Der Freigabevermerk",
+    "body": "Der Auftrag verlangt Leserechte für den Bericht. Änderungen sind abgeschlossen. Eine Ausführung ist nicht Teil der Übergabe. Wähle die kleinste ausreichende Freigabe.",
+    "data": "A  Lesen\nB  Lesen und Schreiben\nC  Lesen, Schreiben und Ausführen",
+    "prompt": "Welche Freigabe ist angemessen? Gib A, B oder C ein.",
+    "followup": {
+     "title": "Programmierauftrag · Lesefreigaben kontrollieren",
+     "body": "Der fertige Bericht geht an die Zentrale. Der Filter soll nur Freigaben für Zentrale auswählen, deren Recht genau Lesen lautet. Ergänze die Bedingung. Teste auch Fälle, bei denen nur eine der beiden Angaben passt.",
+     "program": {
+      "fields": [
+       "empfaenger",
+       "recht"
+      ],
+      "values": [
+       "Zentrale",
+       "Lesen"
+      ],
+      "operators": [
+       [
+        "==",
+        "!="
+       ],
+       [
+        "==",
+        "!="
+       ]
+      ],
+      "starter": [
+       "==",
+       "or",
+       "=="
+      ],
+      "cases": [
+       {
+        "rows": [
+         [
+          "F1",
+          "Zentrale",
+          "Lesen+Schreiben"
+         ],
+         [
+          "F2",
+          "Archiv",
+          "Lesen"
+         ],
+         [
+          "F3",
+          "Zentrale",
+          "Lesen"
+         ]
+        ],
+        "expected": [
+         "F3"
+        ]
+       },
+       {
+        "rows": [
+         [
+          "F4",
+          "Zentrale",
+          "Schreiben"
+         ],
+         [
+          "F5",
+          "Archiv",
+          "Lesen+Schreiben"
+         ]
+        ],
+        "expected": []
+       },
+       {
+        "rows": [
+         [
+          "F6",
+          "Zentrale",
+          "Lesen"
+         ],
+         [
+          "F7",
+          "Zentrale",
+          "Lesen"
+         ],
+         [
+          "F8",
+          "Archiv",
+          "Lesen"
+         ]
+        ],
+        "expected": [
+         "F6",
+         "F7"
+        ]
+       }
+      ]
+     }
+    },
+    "hash": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd"
+   }
+  ],
+  "hints": [
+   "Zeichne vier Plätze für die Reihenfolge.",
+   "Die Übergabe muss direkt an die Freigabe anschließen. Setze die Quellenprüfung mit dem angegebenen Abstand davor.",
+   "Für Teil 2 zählt nur das Recht, das für die Übergabe tatsächlich benötigt wird."
+  ],
+  "bonus": {
+   "title": "Abschlussinventur",
+   "body": "Im Ordner liegen ein Abschlussbericht, zwei unabhängige Belege und drei Kopien. Gezählt werden nur Bericht und unabhängige Belege.",
+   "prompt": "Wie viele Unterlagen zählen?",
+   "hash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
+  },
+  "tool": "Freigabe-Checkliste",
+  "tip": "Prüfe zuerst die Belege, dann die Voraussetzungen und zuletzt den kleinsten notwendigen Rechteumfang.",
+  "reason": "Bei der Übergabe bleibt der fertige Bericht geschützt. Die Empfänger brauchen Zugriff zum Lesen. Jeder weitere Zugriff muss einen konkreten Zweck haben.",
+  "lead": "Der Abschlussbericht liegt vor. Die letzte Meldung wird am 24.12. freigegeben. Du kannst bis dahin offene Bonusaufträge nachholen."
+ }
+];
+const campaignTraining = [
+ {
+  "title": "01 · Verschiebung zurücknehmen",
+  "body": "Ein Buchstabe wurde beim Verschlüsseln um zwei Plätze nach vorne verschoben. Aus D wurde F. Der Geheimtext lautet J. Welcher Buchstabe stand ursprünglich dort?",
+  "hash": "44bd7ae60f478fae1061e11a7739f4b94d1daf917982d33b6fc8a01a63f89c21"
+ },
+ {
+  "title": "02 · Daten sortieren",
+  "body": "Sortiere P3 um 16:10, P1 um 16:02 und P2 um 16:05 chronologisch. Welche Kennung steht in der Mitte?",
+  "hash": "acbbb742c7524cecdec7557d60e4a19af062346309ce5731c88485c7daf48982"
+ },
+ {
+  "title": "03 · Rechte zerlegen",
+  "body": "Lesen zählt 4, Schreiben zählt 2 und Ausführen zählt 1. Welchen Zahlenwert haben Lesen und Ausführen zusammen?",
+  "hash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d"
+ }
+];
+const firstPatch = {
+ "title": "Hacker-Auftrag · Fehlalarm im Prüfskript",
+ "body": "Dein Befund stimmt. In der Übungskopie des Prüfskripts gibt es noch einen Fehler: Die Warnliste darf nur einen Schreibvorgang (WRITE) aufnehmen, dessen Freigabe ungültig ist. Ändere die fehlerhafte if-Zeile und prüfe dein Ergebnis an drei Testfällen.",
+ "program": {
+  "fields": [
+   "aktion",
+   "freigabe"
+  ],
+  "values": [
+   "WRITE",
+   "UNGUELTIG"
+  ],
+  "operators": [
+   [
+    "==",
+    "!="
+   ],
+   [
+    "==",
+    "!="
+   ]
+  ],
+  "starter": [
+   "==",
+   "or",
+   "=="
+  ],
+  "cases": [
+   {
+    "rows": [
+     [
+      "R17",
+      "WRITE",
+      "UNGUELTIG"
+     ],
+     [
+      "R24",
+      "WRITE",
+      "GUELTIG"
+     ],
+     [
+      "R31",
+      "UPDATE",
+      "UNGUELTIG"
+     ]
+    ],
+    "expected": [
+     "R17"
+    ]
+   },
+   {
+    "rows": [
+     [
+      "R40",
+      "WRITE",
+      "GUELTIG"
+     ],
+     [
+      "R41",
+      "UPDATE",
+      "UNGUELTIG"
+     ]
+    ],
+    "expected": []
+   },
+   {
+    "rows": [
+     [
+      "R51",
+      "WRITE",
+      "UNGUELTIG"
+     ],
+     [
+      "R52",
+      "VERIFY",
+      "GUELTIG"
+     ],
+     [
+      "R53",
+      "WRITE",
+      "UNGUELTIG"
+     ]
+    ],
+    "expected": [
+     "R51",
+     "R53"
+    ]
+   }
+  ]
+ }
+};
+const campaignRewards = [100, 80, 50, 0];
+const campaignFinalDate = Date.parse('2026-12-24T10:00:00+01:00');
+const campaignProgress = saved.campaign && typeof saved.campaign === 'object' && !Array.isArray(saved.campaign) ? saved.campaign : {};
+saved.campaign = campaignProgress;
+let selectedCampaignMission = 2;
+let campaignViewKey = '';
+let campaignRadioKey = '';
+let campaignArchiveKey = '';
+let campaignRadioActive = false;
+let campaignFinalImageRequested = false;
+const campaignCards = new Map();
+const campaignBonusCards = new Map();
+
+function campaignState(id) {
+ const value = campaignProgress[id];
+ return value && typeof value === 'object' && !Array.isArray(value) ? value : (campaignProgress[id] = {});
+}
+
+function campaignStamp(date) {
+ return Date.parse(date + 'T10:00:00+01:00');
+}
+
+function campaignPartTwo(mission) {
+ const completed = campaignState(mission.id).part1At;
+ if (!completed) return Infinity;
+ const localDate = new Intl.DateTimeFormat('en-CA', {timeZone:'Europe/Vienna', year:'numeric', month:'2-digit', day:'2-digit'}).formatToParts(new Date(completed));
+ const value = type => Number(localDate.find(part => part.type === type).value);
+ const next = new Date(Date.UTC(value('year'), value('month')-1, value('day')+1, 9));
+ return Math.max(campaignStamp(mission.date)+86400000, +next, completed+43200000);
+}
+
+function campaignPhase(mission, now = Date.now()) {
+ const state = campaignState(mission.id);
+ if (!saved['m'+(mission.id-2)]) return 'prerequisite';
+ if (!campaignTest && now < campaignStamp(mission.date)) return 'scheduled';
+ if (state.completedAt) return 'complete';
+ if (!state.part1At) return 'first';
+ return campaignTest || now >= campaignPartTwo(mission) ? 'second' : 'waiting';
+}
+
+function campaignLabel(mission, phase) {
+ if (phase === 'prerequisite') return 'Zuerst Mission '+String(mission.id-1).padStart(2,'0')+' abschließen.';
+ if (phase === 'scheduled') return 'Freigabe am '+m01Date(campaignStamp(mission.date))+' Uhr (Wien).';
+ if (phase === 'waiting') return 'Teil 1 abgeschlossen. Teil 2 ab '+m01Date(campaignPartTwo(mission))+' Uhr (Wien).';
+ if (phase === 'complete') return 'Abgeschlossen · '+campaignRewards[campaignState(mission.id).hints]+' P';
+ return phase === 'first' ? 'Teil 1 bereit' : 'Teil 2 bereit';
+}
+
+function campaignEarned() {
+ return campaignMissions.reduce((points, mission) => {
+  const state = campaignState(mission.id);
+  return points + (state.completedAt ? campaignRewards[state.hints] : 0) + (state.bonusAt ? 30 : 0);
+ }, 0);
+}
+
+function campaignElement(tag, text, className) {
+ const element = document.createElement(tag);
+ element.textContent = text;
+ if (className) element.className = className;
+ return element;
+}
+
+function campaignButton(label, action) {
+ const button = campaignElement('button', label, 'storyOption');
+ button.type = 'button';
+ button.addEventListener('click', action);
+ return button;
+}
+
+function openCampaignMission(id, bonus = false) {
+ selectedCampaignMission = id;
+ openPage('missions');
+ const target = bonus ? document.getElementById('campaignBonusTask') : document.getElementById('campaignPanel');
+ (target || document.getElementById('campaignPanel')).scrollIntoView({block:'start'});
+}
+
+function addCampaignCard(mission, card) {
+ const title = 'MISSION '+String(mission.id).padStart(2,'0')+' – '+mission.title;
+ card.appendChild(campaignElement('h3', title));
+ const status = campaignElement('p', '');
+ card.appendChild(status);
+ card.appendChild(campaignButton('AKTE ÖFFNEN', () => openCampaignMission(mission.id)));
+ campaignCards.set(mission.id, status);
+ document.getElementById('missionList').appendChild(card);
+ const bonus = campaignElement('div', '', 'mission bonus');
+ bonus.appendChild(campaignElement('h3', 'MISSION '+String(mission.id).padStart(2,'0')+' · '+mission.bonus.title+' · +30 P'));
+ const bonusStatus = campaignElement('p', '');
+ bonus.appendChild(bonusStatus);
+ bonus.appendChild(campaignButton('BONUSAUFTRAG ÖFFNEN', () => openCampaignMission(mission.id, true)));
+ document.getElementById('campaignBonusList').appendChild(bonus);
+ campaignBonusCards.set(mission.id, bonusStatus);
+}
+
+function campaignProgramLine(program, operators) {
+ const [left, join, right] = operators;
+ const [leftField, rightField] = program.fields;
+ const [leftValue, rightValue] = program.values.map(value => JSON.stringify(value));
+ return 'if '+leftField+' '+left+' '+leftValue+' '+join+' '+rightField+' '+right+' '+rightValue+':';
+}
+
+function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgram') {
+ const columns = [...new Set(program.fields)];
+ const form = document.createElement('form');
+ const code = campaignElement('pre', '# daten wird für jeden Testfall eingesetzt\n'+'treffer = []\nfor kennung, '+columns.join(', ')+' in daten:');
+ code.style.whiteSpace = 'pre-wrap';
+ code.style.overflowWrap = 'anywhere';
+ wrapper.appendChild(code);
+ const editor = document.createElement('textarea');
+ editor.id = prefix+'Editor';
+ editor.rows = 3;
+ editor.maxLength = 160;
+ editor.required = true;
+ editor.spellcheck = false;
+ editor.autocapitalize = 'off';
+ editor.style.fontFamily = 'monospace';
+ editor.value = campaignProgramLine(program,program.starter);
+ const label = campaignElement('label', 'Fehlerhafte if-Zeile bearbeiten');
+ label.htmlFor = editor.id;
+ form.append(label,editor,campaignElement('pre','        treffer.append(kennung)\nprint(treffer)'));
+ form.appendChild(campaignElement('p', 'Ändere die Vergleichszeichen oder and/or und behalte die Namen und Werte bei. == bedeutet gleich, != bedeutet ungleich. and verlangt beide Bedingungen, or mindestens eine. >= und <= schließen den Grenzwert mit ein.'));
+ const test = campaignElement('button', 'CODE TESTEN', 'mainbutton');
+ test.type = 'submit';
+ const results = campaignElement('div', '', 'status');
+ results.setAttribute('aria-live','polite');
+ let verified = false;
+ const confirm = campaignButton('BEFUND ÜBERNEHMEN', () => {
+  if (verified) accept();
+ });
+ confirm.id = prefix+'Accept';
+ confirm.disabled = true;
+ form.append(test, results, confirm);
+ wrapper.appendChild(form);
+
+ editor.addEventListener('input', () => {
+  verified = false;
+  confirm.disabled = true;
+  results.textContent = '';
+ });
+ form.addEventListener('submit', event => {
+  event.preventDefault();
+  verified = false;
+  confirm.disabled = true;
+  const match = /^if\s+([a-z_]+)\s*(==|!=|>=|<=|>|<)\s*("[^"\r\n]*"|'[^'\r\n]*'|-?\d+)\s+(and|or)\s+([a-z_]+)\s*(==|!=|>=|<=|>|<)\s*("[^"\r\n]*"|'[^'\r\n]*'|-?\d+)\s*:$/.exec(editor.value.trim());
+  const valueOf = token => /^["']/.test(token) ? token.slice(1,-1) : Number(token);
+  if (!match || match[1] !== program.fields[0] || match[5] !== program.fields[1] ||
+      valueOf(match[3]) !== program.values[0] || valueOf(match[7]) !== program.values[1]) {
+   results.textContent = 'Prüfe die Schreibweise. Beginne mit if, behalte die Namen und Werte bei und setze einen Doppelpunkt ans Ende.';
+   return;
+  }
+  const [, ,left,,join,,right] = match;
+  if (!program.operators[0].includes(left) || !program.operators[1].includes(right)) {
+   results.textContent = 'Für diese Übung sind links '+program.operators[0].join(' oder ')+' und rechts '+program.operators[1].join(' oder ')+' möglich.';
+   return;
+  }
+  const compare = {
+   '==':(a,b)=>a===b, '!=':(a,b)=>a!==b,
+   '>':(a,b)=>a>b, '>=':(a,b)=>a>=b, '<':(a,b)=>a<b, '<=':(a,b)=>a<=b
+  };
+  const leftIndex = columns.indexOf(program.fields[0])+1;
+  const rightIndex = columns.indexOf(program.fields[1])+1;
+  const runs = program.cases.map(({rows,expected}) => {
+   const output = rows.filter(row => {
+    const a = compare[left](row[leftIndex],program.values[0]);
+    const b = compare[right](row[rightIndex],program.values[1]);
+    return join === 'and' ? a && b : a || b;
+   }).map(row => row[0]);
+   return {rows, expected, output, passed:JSON.stringify(output)===JSON.stringify(expected)};
+  });
+  verified = runs.every(run => run.passed);
+  confirm.disabled = !verified;
+  results.textContent = verified ? 'Alle Tests bestanden. Du kannst den Befund übernehmen.' : 'Mindestens ein Test weicht ab. Vergleiche die Daten und versuche es noch einmal.';
+  runs.forEach((run,index) => {
+   const data = campaignElement('pre', 'daten = '+JSON.stringify(run.rows));
+   data.style.whiteSpace = 'pre-wrap';
+   data.style.overflowWrap = 'anywhere';
+   results.append(campaignElement('p', 'Test '+(index+1)+' · '+(run.passed?'bestanden':'abweichend')), data,
+    campaignElement('p','Deine Ausgabe '+JSON.stringify(run.output)+' · Erwartet '+JSON.stringify(run.expected)));
+  });
+ });
+}
+
+function initMissionOnePatch() {
+ const panel = document.getElementById('m01Patch');
+ panel.appendChild(campaignElement('h3',firstPatch.title));
+ panel.appendChild(campaignElement('p',firstPatch.body));
+ renderCampaignProgram(panel,firstPatch.program,() => {
+  if (!authenticated || !m01.findingConfirmed || m01.part1At || Date.now()<m01Start) return;
+  m01.part1At = Date.now();
+  stats();
+ },'m01Program');
+}
+
+function renderCampaignChallenge(parent, mission, challenge, kind, followup = false) {
+ const wrapper = campaignElement('section', '', kind === 'bonus' ? 'mission bonus' : 'mission');
+ if (kind === 'bonus') wrapper.id = 'campaignBonusTask';
+ wrapper.appendChild(campaignElement('h3', challenge.title+(kind === 'bonus'?' · +30 P':'')));
+ wrapper.appendChild(campaignElement('p', challenge.body));
+ if (challenge.data) {
+  const data = campaignElement('pre', challenge.data);
+  data.style.whiteSpace = 'pre-wrap';
+  data.style.overflowWrap = 'anywhere';
+  wrapper.appendChild(data);
+ }
+ parent.appendChild(wrapper);
+ const state = campaignState(mission.id);
+ const findingKey = kind+'Finding';
+ function available() {
+  if (!authenticated) return false;
+  if (kind === 'bonus') return !!state.part1At && !state.bonusAt;
+  return campaignPhase(mission) === kind && (state[findingKey] === true) === followup;
+ }
+ function accept() {
+  if (!available()) return;
+  if (kind === 'bonus') state.bonusAt = Date.now();
+  else if (!followup) state[findingKey] = true;
+  else if (kind === 'first') state.part1At = Date.now();
+  else {
+   state.completedAt = Date.now();
+   saved['m'+(mission.id-1)] = true;
+  }
+  stats();
+  if (selectedCampaignMission === mission.id && kind === 'bonus') {
+   document.getElementById('campaignStatus').textContent = 'Bonus abgeschlossen. 30 P gutgeschrieben.';
+  }
+ }
+ if (challenge.program) {
+  renderCampaignProgram(wrapper, challenge.program, accept);
+  return;
+ }
+ const form = document.createElement('form');
+ const input = document.createElement('input');
+ input.id = 'campaignAnswer-'+kind;
+ input.autocomplete = 'off';
+ input.required = true;
+ input.maxLength = 60;
+ const label = campaignElement('label', challenge.prompt);
+ label.htmlFor = input.id;
+ const button = campaignElement('button', 'ANTWORT PRÜFEN', 'mainbutton');
+ button.type = 'submit';
+ const feedback = campaignElement('p', '', 'error');
+ feedback.setAttribute('role','status');
+ form.append(label, input, button, feedback);
+ wrapper.appendChild(form);
+ form.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!available()) return;
+  button.disabled = true;
+  try {
+   const fingerprint = await mission00.fingerprint(input.value);
+   if (fingerprint !== challenge.hash) {
+    feedback.textContent = 'Die Antwort passt noch nicht. Prüfe die Angaben und versuche es erneut.';
+    return;
+   }
+   accept();
+  } catch (error) {
+   feedback.textContent = error.message;
+  } finally {
+   button.disabled = false;
+  }
+ });
+}
+
+function renderCampaign() {
+ for (const mission of campaignMissions) {
+  const state = campaignState(mission.id);
+  campaignCards.get(mission.id).textContent = campaignLabel(mission, campaignPhase(mission));
+  campaignBonusCards.get(mission.id).textContent = state.bonusAt ? '✓ 30 P gutgeschrieben' : state.part1At ? 'Bereit' : 'Nach Teil 1 verfügbar';
+ }
+ const mission = campaignMissions[selectedCampaignMission-2];
+ const phase = campaignPhase(mission);
+ const state = campaignState(mission.id);
+ const key = JSON.stringify([mission.id, phase, state.hints, !!state.bonusAt, state.firstFinding, state.secondFinding]);
+ if (key !== campaignViewKey) {
+  campaignViewKey = key;
+  const panel = document.getElementById('campaignPanel');
+  panel.replaceChildren();
+  panel.appendChild(campaignElement('h2', 'MISSION '+String(mission.id).padStart(2,'0')+' – '+mission.title));
+  if (!['scheduled','prerequisite'].includes(phase)) panel.appendChild(campaignElement('p', mission.agent+' · '+mission.intro));
+  const status = campaignElement('p', campaignLabel(mission, phase), 'status');
+  status.id = 'campaignStatus';
+  status.setAttribute('role','status');
+  panel.appendChild(status);
+  if (phase === 'first' || phase === 'second') {
+   const part = phase === 'first' ? 1 : 2;
+   const challenge = mission.parts[part-1];
+   const followup = state[phase+'Finding'] === true;
+   const progress = followup ? '✓ Erster Befund gesichert. Prüfe jetzt die zweite Spur.' : 'Ermittle zuerst den Befund. Danach folgt die Gegenprüfung.';
+   panel.appendChild(campaignElement('p', 'Teil '+part+' · Schritt '+(followup?2:1)+' von 2. '+progress));
+   renderCampaignChallenge(panel, mission, followup ? challenge.followup : challenge, phase, followup);
+  }
+  if (phase === 'complete') {
+   panel.appendChild(campaignElement('p', mission.lead));
+   if (mission.id < 8) panel.appendChild(campaignButton('NÄCHSTE AKTE ANSEHEN', () => openCampaignMission(mission.id+1)));
+   else panel.appendChild(campaignButton('ABSCHLUSS ANSEHEN', () => document.getElementById('campaignFinal').scrollIntoView({block:'start'})));
+  }
+  if (['first','waiting','second'].includes(phase)) {
+   panel.appendChild(campaignElement('p', 'Missionsbonus: '+campaignRewards[state.hints]+' P. Hinweise gelten für beide Teile. Falsche Versuche kosten keine Punkte.'));
+   for (const hint of mission.hints.slice(0,state.hints)) panel.appendChild(campaignElement('p', hint, 'mission'));
+   if (state.hints < 3) panel.appendChild(campaignButton('HINWEIS HOLEN · DANACH '+campaignRewards[state.hints+1]+' P', () => {
+    if (!authenticated || state.completedAt || state.hints >= 3) return;
+    state.hints++;
+    stats();
+   }));
+  }
+  if (state.part1At && !state.bonusAt) renderCampaignChallenge(panel, mission, mission.bonus, 'bonus');
+  if (state.bonusAt) panel.appendChild(campaignElement('p', '✓ '+mission.bonus.title+' · 30 P gutgeschrieben', 'points'));
+  panel.appendChild(campaignButton('ZUM AGENTENFUNK', () => openPage('comms')));
+ }
+ renderCampaignFinal();
+ renderCampaignRadio();
+ renderCampaignArchive();
+}
+
+function renderCampaignArchive() {
+ const key = JSON.stringify([!!m01.completedAt, ...campaignMissions.map(mission => !!saved['m'+(mission.id-1)]), !!saved.campaignFinalAt]);
+ if (key === campaignArchiveKey) return;
+ campaignArchiveKey = key;
+ const archive = document.getElementById('campaignArchive');
+ archive.replaceChildren();
+ if (!m01.completedAt) archive.appendChild(campaignElement('p', 'Nach Mission 01 erscheint hier dein erster Abschlussvermerk.'));
+ if (m01.completedAt) archive.appendChild(campaignElement('p', 'AKTE 01 · Die ursprüngliche Prüfung galt nach der Änderung nicht mehr. Der Zugang wurde auf die nötigen Rechte begrenzt.', 'archiveitem'));
+ for (const mission of campaignMissions) {
+  if (saved['m'+(mission.id-1)]) archive.appendChild(campaignElement('p', 'AKTE '+String(mission.id).padStart(2,'0')+' · '+mission.lead, 'archiveitem'));
+ }
+ if (saved.campaignFinalAt) archive.appendChild(campaignElement('p', '✓ EINSATZ ABGESCHLOSSEN · Übergabevermerk ausgestellt', 'points'));
+}
+
+function initCampaignTraining() {
+ const panel = document.getElementById('campaignTraining');
+ campaignTraining.forEach((exercise, index) => {
+  const form = campaignElement('form', '', 'mission');
+  const input = document.createElement('input');
+  input.id = 'trainingAnswer'+index;
+  input.required = true;
+  input.autocomplete = 'off';
+  const label = campaignElement('label','Deine Antwort');
+  label.htmlFor = input.id;
+  const button = campaignElement('button','ANTWORT PRÜFEN','mainbutton');
+  button.type = 'submit';
+  const feedback = campaignElement('p','','status');
+  feedback.setAttribute('role','status');
+  form.append(campaignElement('h3',exercise.title),campaignElement('p',exercise.body),label,input,button,feedback);
+  form.addEventListener('submit', async event => {
+   event.preventDefault();
+   if (!authenticated) return;
+   try {
+    feedback.textContent = await mission00.fingerprint(input.value) === exercise.hash ? 'Richtig. Übung abgeschlossen.' : 'Noch nicht richtig. Geh die Regel noch einmal Schritt für Schritt durch.';
+   } catch (error) {
+    feedback.textContent = error.message;
+   }
+  });
+  panel.appendChild(form);
+ });
+}
+
+async function loadCampaignFinalImage() {
+ if (!saved.m7 || !saved.campaignFinalAt || (!campaignTest && Date.now() < campaignFinalDate)) return;
+ campaignFinalImageRequested = true;
+ const frame = document.getElementById('campaignFinalImage');
+ const message = document.getElementById('campaignFinalImageStatus');
+ const retry = document.getElementById('campaignFinalRetry');
+ frame.classList.add('hidden');
+ retry.classList.add('hidden');
+ message.textContent = 'Abschlussbild wird geladen …';
+ try {
+  let markup = campaignPreviewImage;
+  if (!markup) {
+   const response = await fetch('abschluss.html',{cache:'no-store'});
+   if (!response.ok) throw new Error('Abschlussseite fehlt');
+   markup = await response.text();
+   if (!markup.includes('<meta name="protocol-final" content="2027">')) throw new Error('Abschlussseite fehlt');
+  }
+  frame.srcdoc = markup;
+  frame.classList.remove('hidden');
+  message.textContent = '';
+ } catch {
+  message.textContent = 'Das Abschlussbild ist noch nicht erreichbar. Bitte die Spielleitung um die Freigabe und versuche es danach erneut.';
+  retry.classList.remove('hidden');
+ }
+}
+
+function renderCampaignFinal() {
+ const ready = !!saved.m7 && (campaignTest || Date.now() >= campaignFinalDate);
+ const panel = document.getElementById('campaignFinal');
+ panel.classList.toggle('hidden', !saved.m7);
+ document.getElementById('campaignFinalStatus').textContent = saved.campaignFinalAt
+  ? 'Einsatz abgeschlossen. Übergabevermerk an die Spielleitung weitergeben.'
+  : ready ? 'Die letzte Nachricht ist eingetroffen.' : 'Letzte Freigabe am 24.12.2026 um 10:00 Uhr (Wien).';
+ document.getElementById('campaignFinalOpen').classList.toggle('hidden', !ready || !!saved.campaignFinalAt);
+ document.getElementById('campaignFinalMessage').classList.toggle('hidden', !saved.campaignFinalAt);
+ if (ready && saved.campaignFinalAt && !campaignFinalImageRequested) loadCampaignFinalImage();
+}
+
+function renderCampaignRadio() {
+ const active = !!m01.completedAt;
+ if (active && !campaignRadioActive) document.getElementById('missionOneRadio').open = false;
+ campaignRadioActive = active;
+ const panel = document.getElementById('campaignRadio');
+ panel.classList.toggle('hidden', !active);
+ if (!active) return;
+ const mission = campaignMissions.find(item => !campaignState(item.id).completedAt) || campaignMissions[campaignMissions.length-1];
+ const phase = campaignPhase(mission);
+ const state = campaignState(mission.id);
+ const turns = state.radio[phase] || (state.radio[phase] = []);
+ const key = JSON.stringify([mission.id, phase, turns]);
+ document.getElementById('storyDashboardTitle').textContent = 'Akte '+String(mission.id).padStart(2,'0')+' · '+mission.title;
+ document.getElementById('storyDashboardText').textContent = campaignLabel(mission, phase);
+ if (key === campaignRadioKey) return;
+ campaignRadioKey = key;
+ panel.replaceChildren();
+ panel.appendChild(campaignElement('h3', 'FUNK · '+mission.title));
+ storyBubble(panel, mission.agent, phase === 'complete' ? mission.lead : ['scheduled','prerequisite'].includes(phase) ? campaignLabel(mission,phase) : phase === 'waiting' ? 'Erster Befund gesichert. '+campaignLabel(mission,phase) : mission.intro);
+ const replies = [
+  ['Was ist mein nächster Schritt?', phase === 'complete' ? 'Öffne den Abschluss unter Hauptmissionen.' : phase === 'waiting' ? 'Teil 2 kommt zur angezeigten Freigabe. Du kannst in der Zwischenzeit den Bonusauftrag bearbeiten.' : 'Öffne die Akte unter Hauptmissionen. Dort steht, welche Unterlagen du brauchst und welches Ergebnis du eingibst. '+campaignLabel(mission,phase)],
+  ['Warum ist diese Akte wichtig?', phase === 'complete' ? mission.lead : ['scheduled','prerequisite'].includes(phase) ? 'Du erfährst den Zusammenhang mit der vorherigen Akte, sobald dieser Auftrag freigegeben ist.' : mission.reason],
+  ['Muss ich jetzt hierbleiben?', 'Nein. Dein Fortschritt bleibt in diesem Browser. Die Akte verfällt nicht. Kehre zurück, wenn du Zeit hast.']
+ ];
+ for (const [index, [question, answer]] of replies.entries()) {
+  if (turns.includes(index)) {
+   storyBubble(panel, 'Agent 047', question, true);
+   storyBubble(panel, mission.agent, answer);
+  } else panel.appendChild(campaignButton(question, () => {
+   if (!authenticated || turns.includes(index)) return;
+   turns.push(index);
+   save();
+   renderCampaignRadio();
+   panel.lastElementChild?.scrollIntoView({block:'nearest'});
+  }));
+ }
+ panel.appendChild(campaignButton('AKTE ÖFFNEN', () => openCampaignMission(mission.id)));
+}
+
+for (const mission of campaignMissions) {
+ const state = campaignState(mission.id);
+ state.hints = Number.isInteger(state.hints) ? Math.min(3,Math.max(0,state.hints)) : 0;
+ for (const field of ['part1At','completedAt','bonusAt']) {
+  if (!Number.isFinite(state[field]) || state[field] <= 0 || state[field] > 8640000000000000) state[field] = null;
+ }
+ if (!state.part1At) { state.completedAt = null; state.bonusAt = null; }
+ const radio = state.radio;
+ state.radio = {};
+ for (const phase of ['prerequisite','scheduled','first','waiting','second','complete']) {
+  if (Array.isArray(radio?.[phase])) state.radio[phase] = [...new Set(radio[phase].filter(value => [0,1,2].includes(value)))];
+ }
+ saved['m'+(mission.id-1)] = !!state.completedAt && !!saved['m'+(mission.id-2)];
+}
+document.getElementById('campaignFinalOpen').addEventListener('click', () => {
+ if (!authenticated || !saved.m7 || (!campaignTest && Date.now() < campaignFinalDate)) return;
+ if (!saved.campaignFinalAt) saved.campaignFinalAt = Date.now();
+ stats();
+});
+document.getElementById('campaignFinalRetry').addEventListener('click',loadCampaignFinalImage);
+
+for (const mission of campaignMissions) {
+ shopCatalog.push({id:'campaign-'+mission.id,title:mission.tool,cost:20,unlockAt:campaignTest ? 0 : campaignStamp(mission.date),description:'Arbeitsmethode für Akte '+String(mission.id).padStart(2,'0')+'. Dauerhaft verfügbar.',tip:mission.tip});
+}
 createTasks();
+initCampaignTraining();
+initMissionOnePatch();
 stats();
 </script>
 </body>
