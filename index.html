@@ -148,7 +148,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 </style>
 </head>
 
-<body>
+<body><aside class="panel" aria-label="Öffentlicher Test"><strong>ÖFFENTLICHER TEST · JETZT SPIELBAR</strong><p>Die Missionen öffnen der Reihe nach. Zwischen den Teilen gibt es im Test keine Wartezeit. Dein Testfortschritt wird separat gespeichert.</p></aside>
 <div class="wrap">
 
 <div class="topbar">
@@ -166,8 +166,8 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 18 · AGENT SKYE</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
-<p>Offizieller Spielstart: <strong>06.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 18 · ÖFFENTLICHER TEST</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<p>Testbetrieb: <strong>Jetzt spielbar</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
 <p>Die Uhr startet bei „Mission starten“. Es gibt kein Zeitlimit und keinen Zeitabzug. Auch beim Schließen der Seite läuft die Zeit weiter; am Ende wird sie gestoppt.</p>
@@ -286,7 +286,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div id="missionOne"></div>
  <div class="rule"></div><div id="campaignPanel" aria-label="Weitere Missionsakten"></div>
  <section id="campaignFinal" class="mission hidden">
-  <div class="badge">ABSCHLUSS · 24.12.2026</div>
+  <div class="badge">ABSCHLUSS · TESTLAUF</div>
   <h2>Letzte Meldung der Zentrale</h2><p id="campaignFinalStatus"></p>
   <button type="button" class="mainbutton" id="campaignFinalOpen">ABSCHLUSSMELDUNG ÖFFNEN</button>
   <div id="campaignFinalMessage" class="status hidden">
@@ -418,7 +418,7 @@ const mission00={
  async accepts(agent,code){return this.normalize(agent).replace(/\s+/g,'')==='AGENT047' && await this.fingerprint(code)==='5cd064543144ffc28c7e489d0f5be5669f491de107642da2a17dc4fe7554175f';}
 };
 </script><script>
-const campaignTest = false;
+const campaignTest = true;
 const campaignPreviewImage = null;
 const campaignStart = Date.parse('2026-11-06T10:00:00+01:00');
 const missionData=[
@@ -445,7 +445,7 @@ const bonusData=[
 
 let saved={};
 try{
- saved=JSON.parse(localStorage.getItem("protocol047progress")||"{}");
+ saved=JSON.parse(localStorage.getItem("protocol047-public-test-v18")||"{}");
 }catch(e){saved={};}
 if(!saved || typeof saved!=="object" || Array.isArray(saved)) saved={};
 
@@ -460,7 +460,7 @@ breach.completed=breach.completed===true && breach.stage===3 && !!breach.finishe
 saved.mission00Extended=breach;
 if(!Array.isArray(breach.fragments))breach.fragments=[];
 function save(){
- try { localStorage.setItem("protocol047progress",JSON.stringify(saved)); } catch(e) { document.getElementById("storageWarning").textContent="Speichern ist hier nicht möglich. Der Fortschritt bleibt nur bis zum Neuladen erhalten."; }
+ try { localStorage.setItem("protocol047-public-test-v18",JSON.stringify(saved)); } catch(e) { document.getElementById("storageWarning").textContent="Speichern ist hier nicht möglich. Der Fortschritt bleibt nur bis zum Neuladen erhalten."; }
 }
 
 function hintUsage(){
@@ -472,7 +472,7 @@ const shopCatalog=[
  {id:'alphabet',title:'ALPHABET-KARTE',cost:20,description:'Eine Zahlen-Buchstaben-Tabelle zum Nachschlagen. Nach dem Kauf jederzeit verfügbar.'},
  {id:'shift',title:'VERSCHIEBE-WERKZEUG',cost:50,description:'Zwei verschiebbare Alphabetreihen zum Untersuchen von Buchstabencodes. Nach dem Kauf jederzeit verfügbar.'},
  {id:'support',title:'PERSÖNLICHE HILFE',cost:100,description:'Eine Hilfsanfrage für eine Mission vorbereiten. Die Nachricht sendest du anschließend selbst im Discord. Noch kein automatischer Versand.'},
- {id:'binary',title:'BINÄR-KARTE',cost:30,unlockAt:Date.parse('2026-11-06T10:00:00+01:00'),description:'Neu zu Mission 01: Stellenwerte und Buchstabentabelle für 8-Bit-Codes. Dauerhaft nutzbar, keine fertige Rätsellösung.'}
+ {id:'binary',title:'BINÄR-KARTE',cost:30,unlockAt:0,description:'Neu zu Mission 01: Stellenwerte und Buchstabentabelle für 8-Bit-Codes. Dauerhaft nutzbar, keine fertige Rätsellösung.'}
 ];
 if(!saved.shop || typeof saved.shop!=='object' || Array.isArray(saved.shop))saved.shop={};
 function shopOwned(id){return saved.shop[id]===true;}
@@ -1670,7 +1670,7 @@ const campaignMissions = [
   "tool": "Freigabe-Checkliste",
   "tip": "Prüfe zuerst die Belege, dann die Voraussetzungen und zuletzt den kleinsten notwendigen Rechteumfang.",
   "reason": "Bei der Übergabe bleibt der fertige Bericht geschützt. Die Empfänger brauchen Zugriff zum Lesen. Jeder weitere Zugriff muss einen konkreten Zweck haben.",
-  "lead": "Der Abschlussbericht liegt vor. Die letzte Meldung wird am 24.12. freigegeben. Du kannst bis dahin offene Bonusaufträge nachholen."
+  "lead": "Der Abschlussbericht liegt vor. Die letzte Meldung ist im Test verfügbar. Du kannst offene Bonusaufträge danach nachholen."
  }
 ];
 const campaignTraining = [
@@ -2253,7 +2253,7 @@ function renderCampaignFinal() {
   : ready ? 'Die letzte Nachricht ist eingetroffen.' : 'Letzte Freigabe am 24.12.2026 um 10:00 Uhr (Wien).';
  document.getElementById('campaignFinalOpen').classList.toggle('hidden', !ready || !!saved.campaignFinalAt);
  document.getElementById('campaignFinalMessage').classList.toggle('hidden', !saved.campaignFinalAt);
- if (ready && saved.campaignFinalAt && !campaignFinalImageRequested) loadCampaignFinalImage();
+ if (ready && saved.campaignFinalAt) document.getElementById('campaignFinalImageStatus').textContent = 'Testlauf abgeschlossen.';
 }
 
 function renderCampaignRadio() {
