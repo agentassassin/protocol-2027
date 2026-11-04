@@ -131,7 +131,15 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  .statusbar{grid-template-columns:1fr 1fr}
  .panel{padding:17px}
 }
-:focus-visible{outline:3px solid var(--gold);outline-offset:4px} #hints li{color:var(--muted);line-height:1.6;margin:10px 0} button:disabled{opacity:.65;cursor:default} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}} .packetTable{overflow-x:auto}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}caption{text-align:left;color:var(--muted);margin-bottom:8px}th,td{padding:12px;text-align:left;border:1px solid var(--line)}th{background:#0d141e}.cipher{letter-spacing:5px;font-size:22px}.clues li{line-height:1.7;margin:10px 0}#missionTimer{font-variant-numeric:tabular-nums;font-size:20px} textarea,select{width:100%;padding:12px;background:#080e15;color:#f1f4f8;border:1px solid #526174;font:inherit}textarea{resize:vertical;line-height:1.6} .storyBubble{border:1px solid var(--line);border-left:3px solid #61b5ed;background:#0d1621;padding:16px;margin:14px 0;overflow-wrap:anywhere}.storyBubble>strong{color:#8dcefa;font-size:13px}.storyBubble p{margin:8px 0 0}.playerBubble{margin-left:20px;border-left-color:var(--gold)}.playerBubble>strong{color:var(--gold)}.storyOptions{display:flex;gap:10px;flex-wrap:wrap}.storyOption{flex:1 1 240px;background:#202b38;border-color:var(--line);text-align:left;line-height:1.5}button,input,textarea,select{font-size:16px}button{min-height:44px}summary{cursor:pointer;line-height:1.6}#storyNoteCount{display:block;color:var(--muted)}@media(max-width:430px){.playerBubble{margin-left:8px}.storyBubble{padding:12px}.storyOption{flex-basis:100%}} </style>
+:focus-visible{outline:3px solid var(--gold);outline-offset:4px} #hints li{color:var(--muted);line-height:1.6;margin:10px 0} button:disabled{opacity:.65;cursor:default} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}} .packetTable{overflow-x:auto}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}caption{text-align:left;color:var(--muted);margin-bottom:8px}th,td{padding:12px;text-align:left;border:1px solid var(--line)}th{background:#0d141e}.cipher{letter-spacing:5px;font-size:22px}.clues li{line-height:1.7;margin:10px 0}#missionTimer{font-variant-numeric:tabular-nums;font-size:20px} textarea,select{width:100%;padding:12px;background:#080e15;color:#f1f4f8;border:1px solid #526174;font:inherit}textarea{resize:vertical;line-height:1.6} .storyBubble{border:1px solid var(--line);border-left:3px solid #61b5ed;background:#0d1621;padding:16px;margin:14px 0;overflow-wrap:anywhere}.storyBubble>strong{color:#8dcefa;font-size:13px}.storyBubble p{margin:8px 0 0}.playerBubble{margin-left:20px;border-left-color:var(--gold)}.playerBubble>strong{color:var(--gold)}.storyOptions{display:flex;gap:10px;flex-wrap:wrap}.storyOption{flex:1 1 240px;background:#202b38;border-color:var(--line);text-align:left;line-height:1.5}button,input,textarea,select{font-size:16px}button{min-height:44px}summary{cursor:pointer;line-height:1.6}#storyNoteCount{display:block;color:var(--muted)}@media(max-width:430px){.playerBubble{margin-left:8px}.storyBubble{padding:12px}.storyOption{flex-basis:100%}} 
+.code-workbench{border-color:#69c8ff}
+.code-workbench pre{margin:.4rem 0;padding:.6rem .8rem;background:#08121f;border-radius:5px;color:#bde8ff;font-size:.94rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.code-workbench .code-editor-label{display:block;color:#aee0ff;font-weight:700;margin:.8rem 0 .35rem}
+.code-workbench textarea.editable-code{box-sizing:border-box;width:100%;min-height:5rem;background:#142b42;color:#fff;border:2px solid #69c8ff;padding:.7rem;line-height:1.45;font-size:16px}
+.code-workbench textarea.editable-code:focus{outline:2px solid #fff;outline-offset:2px}
+.code-workbench ol{padding-left:1.4rem;line-height:1.55}
+.code-workbench li{margin:.35rem 0}
+</style>
 </head>
 
 <body>
@@ -152,7 +160,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 15 · EINSATZBEREIT</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 16 · CODE-REPARATUR</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
 <p>Offizieller Spielstart: <strong>06.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
@@ -680,6 +688,7 @@ function initMissionOne(){
  <p>AGENT 047, du bist in der Zentrale angekommen. Doch beim Speichern von Daten ist etwas schiefgelaufen. Finde heute heraus, was passiert ist. Morgen erhältst du die nächste Aufgabe.</p>
  <p>Die Mission hat zwei Teile. Du kannst jederzeit eine Pause machen. Dein Fortschritt bleibt in diesem Browser gespeichert. Wenn du erst später Zeit hast, kannst du weiterspielen – du verlierst keine Punkte.</p>
  <div id="m01Status" class="status" role="status"></div>
+ <p><strong>Dein Auftrag in Teil 1</strong> · Finde zuerst den Fehler im Protokoll. Danach öffnet sich der Code-Editor. Dort änderst du das fehlerhafte Prüfskript selbst und testest es.</p>
  <section id="m01Part1" class="mission">
  <h3>TAG 1 // SPURENSICHERUNG</h3>
  <p>Unten siehst du ein <strong>Protokoll</strong>: Der Computer hat aufgeschrieben, was er wann getan hat. Jede Zeile enthält eine Uhrzeit, eine Auftragsnummer und eine Aktion. Ein Auftrag heißt in der IT auch <strong>Request</strong>.</p>
@@ -787,7 +796,7 @@ function renderMissionOne(){
  document.getElementById('m01BonusForm').classList.toggle('hidden',!!m01.bonusAt);
  document.getElementById('m01BonusDone').classList.toggle('hidden',!m01.bonusAt);
  document.getElementById('m01HintArea').classList.toggle('hidden',!started || done);
- document.getElementById('m01Status').textContent=!started?'FREIGABE: '+m01Date(m01Start)+' Uhr (Wien).':done?'ABGESCHLOSSEN · '+m01Reward()+' P Missionsbonus':!m01.part1At?'ABSCHNITT 1 / 2 · SPURENSICHERUNG':'ABSCHNITT 1 GESICHERT · ABSCHNITT 2 / 2 '+(now>=m01Release()?'VERFÜGBAR':'IN VORBEREITUNG');
+ document.getElementById('m01Status').textContent=!started?'FREIGABE: '+m01Date(m01Start)+' Uhr (Wien).':done?'ABGESCHLOSSEN · '+m01Reward()+' P Missionsbonus':!m01.part1At?(m01.findingConfirmed?'TEIL 1 · SCHRITT 2 VON 2 · CODE REPARIEREN':'TEIL 1 · SCHRITT 1 VON 2 · PROTOKOLL PRÜFEN'):'ABSCHNITT 1 GESICHERT · ABSCHNITT 2 / 2 '+(now>=m01Release()?'VERFÜGBAR':'IN VORBEREITUNG');
  const button=document.getElementById('m01HintButton');button.disabled=m01.hints===3;
  button.textContent=m01.hints===3?'ALLE HINWEISE ANGEZEIGT · MISSIONSBONUS: 0 P':'HINWEIS '+(m01.hints+1)+' · MISSIONSBONUS DANACH: '+[80,50,0][m01.hints]+' P';
  const list=document.getElementById('m01HintList');list.textContent='';m01Hints.slice(0,m01.hints).forEach(text=>{const li=document.createElement('li');li.textContent=text;list.appendChild(li);});
@@ -1153,10 +1162,11 @@ const campaignMissions = [
    "Für Teil 2 zählt die Zahl auf dem Streifen, auch wenn ein Wort an anderer Stelle sinnvoll klingt."
   ],
   "bonus": {
-   "title": "Prüfsumme",
-   "body": "Addiere die einzelnen Ziffern der Archivnummer 5827. Verwende die Summe als Kontrollwert.",
-   "prompt": "Wie lautet der Kontrollwert?",
-   "hash": "785f3ec7eb32f30b90cd0fcf3657d388b5ff4297f2f9716ff66e9b69c05ddd09"
+   "title": "Prüfsummen im Archiv",
+   "body": "Genau ein Paket meldet den falschen Prüfwert. Berechne für jede Zeile a + 2 × b + 3 × c und nimm die letzte Ziffer der Summe. Vergleiche sie mit dem gemeldeten Wert.",
+   "data": "Paket  a  b  c  gemeldet\nK51    2  4  1  3\nK52    1  2  3  8\nK53    3  1  2  1\nK54    4  3  2  6",
+   "prompt": "Welche Paketkennung muss erneut geprüft werden?",
+   "hash": "33cead9cb5cc2c527ef4322e02bdbe5a10721b4bdb83006b78bda2df9df800c3"
   },
   "tool": "Archiv-Checkliste",
   "tip": "Notiere pro Paket Fach, Länge und Prüfwert in getrennten Spalten. Streiche eine Zeile erst, wenn du die Abweichung benennen kannst.",
@@ -1205,10 +1215,11 @@ const campaignMissions = [
    "Zeichne für Teil 2 einen Pfeil von jeder Kopie zur Originalmeldung."
   ],
   "bonus": {
-   "title": "Uhrentest",
-   "body": "Eine Uhr geht vier Minuten nach und zeigt 19:26. Die Zentrale braucht die tatsächliche Zeit.",
-   "prompt": "Wie spät ist es wirklich? Format HH:MM.",
-   "hash": "98fe8ce1ab6241a0e5b3106407461a0450b44153db167be647acb92bbf0bcea2"
+   "title": "Serverprotokolle über Mitternacht",
+   "body": "Zwei Server haben falsche Uhren. Ziehe bei A vier Minuten ab und addiere bei B drei Minuten. Beachte beim Rechnen den Tageswechsel. Sortiere anschließend alle vier Ereignisse nach ihrer tatsächlichen Zeit, vom frühesten zum spätesten.",
+   "data": "Ereignis  Server  Protokollzeit\nP1        A       22.11. 00:05\nP2        B       21.11. 23:55\nP3        A       22.11. 00:03\nP4        B       21.11. 23:59",
+   "prompt": "Gib die vier Kennungen mit Bindestrichen ein. Beispiel Z1-Z2-Z3-Z4.",
+   "hash": "45f1273c5c545c4ba9f9e0a8591e8c2aef8edb0a0831e4312fa3a0e10bd1cc7f"
   },
   "tool": "Zeitachsenblatt",
   "tip": "Lege drei Spalten an: Meldung, angezeigte Zeit, korrigierte Zeit. Entscheide erst nach der Korrektur über die Reihenfolge.",
@@ -1341,10 +1352,11 @@ const campaignMissions = [
    "Korrigiere nur die Werte von Gerät B, bevor du vergleichst."
   ],
   "bonus": {
-   "title": "Gegenprobe",
-   "body": "Ein Kontrollgerät zeigt nacheinander 68, 72 und 76. Addiere die Werte und teile durch drei.",
-   "prompt": "Wie hoch ist der Durchschnitt?",
-   "hash": "8722616204217eddb39e7df969e0698aed8e599ba62ed2de1ce49b03ade0fede"
+   "title": "Alarmfilter in der Messreihe",
+   "body": "Gerät B zeigt sechs Einheiten zu viel an. Ein Alarm braucht drei aufeinanderfolgende bestätigte Messungen mit korrigierten Werten ab 72. Ein ungültiger oder zu niedriger Wert unterbricht die Serie. Finde die erste Serie.",
+   "data": "ID  Gerät  Rohwert  Status\nQ1  A      73      bestätigt\nQ2  B      77      bestätigt\nQ3  A      75      bestätigt\nQ4  B      82      ungültig\nQ5  B      78      bestätigt\nQ6  A      74      bestätigt\nQ7  B      79      bestätigt\nQ8  B      76      bestätigt",
+   "prompt": "Gib Anfang und Ende der Serie mit einem Bindestrich ein.",
+   "hash": "96e9c0b5b421e052353a4e019312aba7a061c14f84399e0ab4f664c8215723ac"
   },
   "tool": "Messprotokoll",
   "tip": "Schreibe neben jeden Rohwert den korrigierten Wert. Markiere bei der Schwellenprüfung die benachbarten Paare.",
@@ -1393,10 +1405,11 @@ const campaignMissions = [
    "Streiche gesperrte Strecken vor dem Rechnen. Vergleiche die Summen der offenen Routen."
   ],
   "bonus": {
-   "title": "Rückweg",
-   "body": "Vom Feld D3 gehst du ein Feld nach Westen und zwei nach Norden. Nutze dasselbe Raster.",
-   "prompt": "Wo kommst du an?",
-   "hash": "ab861dc170dc2e43224e45278d3d31a675b9ebc34c9b0f48c066ca1eeaed8ee6"
+   "title": "Netzwerkroute unter Einschränkungen",
+   "body": "Das Paket startet bei A und muss nach D. Jede Leitung gilt in beide Richtungen, die Zahlen sind Übertragungszeiten. Gesperrte Leitungen und Leitungen mit dem Vermerk TECHNIK sind für dieses Paket unzulässig. Vergleiche die schnellsten erlaubten Routen.",
+   "data": "A–B  3   offen\nA–E  6   offen\nB–C  2   gesperrt\nB–D  8   offen\nB–E  2   offen\nC–D  2   offen\nE–D  3   TECHNIK\nE–F  1   offen\nF–D  3   offen",
+   "prompt": "Gib die schnellste Route mit Bindestrichen ein. Beginne mit A und ende mit D.",
+   "hash": "a31e2494b769c08a4234f21ab55aa7d002ffb8189d76652b3b485ac59eb4d6d2"
   },
   "tool": "Routenblatt",
   "tip": "Skizziere Knoten als Punkte und verbinde sie mit beschrifteten Linien. Streiche eine gesperrte Linie durch, bevor du Wegzeiten addierst.",
@@ -1445,10 +1458,11 @@ const campaignMissions = [
    "Lege in Teil 2 zuerst den festen Termin fest. Ordne danach die übrigen Rollen."
   ],
   "bonus": {
-   "title": "Terminabstand",
-   "body": "Zwei Übergaben beginnen um 18:20 und 18:45.",
-   "prompt": "Wie viele Minuten liegen dazwischen?",
-   "hash": "b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569"
+   "title": "Aufträge in einer Warteschlange",
+   "body": "Der Export beginnt um 18:10 und dauert sechs Minuten. Danach braucht der Bericht vier zusammenhängende Minuten an der Prüfstation. Die Station ist zweimal belegt. Eine Prüfung darf genau am Ende einer Belegung starten. Sobald die Prüfung fertig ist, dauert die Freigabe noch zwei Minuten.",
+   "data": "Exportstart  18:10\\nStation belegt  18:16–18:19\\nStation belegt  18:22–18:25",
+   "prompt": "Wann ist die Freigabe frühestens fertig? Format HH:MM.",
+   "hash": "bd540d128c89bc85f5345a57b44402239ffc0811f7db1e33f5a675bfddb857b6"
   },
   "tool": "Ausschlusstabelle",
   "tip": "Zeichne eine Zeile pro Person und eine Spalte pro Rolle. Markiere Nein-Felder und übertrage jede sichere Zuordnung auf die übrigen Zeilen.",
@@ -1464,9 +1478,9 @@ const campaignMissions = [
   "parts": [
    {
     "title": "Beobachtung oder Vermutung",
-    "body": "Akte 01 zeigt, dass Daten nach einer Änderung ohne erneute gültige Prüfung gespeichert wurden. Die Akten zeigen keine Absicht und keine Person als Ursache.",
-    "data": "A  Eine Person hat das System absichtlich gestört.\nB  Nach einer Änderung fehlte eine gültige Prüfung.\nC  Beide Stationen sind sicher ausgefallen.",
-    "prompt": "Welche Aussage ist durch die Akte belegt? Gib A, B oder C ein.",
+    "body": "Die Zentrale hat nur den folgenden Auszug. Eine Prüfung gilt für die gerade geprüfte Fassung. Prüfe die Reihenfolge und entscheide, welche Aussage sich aus diesen Daten ableiten lässt.",
+    "data": "17:58  Fassung 6  Prüfung OK\n18:01  Fassung 7  Änderung\n18:02  Fassung 7  gespeichert\n18:04  Fassung 7  Prüfung OK\n\nA  Die Änderung war absichtlich schädlich.\nB  Fassung 7 wurde vor ihrer Prüfung gespeichert.\nC  Beide Stationen sind ausgefallen.",
+    "prompt": "Welche Aussage ist belegt? Gib A, B oder C ein.",
     "followup": {
      "title": "Einen Prüfstatus im Code verfolgen",
      "body": "True bedeutet gültig, False ungültig. not geprüft ist wahr, wenn geprüft gerade False ist. Gehe die Ereignisse der Reihe nach durch und notiere nach jeder Zeile den Zustand der Variablen.",
@@ -1497,10 +1511,11 @@ const campaignMissions = [
    "Eine zweite Quelle muss unabhängig und zeitlich passend sein. Prüfe beides getrennt."
   ],
   "bonus": {
-   "title": "Quellen zählen",
-   "body": "Vier Meldungen liegen vor. Zwei sind Originale von verschiedenen Geräten. Die anderen beiden sind Kopien des ersten Originals.",
-   "prompt": "Wie viele unabhängige Quellen sind das?",
-   "hash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+   "title": "Quellen für den Bericht zusammenführen",
+   "body": "Der Bericht braucht zwei Originale von verschiedenen Geräten, die beide den ganzen Zeitraum von 18:04 bis 18:06 abdecken. Ein Export übernimmt die Herkunft seiner Vorlage und zählt nicht zusätzlich. Wähle die beiden Originale.",
+   "data": "E1  Original Gerät A  18:01–18:08\nE2  Export von E1     18:01–18:08\nE3  Original Gerät B  18:03–18:07\nE4  Kopie von E3      18:03–18:07\nE5  Original Gerät C  18:05–18:08\nE6  Export von E2     18:01–18:08",
+   "prompt": "Gib beide Kennungen nach Nummer sortiert mit einem Bindestrich ein.",
+   "hash": "160dfb23b1f1c8da27cbb937790312e98934a39d8a35d92adc8d164a72da47a4"
   },
   "tool": "Belegmatrix",
   "tip": "Lege pro Aussage eine Zeile an. Notiere Quelle, Zeitraum und den Unterschied zwischen Beobachtung und Schlussfolgerung.",
@@ -1530,9 +1545,9 @@ const campaignMissions = [
    },
    {
     "title": "Der Freigabevermerk",
-    "body": "Der Auftrag verlangt Leserechte für den Bericht. Änderungen sind abgeschlossen. Eine Ausführung ist nicht Teil der Übergabe. Wähle die kleinste ausreichende Freigabe.",
-    "data": "A  Lesen\nB  Lesen und Schreiben\nC  Lesen, Schreiben und Ausführen",
-    "prompt": "Welche Freigabe ist angemessen? Gib A, B oder C ein.",
+    "body": "Im System steht Lesen für 4, Schreiben für 2 und Ausführen für 1. Bei mehreren Rechten werden die Zahlen addiert. Die Zentrale braucht für die Datei BERICHT ausschließlich Leserechte. Prüfe Empfänger, Datei und Rechtesumme.",
+    "data": "A  Zentrale  BERICHT  4\nB  Zentrale  BERICHT  6\nC  Zentrale  LOG      4\nD  Archiv    BERICHT  4",
+    "prompt": "Welche Freigabe ist passend? Gib A, B, C oder D ein.",
     "followup": {
      "title": "Programmierauftrag · Lesefreigaben kontrollieren",
      "body": "Der fertige Bericht geht an die Zentrale. Der Filter soll nur Freigaben für Zentrale auswählen, deren Recht genau Lesen lautet. Ergänze die Bedingung. Teste auch Fälle, bei denen nur eine der beiden Angaben passt.",
@@ -1633,10 +1648,11 @@ const campaignMissions = [
    "Für Teil 2 zählt nur das Recht, das für die Übergabe tatsächlich benötigt wird."
   ],
   "bonus": {
-   "title": "Abschlussinventur",
-   "body": "Im Ordner liegen ein Abschlussbericht, zwei unabhängige Belege und drei Kopien. Gezählt werden nur Bericht und unabhängige Belege.",
-   "prompt": "Wie viele Unterlagen zählen?",
-   "hash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
+   "title": "Letzter Check vor der Übergabe",
+   "body": "Nur ein Paket darf raus. Der Empfänger muss Zentrale sein, das Recht genau Lesen. Die Prüfung muss nach der letzten Änderung stattgefunden haben. Gehe Paket für Paket alle drei Bedingungen durch.",
+   "data": "Paket  Empfänger  Recht      Änderung  Prüfung\nP1     Zentrale   Lesen      17:56     17:55\nP2     Zentrale   Schreiben  17:57     17:59\nP3     Zentrale   Lesen      17:58     18:02\nP4     Archiv     Lesen      17:55     17:58",
+   "prompt": "Welche Paketkennung bekommt die endgültige Freigabe?",
+   "hash": "9f9853b3f13444197bd1c8eedb085b4c030a02ed28b5f61f3a6a1ba27bd1ae73"
   },
   "tool": "Freigabe-Checkliste",
   "tip": "Prüfe zuerst die Belege, dann die Voraussetzungen und zuletzt den kleinsten notwendigen Rechteumfang.",
@@ -1663,7 +1679,7 @@ const campaignTraining = [
 ];
 const firstPatch = {
  "title": "Hacker-Auftrag · Fehlalarm im Prüfskript",
- "body": "Dein Befund stimmt. In der Übungskopie des Prüfskripts gibt es noch einen Fehler: Die Warnliste darf nur einen Schreibvorgang (WRITE) aufnehmen, dessen Freigabe ungültig ist. Ändere die fehlerhafte if-Zeile und prüfe dein Ergebnis an drei Testfällen.",
+ "body": "Dein Befund stimmt. Die Übungskopie des Prüfskripts meldet aber falsche Ereignisse. In die Warnliste gehören nur Schreibvorgänge (WRITE) mit ungültiger Freigabe (UNGUELTIG). Teste die vorhandene Zeile zuerst. Vergleiche die falschen Treffer mit der erwarteten Ausgabe und repariere danach die Bedingung.",
  "program": {
   "fields": [
    "aktion",
@@ -1684,7 +1700,7 @@ const firstPatch = {
    ]
   ],
   "starter": [
-   "==",
+   "!=",
    "or",
    "=="
   ],
@@ -1853,14 +1869,21 @@ function campaignProgramLine(program, operators) {
 }
 
 function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgram') {
+ wrapper.classList.add('code-workbench');
  const columns = [...new Set(program.fields)];
  const form = document.createElement('form');
+ const steps = campaignElement('ol','');
+ steps.append(campaignElement('li','Klicke auf Code testen und sieh dir die abweichenden Fälle an.'),
+  campaignElement('li','Klicke in das markierte Codefeld und ändere die if-Zeile.'),
+  campaignElement('li','Teste erneut. Übernimm den Befund, sobald alle Fälle passen.'));
+ wrapper.appendChild(steps);
  const code = campaignElement('pre', '# daten wird für jeden Testfall eingesetzt\n'+'treffer = []\nfor kennung, '+columns.join(', ')+' in daten:');
  code.style.whiteSpace = 'pre-wrap';
  code.style.overflowWrap = 'anywhere';
  wrapper.appendChild(code);
  const editor = document.createElement('textarea');
  editor.id = prefix+'Editor';
+ editor.className = 'editable-code';
  editor.rows = 3;
  editor.maxLength = 160;
  editor.required = true;
@@ -1868,10 +1891,10 @@ function renderCampaignProgram(wrapper, program, accept, prefix = 'campaignProgr
  editor.autocapitalize = 'off';
  editor.style.fontFamily = 'monospace';
  editor.value = campaignProgramLine(program,program.starter);
- const label = campaignElement('label', 'Fehlerhafte if-Zeile bearbeiten');
+ const label = campaignElement('label', 'EDITIERBARER PYTHON-CODE · HIER TIPPEN','code-editor-label');
  label.htmlFor = editor.id;
  form.append(label,editor,campaignElement('pre','        treffer.append(kennung)\nprint(treffer)'));
- form.appendChild(campaignElement('p', 'Ändere die Vergleichszeichen oder and/or und behalte die Namen und Werte bei. == bedeutet gleich, != bedeutet ungleich. and verlangt beide Bedingungen, or mindestens eine. >= und <= schließen den Grenzwert mit ein.'));
+ form.appendChild(campaignElement('p', 'Du bearbeitest eine Zeile. Behalte Namen, Werte und Doppelpunkt bei. == prüft auf Gleichheit, != auf Ungleichheit. and verlangt beide Bedingungen, or mindestens eine. >= und <= schließen den Grenzwert mit ein.'));
  const test = campaignElement('button', 'CODE TESTEN', 'mainbutton');
  test.type = 'submit';
  const results = campaignElement('div', '', 'status');
