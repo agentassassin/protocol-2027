@@ -166,7 +166,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 17 · ABLAUFPLAN UND C</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 18 · AGENT SKYE</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
 <p>Offizieller Spielstart: <strong>06.11.2026</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
@@ -359,7 +359,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <p id="radioReward" class="points"></p>
  <ol><li>Schreibe unten, was du herausgefunden hast oder wobei du Hilfe brauchst. Du kannst auch deinen Gesprächsstand übernehmen.</li><li>Kopiere die vorbereitete Nachricht und sende sie selbst in <strong>#agenten-zentrale</strong> auf eurem Discord-Server <strong>PROTOCOL 2027</strong>.</li><li>Lies die Antwort eines Agenten und beantworte seine Rückfrage dort. Nach einem geprüften Einsatzbericht gibt dir Commander Zero einen Bestätigungscode. Trage ihn unten ein.</li></ol>
  <label for="radioKind">WAS MÖCHTEST DU SENDEN?</label><select id="radioKind"><option value="report">Einsatzbericht an die Zentrale</option><option value="help">Frage an die Agenten</option></select>
- <label for="radioRecipient">AN WELCHEN AGENTEN?</label><select id="radioRecipient"><option>Agent Assassin</option><option>Agent Nyx</option><option>Agent 391</option><option>Commander Zero</option><option>Agent 045</option><option>Agent 033</option></select>
+ <label for="radioRecipient">AN WELCHEN AGENTEN?</label><select id="radioRecipient"><option>Agent Assassin</option><option>Agent Nyx</option><option>Agent 391</option><option>Commander Zero</option><option>Agent 045</option><option>Agent 033</option><option>Agent Skye</option></select>
  <label for="radioNote">DEINE BEOBACHTUNG ODER FRAGE IN EIGENEN WORTEN</label><textarea id="radioNote" rows="5" maxlength="600"></textarea>
  <label for="radioMessage">FERTIGE NACHRICHT FÜR DISCORD</label><textarea id="radioMessage" rows="8" readonly></textarea>
  <button type="button" id="copyRadio" class="mainbutton">NACHRICHT KOPIEREN</button>
@@ -815,7 +815,7 @@ setInterval(renderMissionOne,30000);
 
 
 // Agentenfunk: Nachrichten werden nur vorbereitet, niemals automatisch versendet.
-const radioAgents=['Agent Assassin','Agent Nyx','Agent 391','Commander Zero','Agent 045','Agent 033'];
+const radioAgents=['Agent Assassin','Agent Nyx','Agent 391','Commander Zero','Agent 045','Agent 033','Agent Skye'];
 if(!saved.radio || typeof saved.radio!=='object' || Array.isArray(saved.radio))saved.radio={};
 function radioTask(){
  if(!m01.part1At)return 'Melde dich bei Agent Assassin einsatzbereit. Nach Teil 1 schickst du deinen Befund an Agent Nyx. Für diesen freiwilligen Austausch kannst du später 20 Bonuspunkte erhalten.';
@@ -828,7 +828,9 @@ function buildRadioMessage(){
  const chosen=document.getElementById('radioRecipient').value;
  const recipient=radioAgents.includes(chosen)?chosen:'Agent Nyx';
  const header='PROTOCOL 2027 | AGENT 047 → '+recipient.toUpperCase();
- if(kind==='help')return header+'\nHILFSANFRAGE\nMission: '+(saved.supportMission||'MISSION 01')+'\n'+(shopOwned('support')?'Persönliche Hilfe im Shop gekauft.':'Noch keine persönliche Hilfe im Shop gekauft.')+'\nMeine Frage: '+note+'\nBitte einen Denkanstoß geben, keine fertige Lösung.';
+ const mission = recipient==='Agent Skye' ? 'MISSION 05' : 'MISSION 01';
+ if(kind==='help')return header+'\nHILFSANFRAGE\nMission: '+(saved.supportMission||mission)+'\n'+(shopOwned('support')?'Persönliche Hilfe im Shop gekauft.':'Noch keine persönliche Hilfe im Shop gekauft.')+'\nMeine Frage: '+note+'\nBitte einen Denkanstoß geben, keine fertige Lösung.';
+ if(recipient==='Agent Skye')return header+'\nEINSATZBERICHT – MISSION 05\n'+note+'\nBitte prüfe meine Ersatzroute und stell mir eine Rückfrage zu meinem Lösungsweg.';
  return header+'\nEINSATZBERICHT – MISSION 01\n'+note+'\nBitte prüft meinen Gedankengang und stellt mir eine Rückfrage. Nach meiner Antwort bitte ich um den Funk-Bestätigungscode.';
 }
 function updateRadioDraft(){
@@ -888,7 +890,7 @@ let storySignature='';
 const storyQuestions={
  standby:[
   ['ready','Agent Assassin, ich bin bereit.',['Agent Assassin','Bereitschaft vermerkt, 047. Dein erster Auftrag beginnt mit einer Protokollkopie. Sobald die Akte freigegeben ist, findest du die Aufgabe unter Hauptmissionen.']],
-  ['team','Wer ist mein Ansprechpartner?',['Commander Zero','Agent Assassin gibt den Auftrag. Agent Nyx prüft mit dir den Befund. Agent 391 hält die Spuren fest, Agent 033 unterstützt bei der Wiederherstellung und Agent 045 betreut die Paketprüfung. Ich führe die Ergebnisse zusammen.']],
+  ['team','Wer ist mein Ansprechpartner?',['Commander Zero','Agent Assassin gibt den Auftrag. Agent Nyx prüft mit dir den Befund. Agent 391 hält die Spuren fest, Agent 033 unterstützt bei der Wiederherstellung und Agent 045 betreut die Paketprüfung. Agent Skye prüft mit dir später die Ersatzroute. Ich führe die Ergebnisse zusammen.']],
   ['wait','Muss ich bis zum Start hierbleiben?',['Commander Zero','Nein. Schließe die Seite ruhig. Wenn du auf diesem Gerät im selben Browser zurückkommst, bleibt dein Fortschritt erhalten. Der Auftrag verfällt nicht, wenn du später beginnst.']]
  ],
  briefing:[
@@ -1375,6 +1377,11 @@ const campaignMissions = [
   "date": "2026-12-05",
   "agent": "Agent 045",
   "intro": "Der Rückkanal ist einer Station auf einem fiktiven Raster zugeordnet. Eine Wegnotiz und eine Ersatzroute liegen vor.",
+  "specialist": {
+   "agent": "Agent Skye",
+   "question": "Agent Skye, warum müssen wir eine Ersatzroute prüfen?",
+   "reply": "Auf meiner Karte ist eine Verbindung eingezeichnet, die laut Wartungsprotokoll gesperrt ist. Eine kurze Strecke hilft uns nur, wenn das Paket sie benutzen darf. Schick mir später deine Route und begründe, welche Verbindung du ausgeschlossen hast."
+  },
   "parts": [
    {
     "title": "Weg auf dem Raster",
@@ -2268,15 +2275,19 @@ function renderCampaignRadio() {
  panel.replaceChildren();
  panel.appendChild(campaignElement('h3', 'FUNK · '+mission.title));
  storyBubble(panel, mission.agent, phase === 'complete' ? mission.lead : ['scheduled','prerequisite'].includes(phase) ? campaignLabel(mission,phase) : phase === 'waiting' ? 'Erster Befund gesichert. '+campaignLabel(mission,phase) : mission.intro);
+ const specialist = ['first','waiting','second'].includes(phase) ? mission.specialist : null;
+ const contextReply = specialist
+  ? [specialist.question,specialist.reply,specialist.agent]
+  : ['Warum ist diese Akte wichtig?', phase === 'complete' ? mission.lead : ['scheduled','prerequisite'].includes(phase) ? 'Du erfährst den Zusammenhang mit der vorherigen Akte, sobald dieser Auftrag freigegeben ist.' : mission.reason];
  const replies = [
   ['Was ist mein nächster Schritt?', phase === 'complete' ? 'Öffne den Abschluss unter Hauptmissionen.' : phase === 'waiting' ? 'Teil 2 kommt zur angezeigten Freigabe. Du kannst in der Zwischenzeit den Bonusauftrag bearbeiten.' : 'Öffne die Akte unter Hauptmissionen. Dort steht, welche Unterlagen du brauchst und welches Ergebnis du eingibst. '+campaignLabel(mission,phase)],
-  ['Warum ist diese Akte wichtig?', phase === 'complete' ? mission.lead : ['scheduled','prerequisite'].includes(phase) ? 'Du erfährst den Zusammenhang mit der vorherigen Akte, sobald dieser Auftrag freigegeben ist.' : mission.reason],
+  contextReply,
   ['Muss ich jetzt hierbleiben?', 'Nein. Dein Fortschritt bleibt in diesem Browser. Die Akte verfällt nicht. Kehre zurück, wenn du Zeit hast.']
  ];
- for (const [index, [question, answer]] of replies.entries()) {
+ for (const [index, [question, answer, agent = mission.agent]] of replies.entries()) {
   if (turns.includes(index)) {
    storyBubble(panel, 'Agent 047', question, true);
-   storyBubble(panel, mission.agent, answer);
+   storyBubble(panel, agent, answer);
   } else panel.appendChild(campaignButton(question, () => {
    if (!authenticated || turns.includes(index)) return;
    turns.push(index);
