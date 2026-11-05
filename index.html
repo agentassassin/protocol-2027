@@ -166,7 +166,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 18 · ÖFFENTLICHER TEST</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 19 · ÖFFENTLICHER TEST</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
 <p>Testbetrieb: <strong>Jetzt spielbar</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
@@ -2238,6 +2238,7 @@ async function loadCampaignFinalImage() {
   frame.srcdoc = markup;
   frame.classList.remove('hidden');
   message.textContent = '';
+  frame.scrollIntoView({block:'start'});
  } catch {
   message.textContent = 'Das Abschlussbild ist noch nicht erreichbar. Bitte die Spielleitung um die Freigabe und versuche es danach erneut.';
   retry.classList.remove('hidden');
@@ -2253,7 +2254,7 @@ function renderCampaignFinal() {
   : ready ? 'Die letzte Nachricht ist eingetroffen.' : 'Letzte Freigabe am 24.12.2026 um 10:00 Uhr (Wien).';
  document.getElementById('campaignFinalOpen').classList.toggle('hidden', !ready || !!saved.campaignFinalAt);
  document.getElementById('campaignFinalMessage').classList.toggle('hidden', !saved.campaignFinalAt);
- if (ready && saved.campaignFinalAt) document.getElementById('campaignFinalImageStatus').textContent = 'Testlauf abgeschlossen.';
+ if (ready && saved.campaignFinalAt && !campaignFinalImageRequested) loadCampaignFinalImage();
 }
 
 function renderCampaignRadio() {
