@@ -148,7 +148,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 </style>
 </head>
 
-<body><aside class="panel" aria-label="Öffentlicher Test"><strong>ÖFFENTLICHER TEST · JETZT SPIELBAR</strong><p>Die Missionen öffnen der Reihe nach. Zwischen den Teilen gibt es im Test keine Wartezeit. Dein Testfortschritt wird separat gespeichert.</p></aside>
+<body>
 <div class="wrap">
 
 <div class="topbar">
@@ -166,8 +166,8 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 
 <!-- LOGIN -->
 <section class="panel" id="login">
-<div class="badge">ZUGANGSKONTROLLE // VERSION 19 · ÖFFENTLICHER TEST</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
-<p>Testbetrieb: <strong>Jetzt spielbar</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
+<div class="badge">ZUGANGSKONTROLLE // VERSION 20 · EINSATZBEREIT</div><h2>MISSION 00 – BREACH THE SYSTEM</h2>
+<p>Offizieller Spielstart: <strong>06.11.2026, 14:30 Uhr (Wien)</strong> · Maximal <strong>100 Bonuspunkte</strong></p>
 <p>Die Zentrale hat dir die Kennung <strong>AGENT 047</strong> zugeteilt. Drei beschädigte Datenpakete blockieren deinen Zugang. Rekonstruiere sie der Reihe nach. Halte Papier und Stift bereit.</p>
 <div class="status">EINSATZZEIT: <strong id="missionTimer" role="timer">00:00</strong><br><span id="stageProgress">0 / 3 DATENPAKETE REKONSTRUIERT</span></div>
 <p>Die Uhr startet bei „Mission starten“. Es gibt kein Zeitlimit und keinen Zeitabzug. Auch beim Schließen der Seite läuft die Zeit weiter; am Ende wird sie gestoppt.</p>
@@ -286,7 +286,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
  <div id="missionOne"></div>
  <div class="rule"></div><div id="campaignPanel" aria-label="Weitere Missionsakten"></div>
  <section id="campaignFinal" class="mission hidden">
-  <div class="badge">ABSCHLUSS · TESTLAUF</div>
+  <div class="badge">ABSCHLUSS · 24.12.2026</div>
   <h2>Letzte Meldung der Zentrale</h2><p id="campaignFinalStatus"></p>
   <button type="button" class="mainbutton" id="campaignFinalOpen">ABSCHLUSSMELDUNG ÖFFNEN</button>
   <div id="campaignFinalMessage" class="status hidden">
@@ -343,7 +343,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--red);flex-shrink:
 <section id="comms" class="panel hidden">
  <button class="back" onclick="home()">← ZURÜCK ZUR ZENTRALE</button>
  <div class="badge">SECURE COMMUNICATION</div>
- <h2>AGENTENFUNK</h2>
+ <h2>AGENTENFUNK</h2><p><a class="mainbutton" href="https://discord.gg/N6y2dBYK5" target="_blank" rel="noopener noreferrer">DISCORD · PROTOCOL 2027 ÖFFNEN</a></p>
  <p>Wähle, was du deinem Ansprechpartner sagen möchtest. Auf jede Auswahl bekommst du hier direkt eine passende Antwort. Diese vorbereiteten Spieldialoge setzen sich mit deinem Missionsfortschritt fort.</p>
  <details id="missionOneRadio" class="mission" open><summary>FUNKPROTOKOLL · AKTE 01</summary><div class="badge">AKTUELLE SZENE</div><h3 id="storyTitle"></h3>
  <div id="storyMessages" aria-live="polite" aria-relevant="additions"></div><div id="storyChoices" class="storyOptions"></div>
@@ -418,9 +418,9 @@ const mission00={
  async accepts(agent,code){return this.normalize(agent).replace(/\s+/g,'')==='AGENT047' && await this.fingerprint(code)==='5cd064543144ffc28c7e489d0f5be5669f491de107642da2a17dc4fe7554175f';}
 };
 </script><script>
-const campaignTest = true;
+const campaignTest = false;
 const campaignPreviewImage = null;
-const campaignStart = Date.parse('2026-11-06T10:00:00+01:00');
+const campaignStart = Date.parse('2026-11-06T14:30:00+01:00');
 const missionData=[
  ["SYSTEM INITIALIZATION","06.11.2026"],
  ["THE DIGITAL VAULT","14.11.2026"],
@@ -429,7 +429,7 @@ const missionData=[
  ["LOCATION TRACE","05.12.2026"],
  ["THE CREW","12.12.2026"],
  ["FINAL INTEL","19.12.2026"],
- ["MISSION CLEARANCE","21.12.2026"]
+ ["MISSION CLEARANCE","24.12.2026"]
 ];
 
 const bonusData=[
@@ -445,7 +445,7 @@ const bonusData=[
 
 let saved={};
 try{
- saved=JSON.parse(localStorage.getItem("protocol047-public-test-v18")||"{}");
+ saved=JSON.parse(localStorage.getItem("protocol047-live-2026")||"{}");
 }catch(e){saved={};}
 if(!saved || typeof saved!=="object" || Array.isArray(saved)) saved={};
 
@@ -460,7 +460,7 @@ breach.completed=breach.completed===true && breach.stage===3 && !!breach.finishe
 saved.mission00Extended=breach;
 if(!Array.isArray(breach.fragments))breach.fragments=[];
 function save(){
- try { localStorage.setItem("protocol047-public-test-v18",JSON.stringify(saved)); } catch(e) { document.getElementById("storageWarning").textContent="Speichern ist hier nicht möglich. Der Fortschritt bleibt nur bis zum Neuladen erhalten."; }
+ try { localStorage.setItem("protocol047-live-2026",JSON.stringify(saved)); } catch(e) { document.getElementById("storageWarning").textContent="Speichern ist hier nicht möglich. Der Fortschritt bleibt nur bis zum Neuladen erhalten."; }
 }
 
 function hintUsage(){
@@ -472,7 +472,7 @@ const shopCatalog=[
  {id:'alphabet',title:'ALPHABET-KARTE',cost:20,description:'Eine Zahlen-Buchstaben-Tabelle zum Nachschlagen. Nach dem Kauf jederzeit verfügbar.'},
  {id:'shift',title:'VERSCHIEBE-WERKZEUG',cost:50,description:'Zwei verschiebbare Alphabetreihen zum Untersuchen von Buchstabencodes. Nach dem Kauf jederzeit verfügbar.'},
  {id:'support',title:'PERSÖNLICHE HILFE',cost:100,description:'Eine Hilfsanfrage für eine Mission vorbereiten. Die Nachricht sendest du anschließend selbst im Discord. Noch kein automatischer Versand.'},
- {id:'binary',title:'BINÄR-KARTE',cost:30,unlockAt:0,description:'Neu zu Mission 01: Stellenwerte und Buchstabentabelle für 8-Bit-Codes. Dauerhaft nutzbar, keine fertige Rätsellösung.'}
+ {id:'binary',title:'BINÄR-KARTE',cost:30,unlockAt:campaignStart,description:'Neu zu Mission 01: Stellenwerte und Buchstabentabelle für 8-Bit-Codes. Dauerhaft nutzbar, keine fertige Rätsellösung.'}
 ];
 if(!saved.shop || typeof saved.shop!=='object' || Array.isArray(saved.shop))saved.shop={};
 function shopOwned(id){return saved.shop[id]===true;}
@@ -485,10 +485,24 @@ function earnedTotal(){
 }
 function spentTotal(){return shopCatalog.reduce((sum,item)=>sum+(shopOwned(item.id)?item.cost:0),0);}
 function availablePoints(){return Math.max(0,earnedTotal()-spentTotal());}
+function shopNextMission() {
+ if (!m01.completedAt) return 1;
+ return campaignMissions.find(mission=>!saved['m'+(mission.id-1)])?.id || null;
+}
+
+function shopOfferForNext(item) {
+ const next = shopNextMission();
+ if (next === null) return false;
+ if (item.id === 'support') return true;
+ if (item.id === 'binary' || item.id === 'alphabet') return next === 1;
+ if (item.id === 'operators') return next === 1 || !!campaignMissions.find(mission=>mission.id===next)?.parts.some(part=>part.program || part.followup?.program);
+ return item.id === 'campaign-'+next;
+}
+
 function purchaseHelp(id){
  if(!authenticated)return;
  const item=shopCatalog.find(x=>x.id===id);
- if(!item || shopOwned(id) || (item.unlockAt && Date.now()<item.unlockAt))return;
+ if(!item || !shopOfferForNext(item) || shopOwned(id) || (item.unlockAt && Date.now()<item.unlockAt))return;
  if(availablePoints()<item.cost){document.getElementById('shopMessage').textContent='Dafür reichen deine verfügbaren Punkte noch nicht.';return;}
  saved.shop[id]=true;save();stats();
  document.getElementById('shopMessage').textContent=item.title+' gekauft. '+item.cost+' Punkte abgezogen. Du findest die Hilfe unten.';
@@ -499,15 +513,17 @@ function renderShop(){
  document.getElementById('earnedPoints').textContent=earnedTotal()+' P';
  document.getElementById('spentPoints').textContent=spentTotal()+' P';
  const offers=document.getElementById('shopItems');offers.textContent='';
+ const next=shopNextMission();
+ shopParagraph(offers,next===null?'Alle Missionen abgeschlossen. Deine gekauften Werkzeuge bleiben unten verfügbar.':'AUSRÜSTUNG FÜR DEINE NÄCHSTE OFFENE MISSION · '+String(next).padStart(2,'0')+'. Du kannst dich bereits vor dem Freigabetermin vorbereiten.');
  const inventory=document.getElementById('shopInventory');inventory.textContent='';
  shopCatalog.forEach(item=>{
-  if(item.unlockAt && Date.now()<item.unlockAt && !shopOwned(item.id))return;
+  if(!shopOwned(item.id) && (!shopOfferForNext(item) || (item.unlockAt && Date.now()<item.unlockAt)))return;
   const card=document.createElement('div');card.className='mission bonus';
   const heading=document.createElement('h3');heading.textContent=item.title+' · '+item.cost+' P';card.appendChild(heading);
   shopParagraph(card,item.description);
   const buy=document.createElement('button');buy.type='button';buy.disabled=shopOwned(item.id)||availablePoints()<item.cost;
   buy.textContent=shopOwned(item.id)?'BEREITS GEKAUFT':availablePoints()<item.cost?'NOCH '+(item.cost-availablePoints())+' P NÖTIG':'FÜR '+item.cost+' P KAUFEN';
-  buy.addEventListener('click',()=>purchaseHelp(item.id));card.appendChild(buy);offers.appendChild(card);
+  buy.addEventListener('click',()=>purchaseHelp(item.id));card.appendChild(buy);if(shopOfferForNext(item) && !shopOwned(item.id))offers.appendChild(card);
   if(!shopOwned(item.id))return;
   const owned=document.createElement('div');owned.className='labitem';
   const title=document.createElement('h3');title.textContent=item.title;owned.appendChild(title);
@@ -625,7 +641,7 @@ function renderMission(){
  const started=!!breach.startedAt;
  document.getElementById('startMission').classList.toggle('hidden',started);
  document.getElementById('startMission').disabled=!campaignTest&&!started&&Date.now()<campaignStart;
- document.getElementById('startMission').textContent=document.getElementById('startMission').disabled?'START AM FREITAG · 10 UHR':'MISSION STARTEN';
+ document.getElementById('startMission').textContent=document.getElementById('startMission').disabled?'START AM FREITAG · 14:30 UHR':'MISSION STARTEN';
  document.getElementById('puzzleArea').classList.toggle('hidden',!started);
  document.getElementById('stageProgress').textContent=breach.stage+' / 3 DATENPAKETE REKONSTRUIERT';
  for(let n=1;n<=3;n++)document.getElementById('stage'+n).classList.toggle('hidden',!started || breach.stage!==n-1);
@@ -1538,7 +1554,7 @@ const campaignMissions = [
  {
   "id": 8,
   "title": "MISSION CLEARANCE",
-  "date": "2026-12-21",
+  "date": "2026-12-24",
   "agent": "Commander Zero",
   "intro": "Die Störung ist eingegrenzt. Vor Abschluss muss die Zentrale sicherstellen, dass Prüfung, Entscheidung und Übergabe in der richtigen Reihenfolge stehen.",
   "parts": [
@@ -1670,7 +1686,7 @@ const campaignMissions = [
   "tool": "Freigabe-Checkliste",
   "tip": "Prüfe zuerst die Belege, dann die Voraussetzungen und zuletzt den kleinsten notwendigen Rechteumfang.",
   "reason": "Bei der Übergabe bleibt der fertige Bericht geschützt. Die Empfänger brauchen Zugriff zum Lesen. Jeder weitere Zugriff muss einen konkreten Zweck haben.",
-  "lead": "Der Abschlussbericht liegt vor. Die letzte Meldung ist im Test verfügbar. Du kannst offene Bonusaufträge danach nachholen."
+  "lead": "Der Abschlussbericht liegt vor. Die letzte Meldung wird am 24.12. freigegeben. Du kannst bis dahin offene Bonusaufträge nachholen."
  }
 ];
 const campaignTraining = [
@@ -1804,6 +1820,7 @@ function campaignStamp(date) {
 }
 
 function campaignPartTwo(mission) {
+ if (mission.id === 8) return campaignStamp(mission.date);
  const completed = campaignState(mission.id).part1At;
  if (!completed) return Infinity;
  const localDate = new Intl.DateTimeFormat('en-CA', {timeZone:'Europe/Vienna', year:'numeric', month:'2-digit', day:'2-digit'}).formatToParts(new Date(completed));
@@ -1822,6 +1839,7 @@ function campaignPhase(mission, now = Date.now()) {
 }
 
 function campaignLabel(mission, phase) {
+ if (mission.id === 8 && campaignState(8).finalProof && !campaignState(8).completedAt) return 'LETZTER FUNKAUFTRAG · FREIGABE ANFORDERN';
  if (phase === 'prerequisite') return 'Zuerst Mission '+String(mission.id-1).padStart(2,'0')+' abschließen.';
  if (phase === 'scheduled') return 'Freigabe am '+m01Date(campaignStamp(mission.date))+' Uhr (Wien).';
  if (phase === 'waiting') return 'Teil 1 abgeschlossen. Teil 2 ab '+m01Date(campaignPartTwo(mission))+' Uhr (Wien).';
@@ -2016,8 +2034,11 @@ function renderCampaignChallenge(parent, mission, challenge, kind, followup = fa
   else if (!followup) state[findingKey] = true;
   else if (kind === 'first') state.part1At = Date.now();
   else {
-   state.completedAt = Date.now();
-   saved['m'+(mission.id-1)] = true;
+   if (mission.id === 8) state.finalProof = true;
+   else {
+    state.completedAt = Date.now();
+    saved['m'+(mission.id-1)] = true;
+   }
   }
   stats();
   if (selectedCampaignMission === mission.id && kind === 'bonus') {
@@ -2070,7 +2091,7 @@ function renderCampaign() {
  const mission = campaignMissions[selectedCampaignMission-2];
  const phase = campaignPhase(mission);
  const state = campaignState(mission.id);
- const key = JSON.stringify([mission.id, phase, state.hints, !!state.bonusAt, state.firstFinding, state.secondFinding]);
+ const key = JSON.stringify([mission.id, phase, state.hints, !!state.bonusAt, state.firstFinding, state.secondFinding, !!state.finalProof]);
  if (key !== campaignViewKey) {
   campaignViewKey = key;
   const panel = document.getElementById('campaignPanel');
@@ -2087,12 +2108,13 @@ function renderCampaign() {
    const followup = state[phase+'Finding'] === true;
    const progress = followup ? '✓ Erster Befund gesichert. Prüfe jetzt die zweite Spur.' : 'Ermittle zuerst den Befund. Danach folgt die Gegenprüfung.';
    panel.appendChild(campaignElement('p', 'Teil '+part+' · Schritt '+(followup?2:1)+' von 2. '+progress));
-   renderCampaignChallenge(panel, mission, followup ? challenge.followup : challenge, phase, followup);
+   if (mission.id === 8 && phase === 'second' && state.finalProof) renderCampaignClearance(panel);
+   else renderCampaignChallenge(panel, mission, followup ? challenge.followup : challenge, phase, followup);
   }
   if (phase === 'complete') {
    panel.appendChild(campaignElement('p', mission.lead));
    if (mission.id < 8) panel.appendChild(campaignButton('NÄCHSTE AKTE ANSEHEN', () => openCampaignMission(mission.id+1)));
-   else panel.appendChild(campaignButton('ABSCHLUSS ANSEHEN', () => document.getElementById('campaignFinal').scrollIntoView({block:'start'})));
+   else panel.appendChild(campaignButton('BELOHNUNG ANSEHEN', () => document.getElementById('campaignFinal').scrollIntoView({block:'start'})));
   }
   if (['first','waiting','second'].includes(phase)) {
    panel.appendChild(campaignElement('p', 'Missionsbonus: '+campaignRewards[state.hints]+' P. Hinweise gelten für beide Teile. Falsche Versuche kosten keine Punkte.'));
@@ -2218,32 +2240,100 @@ function initFlowTraining() {
  });
 }
 
-async function loadCampaignFinalImage() {
- if (!saved.m7 || !saved.campaignFinalAt || (!campaignTest && Date.now() < campaignFinalDate)) return;
- campaignFinalImageRequested = true;
- const frame = document.getElementById('campaignFinalImage');
- const message = document.getElementById('campaignFinalImageStatus');
- const retry = document.getElementById('campaignFinalRetry');
- frame.classList.add('hidden');
- retry.classList.add('hidden');
- message.textContent = 'Abschlussbild wird geladen …';
+async function readCampaignFinal(code) {
+ const normalized = code.replace(/[^A-Za-z0-9]/g,'').toUpperCase();
+ const response = await fetch('abschluss-verschluesselt.json',{cache:'no-store'});
+ if (!response.ok) throw new Error('Die letzte Meldung ist gerade nicht erreichbar. Prüfe deine Verbindung und versuche es erneut.');
+ const packet = await response.json();
+ if (packet.version !== 1 || typeof packet.iv !== 'string' || typeof packet.data !== 'string') throw new Error('Die letzte Meldung ist unvollständig. Bitte melde dich bei Commander Zero.');
  try {
-  let markup = campaignPreviewImage;
-  if (!markup) {
-   const response = await fetch('abschluss.html',{cache:'no-store'});
-   if (!response.ok) throw new Error('Abschlussseite fehlt');
-   markup = await response.text();
-   if (!markup.includes('<meta name="protocol-final" content="2027">')) throw new Error('Abschlussseite fehlt');
-  }
-  frame.srcdoc = markup;
-  frame.classList.remove('hidden');
-  message.textContent = '';
-  frame.scrollIntoView({block:'start'});
+  const bytes = text => Uint8Array.from(atob(text),character=>character.charCodeAt(0));
+  const digest = await crypto.subtle.digest('SHA-256',new TextEncoder().encode(normalized));
+  const key = await crypto.subtle.importKey('raw',digest,{name:'AES-GCM'},false,['decrypt']);
+  const plaintext = await crypto.subtle.decrypt({name:'AES-GCM',iv:bytes(packet.iv)},key,bytes(packet.data));
+  const markup = new TextDecoder().decode(plaintext);
+  if (!markup.includes('<meta name="protocol-final" content="2027">')) throw new Error('Ungültige Meldung');
+  return {markup,normalized};
  } catch {
-  message.textContent = 'Das Abschlussbild ist noch nicht erreichbar. Bitte die Spielleitung um die Freigabe und versuche es danach erneut.';
-  retry.classList.remove('hidden');
+  throw new Error('Diese Freigabe passt noch nicht. Kopiere den vollständigen Code von Commander Zero und versuche es erneut.');
  }
 }
+
+function showCampaignFinalImage(markup) {
+ const frame = document.getElementById('campaignFinalImage');
+ frame.srcdoc = markup;
+ frame.classList.remove('hidden');
+ document.getElementById('campaignFinalImageStatus').textContent = '';
+ document.getElementById('campaignFinalRetry').classList.add('hidden');
+ frame.scrollIntoView({block:'start'});
+}
+
+async function completeCampaignClearance(code) {
+ const state = campaignState(8);
+ if (!authenticated || !saved.m6 || !state.finalProof || state.completedAt || Date.now() < campaignFinalDate) return false;
+ const {markup,normalized} = await readCampaignFinal(code);
+ state.completedAt = Date.now();
+ saved.m7 = true;
+ saved.campaignFinalAt = Date.now();
+ saved.finalUnlock = normalized;
+ campaignFinalImageRequested = true;
+ stats();
+ showCampaignFinalImage(markup);
+ return true;
+}
+
+function renderCampaignClearance(parent) {
+ const section = campaignElement('section','','mission');
+ section.append(campaignElement('h3','Letzter Schritt · Freigabe der Zentrale'),
+  campaignElement('p','Dein Abschlussbericht ist geprüft. Melde Commander Zero in #agenten-zentrale: „AGENT 047 · ABSCHLUSSBERICHT BEREIT · LETZTE FREIGABE ANFORDERN“. Du erhältst einen Freigabecode. Trage ihn hier ein, um Mission 08 abzuschließen. Deine Belohnung erscheint danach direkt hier.'));
+ const form = document.createElement('form');
+ const label = campaignElement('label','FREIGABECODE VON COMMANDER ZERO');
+ const input = document.createElement('input');
+ input.id = 'campaignFinalCode';
+ input.type = 'password';
+ input.autocomplete = 'off';
+ input.required = true;
+ input.spellcheck = false;
+ label.htmlFor = input.id;
+ const button = campaignElement('button','MISSION 08 ABSCHLIESSEN','mainbutton');
+ button.type = 'submit';
+ const feedback = campaignElement('p','','error');
+ feedback.setAttribute('role','status');
+ form.append(label,input,button,feedback);
+ section.appendChild(form);
+ parent.appendChild(section);
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  if (button.disabled) return;
+  button.disabled = true;
+  feedback.textContent = 'Freigabe wird geprüft …';
+  try {
+   const complete = await completeCampaignClearance(input.value);
+   if (!complete) feedback.textContent = 'Die letzte Freigabe ist nach den Prüfaufträgen am 24. Dezember ab 10 Uhr möglich.';
+  } catch (error) {
+   feedback.textContent = error.message;
+  } finally { button.disabled = false; }
+ });
+}
+
+async function loadCampaignFinalImage() {
+ if (!saved.m7 || !saved.campaignFinalAt || Date.now() < campaignFinalDate) return;
+ campaignFinalImageRequested = true;
+ const message = document.getElementById('campaignFinalImageStatus');
+ if (!saved.finalUnlock) {
+  message.textContent = 'Bitte öffne Mission 08 und fordere die letzte Freigabe bei Commander Zero an.';
+  return;
+ }
+ message.textContent = 'Belohnung wird geladen …';
+ try {
+  const {markup} = await readCampaignFinal(saved.finalUnlock);
+  showCampaignFinalImage(markup);
+ } catch (error) {
+  message.textContent = error.message;
+  document.getElementById('campaignFinalRetry').classList.remove('hidden');
+ }
+}
+
 
 function renderCampaignFinal() {
  const ready = !!saved.m7 && (campaignTest || Date.now() >= campaignFinalDate);
@@ -2322,8 +2412,9 @@ document.getElementById('campaignFinalOpen').addEventListener('click', () => {
 document.getElementById('campaignFinalRetry').addEventListener('click',loadCampaignFinalImage);
 
 for (const mission of campaignMissions) {
- shopCatalog.push({id:'campaign-'+mission.id,title:mission.tool,cost:20,unlockAt:campaignTest ? 0 : campaignStamp(mission.date),description:'Arbeitsmethode für Akte '+String(mission.id).padStart(2,'0')+'. Dauerhaft verfügbar.',tip:mission.tip});
+ shopCatalog.push({id:'campaign-'+mission.id,title:mission.tool,cost:20,unlockAt:0,description:'Arbeitsmethode für Akte '+String(mission.id).padStart(2,'0')+'. Dauerhaft verfügbar.',tip:mission.tip});
 }
+shopCatalog.push({id:'operators',title:'C-OPERATORENKARTE',cost:25,description:'Nachschlagekarte für kommende C-Aufträge. Keine fertige Codezeile.',tip:'== prüft auf Gleichheit, != auf Ungleichheit. && verlangt beide Bedingungen, || mindestens eine. Prüfe besonders Werte direkt an der Grenze.'});
 createTasks();
 initCampaignTraining();
 initFlowTraining();
@@ -2332,3 +2423,4 @@ stats();
 </script>
 </body>
 </html>
+
